@@ -95,17 +95,17 @@ WSGI_APPLICATION = 'han.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'han',
-        'USER' : 'django',
-        'PASSWORD' : 'django',
-        'HOST' : 'localhost',
+        'NAME': 'd4n5h8nb8a1rip',
+        'USER' : 'jmvpnlqmvcutqs',
+        'PASSWORD' : '73L581r4N4-aip6FQPK-q3kYna',
+        'HOST' : 'ec2-54-225-197-30.compute-1.amazonaws.com',
         'PORT' : '5432',
 
 
     }
 }
 
-DATABASES['default'] =  dj_database_url.config("postgres://jmvpnlqmvcutqs:73L581r4N4-aip6FQPK-q3kYna@ec2-54-225-197-30.compute-1.amazonaws.com:5432/d4n5h8nb8a1rip")
+#DATABASES['default'] =  dj_database_url.config("postgres://jmvpnlqmvcutqs:73L581r4N4-aip6FQPK-q3kYna@ec2-54-225-197-30.compute-1.amazonaws.com:5432/d4n5h8nb8a1rip")
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
