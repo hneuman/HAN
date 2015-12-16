@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+import dj_database_url
+
+DATABASE_URL = "postgres://jmvpnlqmvcutqs:73L581r4N4-aip6FQPK-q3kYna@ec2-54-225-197-30.compute-1.amazonaws.com:5432/d4n5h8nb8a1rip"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -76,19 +79,21 @@ WSGI_APPLICATION = 'han.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'han',
-        'USER' : 'django',
-        'PASSWORD' : 'django',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'han',
+#        'USER' : 'django',
+#        'PASSWORD' : 'django',
+#        'HOST' : 'localhost',
+#        'PORT' : '5432',
+#
+#
+#    }
+#}
 
-    }
-}
-
+DATABASES['default'] =  dj_database_url.config("postgres://jmvpnlqmvcutqs:73L581r4N4-aip6FQPK-q3kYna@ec2-54-225-197-30.compute-1.amazonaws.com:5432/d4n5h8nb8a1rip")
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
