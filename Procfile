@@ -1,1 +1,1 @@
-web: gunicorn han.wsgi
+web: gunicorn han:han_app
