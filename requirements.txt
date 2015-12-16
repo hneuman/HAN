@@ -7,5 +7,4 @@ gunicorn==19.3.0
 psycopg2==2.6.1
 static3==0.6.1
 whitenoise==2.0.4
-wsgiref==0.1.2 cf push my_app -b https://github.com/cloudfoundry/buildpack-python.git
-
+wsgiref==0.1.2 
