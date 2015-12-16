@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% block usuarios %}
+
+	
+
+
+	<div class="enviar_mensaje" >
+		<h1>{{tipo}}</h1>
+		<h3> {{aviso}} </h3>
+		<form id="form_agregar_usuario" method='POST' action='agregar_usuario'> {% csrf_token %}
+
+				{{formulario.nombre}}
+			<p></p>
+				{{formulario.telefono}}
+			<p></p>
+				{{formulario.email}}
+			<p></p>
+				{{formulario.grupo_asociado}}
+			<p></p>
+
+			<button type="submit"> Agregar usuario </button>
+		</form>
+	</div>	
+
+
+
+
+{% endblock %} 

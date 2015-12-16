@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
-from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from han.han_app.models import Document
 from han.han_app.models import *
 from han.han_app.forms import DocumentForm
-from han.han_app.forms import *
+from han.han_app.forms import Form_usuario
+from han.han_app.forms import Form_enviar_mensaje
 from django.template.context_processors import csrf
 import csv
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.context_processors import csrf
+from django.template import RequestContext
 
 
 def main(request):
@@ -140,6 +142,30 @@ def enviar_mensaje_procesar(request,destinatarios):
 
 	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes"})
 
+
+def agregar_usuario(request):
+	c = {}
+	c.update(csrf(request))
+	print "agregar "
+	if request.method == "POST":
+		form = Form_usuario(request.POST)
+		print "procesar"
+		if form.is_valid():
+			usuario = Usuario(
+				nombre=form.cleaned_data['nombre'],
+				telefono=form.cleaned_data['telefono'],
+				email=form.cleaned_data['email'],
+				grupo_asociado=form.cleaned_data['grupo_asociado'],
+				)
+			usuario.save()
+		form = Form_usuario()
+
+	return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Usuario Agregado Satisfactoriamente"},RequestContext(request, {}),c)
+
+	else:
+		form = Form_usuario()
+		print "retornar post"
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario"}, RequestContext(request, {}),c)
 
 
 def handle_uploaded_file(f):

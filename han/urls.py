@@ -28,8 +28,9 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^buzon_enviado/?$','buzon_enviados'),
 	(r'^enviar_mensaje/?$','enviar_mensaje'),
 	(r'^enviar_mensaje_procesar/(\.*,?)*/?$','enviar_mensaje_procesar'),
+	(r'^agregar_usuario/?$','agregar_usuario'),
 
-	(r'','main'),
+	(r'main/','main'),
 
 
 

@@ -1,6 +1,13 @@
 {% extends 'main.html' %}
 {% block usuarios %}
 
+	<div id="div_agregar_usuario" >
+
+  			<a href='{% url 'han.han_app.views.agregar_usuario' %}' value="" <img src=""> >  Agregar Usuario 
+	</div>
+
+
+
 
 	<div class="pagination">
 	    <span class="step-links">
@@ -87,5 +94,12 @@
 	    </span>
 	</div> <!-- div pagination --> 
 	
+
+	<div id="div_agregar_usuario">
+		<form action="agregar_usuario" method="get">
+			<button type="submit" id="boton_agregar_usuario"> Agregar Usuarios </button>
+		</form>
+	</div>
+
 
 {% endblock %} 
