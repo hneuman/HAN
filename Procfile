@@ -1,1 +1,1 @@
-web: gunicorn han:han_app
+web: gunicorn han.wsdad
