@@ -1,0 +1,62 @@
+{% extends 'main.html' %}
+{% block enviar_mensaje %}
+
+
+
+
+
+	<div class="enviar_mensaje">
+
+		<h1> {{tipo}} </h1>
+
+		<div id="formulario_enviar_mensaje"> 
+
+			<form id="form_form" method='GET' action='enviar_mensaje_procesar' >{% csrf_token %}
+				<p></p>	
+			 	
+			 	<div id="destinatarios">
+					<label for="destinatarios" id="id_destinatarios" desactivated>  Destinatarios </label>
+
+					{{formulario.destinatarios}}
+				 </div> 
+				<p></p>	
+
+				{{formulario.mensaje}} 	
+
+				<div id="count"> </div>	
+
+
+				<p></p>
+				<p><input type='submit' value='Enviar Mensaje'>
+				</p>	
+
+			</form>
+
+
+		</div>
+
+	</div>
+
+
+<script>
+
+var maxchar = 0;
+var i = document.getElementById("id_mensaje");
+var c = document.getElementById("count");
+var d = "";
+
+c.innerHTML = maxchar;
+
+i.addEventListener("keydown",count);
+
+console.log(">>>> "+i)
+
+function count(e){
+    var len =  i.value.length;
+       c.innerHTML = len;  
+}
+
+
+</script>
+
+{% endblock %}

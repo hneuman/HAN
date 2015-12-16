@@ -1,0 +1,723 @@
+{% load static %}
+<!doctype html>
+<html>
+	<head>
+	<style type ="text/css">
+	body {
+		margin:10px;
+		padding: 10px;
+		background: rgb(240,240,240);
+		text-align: left;
+		max-width: 100%;
+		width: 100%;
+		height: 100%;
+
+		background-image: url('{% static "static/img/rosa.jpg" %}' ) ;
+		background-attachment: fixed;
+		position: absolute;
+		background-size: 100% 100%;
+	}
+	html{
+
+
+	}
+	#background-image{
+		width: 100%;
+		height: 100%;
+	}
+	#contenedor{
+		width: 75%;
+		margin: auto;
+		padding: 15px;
+		background-color: blue;
+		height: 100%;
+		box-shadow: 0px 5px 10px #080808;
+
+
+		}
+	p{	
+		text-align: justify;
+		font-family: : sans-serif;
+		font-size: 12px;
+		color: rgb(100,100,100);
+	}
+	h1,h2,h3,h4{
+		margin: 0px;
+		padding: 0px;
+		color: rgb(50,50,50);
+		font-family: serif;
+	}
+	article p{
+		padding-left: 20px;
+	}
+	article{
+		border-bottom: 1px dashed grey;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	h1{
+		font-size: 52px;
+		text-decoration: none;
+	}
+	header a{
+		text-decoration: none;
+	}
+	h2{
+		font-size: 18px;
+		text-decoration: underline;
+	}
+	#articulo{
+		width: 50%;
+		background: rgb(220,220,220);
+		padding: 20px;
+		padding-left: 30px;
+		position: relative;
+		float: left;
+		height: 100%;
+		margin-left: 2%;
+		margin-top: 3%;
+		border-radius: 3%;
+		max-height: 450px;
+	    height: 200px;
+	    max-height: 400px;
+	    min-height: 200px;
+
+		}
+	
+	#form_form{
+		width: 30%;
+		height: 30%;
+		position: relative;
+		left: 30%;
+
+
+	}
+
+	aside{
+		width: 30%;
+		float: right;
+		background: rgb(150,150,200);
+		padding: 20px;
+		max-width: 30%;
+		border-radius: 3%;
+		margin-right: 2%;
+		margin-top: 3%;
+
+	}
+
+	aside:hover{
+
+		background: rgb(179, 29, 33)
+	}
+	section{
+	text-align: left;
+	max-width: 100%;
+	
+
+	}
+	#botones{
+		text-align: center;
+
+	}
+
+
+	.img_botones{
+
+		max-width: 100%;
+	}
+
+	#rosas{
+
+	width:100%; 
+	max-height:100%;
+	background-position: 0;
+
+	}
+
+	header{
+		margin-top: 0;
+
+	}
+
+	footer{
+		 margin-bottom: 0;
+
+	}
+	#lista_imagenes{
+		width: 30%;
+		border: 2px;
+		padding: 1%;
+	}
+
+	#cabecera{
+		width: 100%;
+		height: 150px;
+		background-color: pink;
+	}
+
+	#navegador{
+		margin-bottom: 0px;
+		background-color: red;
+		margin-top: -16px;
+		text-align: right;	
+	}
+
+
+	#navegador_estilo{
+		width: 50%;
+		background-color: green;
+
+	}
+
+	 #tabla_nav{
+
+	 	width: 100%;
+	 }
+
+	#div_tabla_imagen{
+
+	}
+
+	#tabla_imagen{
+		line-height: 100%
+
+	}
+
+	#imagen_comentario{
+
+
+		width: 100%;
+		min-height: 100%;
+		max-height: 450px;
+
+	}
+	#div_table_foto{
+
+		background-color: black;
+		max-height: 100%;
+
+
+	}
+
+
+	#aside_foto{
+		height: 100%;
+	}
+
+	#logotipo{
+
+	    height: 90%;
+		float: left;
+
+	}
+	#logotipo_img{
+		opacity: 1%;
+	    height: 100%;
+	    animation: late 2s;
+	    -webkit-transform:scale(1,1);
+	    -webkit-animation: late 2s;
+	    -webkit-animation-iteration-count:infinite;
+	}
+
+
+	@-webkit-keyframes late2{
+
+		0%{-webkit-transform:scale(1,1);	    -webkit-transform:translate(0px,0px);}
+		1%{-webkit-transform:scale(1,1);}
+		50%{-webkit-transform:scale(1.5,1.5);  	-webkit-transform:translate(50px,0px);}
+		51%{ -webkit-transform:scale(1.4,1.4);}
+		52%{-webkit-transform:translate(50px,0px);}
+		10%{-webkit-transform:scale(1,1);		 -webkit-transform:translate(0px,0px);}
+	}
+
+
+	@-webkit-keyframes late{
+
+		0%{-webkit-transform:scale(1,1);	}
+		50%{-webkit-transform:scale(1.05,1.05);  	}
+		10%{-webkit-transform:scale(1,1);	}
+	}
+
+	#colunma1{
+		background-color: green;
+		float: left;
+		width: 20%;
+		height: 100%;
+		max-width: 20%;
+
+	}
+
+	#colunma2{
+		background-color: blue;
+		float: left;
+		width: 20%;
+		height: 100%;
+		max-width: 20%;
+
+	}
+
+	#colunma3{
+		background-color: pink;
+		float: left;
+		width: 20%;
+		height: 100%;
+		max-width: 20%;
+
+	}
+
+	#colunma4{
+		background-color: red;
+		float: left;
+		width: 20%;
+		height: 100%;
+		max-width: 20%;
+
+	}
+
+	#colunma5{
+		background-color: yellow;
+		float: left;
+		width: 20%;
+		height: 100%;
+		max-width: 20%;
+	}
+
+	#columnas{
+		width: 100%;
+	    height: 100%;
+	    max-width: 100%
+	}
+
+
+	#div_tabla1{
+		background-color: green;
+		width: 10%;
+		height: 100%;
+
+	}
+
+
+	#div_tabla2{
+		background-color: yellow;
+		width: 30%;
+		height: 100%;
+
+	}
+	#div_tabla3{
+		background-color: red;
+		width: 30%;
+		height: 100%;
+
+	}
+	#div_tabla4{
+		background-color: pink;
+		width: 30%;
+		height: 100%;
+
+	}
+	#div_columnas{
+		width: 100%;
+	    height: 100%;
+	    max-width: 100%
+	}
+
+	#contenedor_tabla{
+
+		padding: 10px;
+		background-color: grey;
+	}
+
+	#contenedor_tabla{
+
+		padding: 10px;
+		background-color: light-blue;
+	}
+
+	</style>
+
+	<script type="text/javascript">
+
+	var variable_global ="";
+
+
+	function actualizar(id_usuario,Meses,Anno){
+
+		var anno = 	document.getElementById("Anno").value;
+		var meses = 	document.getElementById("Meses").value;
+
+		console.log(">>>" + anno + "<<<")
+
+
+		document.getElementById("botonMod").innerHTML =" Generar Recibo " + meses + "/" + anno ;
+		
+		document.getElementById("botonMod").href = "/enviar_solicitud_recibo/"+id_usuario+"/"+meses+"/"+anno;
+
+
+
+		var texto = "<button type=\"button\" id=\"botonMod\" onclick=\"actualizar(Meses,Anno);\" , value=\"Recibo_wtf\" > "+ "Generar Recibo" + meses + "/" + anno + "</button>";
+
+		console.log(texto);
+
+		}
+
+	function verificar_clave(password,password_re){
+		console.log(password.value);
+		console.log(password_re.value);
+
+		
+		if(password.value == password_re.value){
+			alert("Su usuario ha sido Activado Satisfactoriamente");
+		ok = true;
+		}
+		else{
+			alert("Las Contraseñas No Coinciden");
+		ok = false;
+
+		}
+		
+		return ok;
+	}
+
+
+	function ListView(variable){
+
+		console.log(variable);
+
+		if( document.getElementById(variable).selected){
+			console.log("Selecteccionado ===> ")
+			console.log(document.getElementById(variable).value);
+			document.getElementById(variable).selected=false
+			variable_global = variable_global.split("/"+document.getElementById(variable).value)
+			console.log("split >>>>>>>>>>>>>>> :" + variable_global);
+
+
+			variable_global = variable_global.join("")
+			console.log("join >>>>>>>>>>>>>>> :" + variable_global);
+
+
+		}
+		else{
+			console.log(" valor de variable_global :: " +  variable_global.indexOf(document.getElementById(variable).value))
+
+			variable_global = variable_global + "/" + document.getElementById(variable).value;
+			
+			document.getElementById(variable).selected=true
+		}
+		
+		console.log(" valor de variable_global :: " +  variable_global)
+
+		return variable_global
+	}
+
+	function enviar_parametros(){
+
+		document.getElementById("boton_enviar_parametros").action="/prueba_check_list_parametros"+variable_global;
+		console.log(document.getElementById("boton_enviar_parametros").action);
+		console.log(document.getElementById("boton_enviar_parametros"));
+		console.log(" >>> " + document.getElementsByTagName('_terp_list'));
+		div_contenedor = document.getElementById("contenedor_tabla2");
+		input_checkeado =	div_contenedor.getElementsByTagName("input")
+
+
+
+		for (i in input_checkeado){
+			console.log(document.getElementById(i))
+		}
+
+
+
+
+	}
+	</script>
+	
+
+	<title>Sistema de Solicitud</title>
+
+	</head>
+	<body>
+		<div id="contenedor">
+			<header>
+
+				<div id="cabecera">
+
+					<div id="logotipo">
+						<img id="logotipo_img" src='{% static "static/img/rosa.jpg" %}'>
+
+					</div>
+
+
+				</div>
+
+				<nav id="navegador" >
+					<table id="tabla_nav" >
+
+
+							<td width=50%>
+
+							</td>
+
+							<td width=50%>
+								
+								<ul>
+
+										<a href="">hola</a>
+										<a href="">hola</a>
+										<a href="">hola</a>
+
+								</ul>
+							</td>
+
+
+					</table>
+				</nav>
+			</header>
+
+		
+
+			<section>
+
+				<div id="articulo">
+			
+
+
+					</article>
+
+				{% block contenido %}{% endblock %}
+
+				<div id="columnas"> 
+					
+						<div id="colunma1" >
+							Selecionar
+							<p></p>
+
+
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_a" name="_terp_list" value="aa" onclick="new ListView('elemento_a');">a
+								<p></p>
+							</span>
+							
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_b" name="_terp_list" value="bb" onclick="new ListView('elemento_b');">b
+								<p></p>
+							</span>
+
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_c" name="_terp_list" value="cc" onclick="new ListView('elemento_c');">c
+								<p></p>
+							</span>
+
+
+						</div>
+
+						<div id="colunma2">
+							Nombre Apellido
+							<p></p>
+
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_a" name="_terp_list" value="aa" onclick="new ListView('elemento_a');">a
+								<p></p>
+							</span>
+							
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_b" name="_terp_list" value="bb" onclick="new ListView('elemento_b');">b
+								<p></p>
+							</span>
+
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_c" name="_terp_list" value="cc" onclick="new ListView('elemento_c');">c
+								<p></p>
+							</span>
+
+
+						</div>
+
+						<div id="colunma3">
+							Nro de Telefono
+							<p></p>
+						
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_a" name="_terp_list" value="aa" onclick="new ListView('elemento_a');">a
+								<p></p>
+							</span>
+							
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_b" name="_terp_list" value="bb" onclick="new ListView('elemento_b');">b
+								<p></p>
+							</span>
+
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_c" name="_terp_list" value="cc" onclick="new ListView('elemento_c');">c
+								<p></p>
+							</span>
+
+
+						</div>
+
+						<div id="colunma4">
+							Grupo Asociado
+								<p></p>
+
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_a" name="_terp_list" value="aa" onclick="new ListView('elemento_a');">a
+								<p></p>
+							</span>
+							
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_b" name="_terp_list" value="bb" onclick="new ListView('elemento_b');">b
+								<p></p>
+							</span>
+
+							<span>
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_c" name="_terp_list" value="cc" onclick="new ListView('elemento_c');">c
+								<p></p>
+							</span>
+
+
+						</div>
+
+						<div id="colunma5">
+
+						</div>
+
+
+
+
+				
+				</div>
+
+
+
+
+
+
+				<div id="contenedor_tabla"> 
+					
+						<div style="display: table-row;" id="div_columnas" >
+							<div style="display: table-cell;" id="div_tabla1" > Seleccionado</div>
+							<div style="display: table-cell;" id="div_tabla2"> Nombre Apellido </div>
+							<div style="display: table-cell;" id="div_tabla3" > Nro de Tlfono</div>
+							<div style="display: table-cell;" id="div_tabla4" > Grupo Asociado</div>
+
+						</div>
+
+						<div style="display: table-row;" id="div_columnas" >
+							<div style="display: table-cell;" id="div_tabla1"> 
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_a" name="_terp_list" value="aa" onclick="new ListView('elemento_a');">a
+							</div>
+							<div style="display: table-cell;" id="div_tabla2"> Hernan Neuman </div>
+							<div style="display: table-cell;" id="div_tabla3"> 04145795060</div>
+							<div style="display: table-cell;" id="div_tabla4"> Ninguno</div>
+
+						</div>
+				
+						<div style="display: table-row;"  id="div_columnas" >
+							<div style="display: table-cell;" id="div_tabla1"> 
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_b" name="_terp_list" value="bb" onclick="new ListView('elemento_b');">b
+							</div>
+							<div style="display: table-cell;" id="div_tabla2"> Hernan Neuman </div>
+							<div style="display: table-cell;" id="div_tabla3"> 04145795060</div>
+							<div style="display: table-cell;" id="div_tabla4"> Ninguno</div>
+
+						</div>
+					
+						<div style="display: table-row;" id="div_columnas" >
+							<div style="display: table-cell;" id="div_tabla1"> 
+								<input type="checkbox" class="checkbox grid-record-selector" id="elemento_c" name="_terp_list" value="cc" onclick="new ListView('elemento_c');">c
+							</div>
+							<div style="display: table-cell;" id="div_tabla2"> Hernan Neuman </div>
+							<div style="display: table-cell;" id="div_tabla3"> 04145795060</div>
+							<div style="display: table-cell;" id="div_tabla4"> Ninguno</div>
+
+						</div>
+
+
+						<form action="prueba_check_list_parametros"  id="boton_enviar_parametros" method="GET"> 
+							<button style="border-radius:10px;" id="boton_enviar_parametros"> prueba_check_list_parametros </button>
+
+						</form>
+
+						<button style="border-radius:10px;" onClick="enviar_parametros()"> enviar_parametros </button>
+						<button style="border-radius:10px;" action="" id="boton_enviar_parametros"> enviar_parametros </button>
+
+
+				</div>
+
+
+
+				<div id="contenedor_tabla2"> 
+		
+					{% if usuario %}
+						<div style="display: table-row;" id="div_columnas" >
+			
+							<div style="display: table-cell;" id="div_tabla1" > Seleccionado</div>
+							<div style="display: table-cell;" id="div_tabla2"> Nombre Apellido </div>
+							<div style="display: table-cell;" id="div_tabla3" > Nro de Tlfono</div>
+							<div style="display: table-cell;" id="div_tabla4" > Grupo Asociado</div>
+
+						</div>
+					{% endif %}
+
+					{% for u in usuario %}
+						
+						<div style="display: table-row;" id="div_columnas" >
+							
+							<div style="display: table-cell;" id="div_tabla1"> 
+								<input type="checkbox" class="checkbox grid-record-selector" id='{{u.id}}' name="_terp_list" value='{{u.id}}' onclick="new ListView('{{u.id}}');">
+
+							</div>
+							<div style="display: table-cell;" id="div_tabla2"> {{u.Nombre}} </div>
+							<div style="display: table-cell;" id="div_tabla3" > {{u.Telefono}}</div>
+							<div style="display: table-cell;" id="div_tabla4" > {{u.Email}}</div>
+
+						</div>
+
+					{% endfor %}
+
+
+				</div>
+
+
+				</div>
+			</section>
+
+
+
+			<aside id="aside_video">
+			<h4> Nombres </h4>
+					{% if lista_usuario %}
+
+						<div style="display: table-row;" id="div_columnas" >
+			
+							<div style="display: table-cell;" id="div_tabla2"> Nombre Apellido </div>
+							<div style="display: table-cell;" id="div_tabla3" > Nro de Tlfono</div>
+							<div style="display: table-cell;" id="div_tabla4" > Grupo Asociado</div>
+
+						</div>
+					{% endif %}
+
+					{% for u in lista_usuario %}
+
+						<div style="display: table-row;" id="div_columnas" >
+			
+							<div style="display: table-cell;" id="div_tabla2"> {{u.Nombre}} </div>
+							<div style="display: table-cell;" id="div_tabla3" > {{u.Telefono}}</div>
+							<div style="display: table-cell;" id="div_tabla4" > {{u.Email}}</div>
+
+						</div>
+
+					{% endfor %}
+
+			</aside>	
+	
+
+
+
+			
+		</div>
+			<div style="clear:both;"></div>
+
+
+	</body>
+
+</html>
+
