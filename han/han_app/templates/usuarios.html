@@ -1,0 +1,91 @@
+{% extends 'main.html' %}
+{% block usuarios %}
+
+
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if documento.has_previous %}
+	            <a href="?page={{ documento.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
+	        </span>
+
+	        {% if documento.has_next %}
+	            <a href="?page={{ documento.next_page_number }}">next</a>
+	        {% endif %}
+	    </span>
+	</div> <!-- div pagination --> 
+
+
+	<div class="tabla">	
+
+		<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
+
+			<div class="div_tabla_z" > 
+			<input type="checkbox"  id="id_seleccionarTodo" name="_terp_list"  onclick="new SeleccionarTodo();" >
+
+			</div>
+
+			<div  class="div_tabla_a" > Nombre's y Apellido's  </div>
+			<div  class="div_tabla_b" > Numero de Telefono</div>
+			<div  class="div_tabla_c" > Grupo Asociado </div>
+
+		</div>
+
+		{% for contenido in documento %}
+				<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
+				
+				<div class="div_tabla_z" > 
+					<input type="checkbox"  name="boton_check" value='{{contenido.id}}' onclick="new marcarSeleccionado('{{contenido.id}}');">
+
+				</div>
+
+				<div  class="div_tabla_a" name='{{contenido.id}}'> {{contenido.nombre}}  </div>
+				<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.telefono}}</div>
+				<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.grupo_asociado}}				</div>
+
+			</div>
+		{% endfor %}
+
+	</div>
+	    	
+	    	<div style="clear:both;"></div>
+
+	<!--
+			<aside class="aside_opciones">
+	    	<ul>
+	    		<li>
+	    			<a href='{% url 'han.han_app.views.main' %}'>Enviar Mensajes
+	    		</li>
+
+		    	<li>
+	    			
+	    			<a href='{% url 'han.han_app.views.buzon_entrada' %}'>Eliminar
+	    		</li>
+	
+	    	</ul>
+
+	    </aside>
+
+	    -->
+
+<div class="pagination">
+	    <span class="step-links">
+	        {% if documento.has_previous %}
+	            <a href="?page={{ documento.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
+	        </span>
+
+	        {% if documento.has_next %}
+	            <a href="?page={{ documento.next_page_number }}">next</a>
+	        {% endif %}
+	    </span>
+	</div> <!-- div pagination --> 
+	
+
+{% endblock %} 
