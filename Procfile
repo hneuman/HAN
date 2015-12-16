@@ -1,1 +1,1 @@
-web: gunicorn han.wsgi
+web: gunicorn --workers=2 han.wsgi
