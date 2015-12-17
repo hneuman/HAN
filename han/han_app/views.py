@@ -32,7 +32,7 @@ def main(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
-	return render_to_response("usuarios.html",{'documento':personas})
+	return render_to_response("usuarios.html",{'documento':personas},RequestContext(request, {}))
 
 def buzon_entrada(request):
 	personas = Buzon_entrada.objects.all()
@@ -91,18 +91,38 @@ def buzon_enviados(request):
 	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Enviados"})
 
 def enviar_mensaje(request):
-	formulario = Form_enviar_mensaje()
+	if request.method=="POST":
+
+		lista_destinatarios=request.POST.getlist('boton_check')
+		destinatarios=""
+		for d in lista_destinatarios:
+			destinatarios = destinatarios + Usuario.objects.get(pk=int(d)).telefono + ","
+
+		destinatarios = destinatarios[0:-1]
+		print destinatarios
+
+		formulario = Form_enviar_mensaje(initial={'destinatarios':destinatarios})
+
+		print destinatarios
+
+	else:	
+		formulario = Form_enviar_mensaje()
+		print "whattttt"
+
+
 	print "aca algooo"
 	print request
 
-	return render_to_response("enviar_mensaje.html",{'formulario':formulario,'tipo':"Enviar Mensajes"})
+	return render_to_response("enviar_mensaje.html",{'formulario':formulario,'tipo':"Enviar Mensajes"},RequestContext(request, {}))
 
 def enviar_mensaje_procesar(request,destinatarios):
 	print "procesar"
-	form = Form_enviar_mensaje(request.GET)
-	
-	mensaje = request.GET['mensaje']
 
+	form = Form_enviar_mensaje(request.GET)
+	try:
+		mensaje = request.GET['mensaje']
+	except:
+		mensaje = ""
 	destinatarios = request.GET['destinatarios']
 
 	for d in destinatarios.split(","):

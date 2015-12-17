@@ -3,108 +3,109 @@
 
 {% block usuarios %}
 
-	<div id="div_agregar_usuario" >
+	<form id="form_seleccionar_personas" method='POST' action='enviar_mensaje'>{% csrf_token %}
 
-  			<a href='{% url 'han.han_app.views.agregar_usuario' %}' > Agregar Usuario 		
+		<div id="div_agregar_usuario" >
+				
+	  			<a href='{% url 'han.han_app.views.agregar_usuario' %}' > Agregar Usuario 		
 
-  			<img id"img_agregar_usuario" src="{% static 'img/add_friend.png' %}" style="width: 10%;"> 
-  			</a>
-	</div>
-
-
-
-
-	<div class="pagination">
-	    <span class="step-links">
-	        {% if documento.has_previous %}
-	            <a href="?page={{ documento.previous_page_number }}">previous</a>
-	        {% endif %}
-
-	        <span class="current">
-	            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
-	        </span>
-
-	        {% if documento.has_next %}
-	            <a href="?page={{ documento.next_page_number }}">next</a>
-	        {% endif %}
-	    </span>
-	</div> <!-- div pagination --> 
-
-
-	<div class="tabla">	
-
-		<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
-
-			<div class="div_tabla_z" > 
-			<input type="checkbox"  id="id_seleccionarTodo" name="_terp_list"  onclick="new SeleccionarTodo();" >
-
-			</div>
-
-			<div  class="div_tabla_a" > Nombre's y Apellido's  </div>
-			<div  class="div_tabla_b" > Numero de Telefono</div>
-			<div  class="div_tabla_c" > Grupo Asociado </div>
-
+	  			<img id"img_agregar_usuario" src="{% static 'img/add_friend.png' %}" style="width: 10%;"> 
+	  			</a>
 		</div>
 
-		{% for contenido in documento %}
-				<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
-				
+
+		<button type="submit" id="boton_form_enviar_mensaje"> 
+			Enviar Mensaje a los Seleccionados 
+			<img  src="{% static 'img/mensaje.png' %}" style="width: 10%;">
+		</button>
+
+		<div class="pagination">
+		    <span class="step-links">
+		        {% if documento.has_previous %}
+		            <a href="?page={{ documento.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
+		        </span>
+
+		        {% if documento.has_next %}
+		            <a href="?page={{ documento.next_page_number }}">next</a>
+		        {% endif %}
+		    </span>
+		</div> <!-- div pagination --> 
+
+
+		<div class="tabla">	
+
+			<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
+
 				<div class="div_tabla_z" > 
-					<input type="checkbox"  name="boton_check" value='{{contenido.id}}' onclick="new marcarSeleccionado('{{contenido.id}}');">
+				<input type="checkbox"  id="id_seleccionarTodo" name="_terp_list"  onclick="new SeleccionarTodo();" >
 
 				</div>
 
-				<div  class="div_tabla_a" name='{{contenido.id}}'> {{contenido.nombre}}  </div>
-				<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.telefono}}</div>
-				<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.grupo_asociado}}				</div>
+				<div  class="div_tabla_a" > Nombre's y Apellido's  </div>
+				<div  class="div_tabla_b" > Numero de Telefono</div>
+				<div  class="div_tabla_c" > Grupo Asociado </div>
 
 			</div>
-		{% endfor %}
 
-	</div>
-	    	
-	    	<div style="clear:both;"></div>
+			{% for contenido in documento %}
+					<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
+					
+					<div class="div_tabla_z" > 
+						<input type="checkbox"  name="boton_check" value='{{contenido.id}}' onclick="new marcarSeleccionado('{{contenido.id}}');">
 
-	<!--
-			<aside class="aside_opciones">
-	    	<ul>
-	    		<li>
-	    			<a href='{% url 'han.han_app.views.main' %}'>Enviar Mensajes
-	    		</li>
+					</div>
 
-		    	<li>
-	    			
-	    			<a href='{% url 'han.han_app.views.buzon_entrada' %}'>Eliminar
-	    		</li>
-	
-	    	</ul>
+					<div  class="div_tabla_a" name='{{contenido.id}}'> {{contenido.nombre}}  </div>
+					<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.telefono}}</div>
+					<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.grupo_asociado}}				</div>
 
-	    </aside>
+				</div>
+			{% endfor %}
 
-	    -->
+		</div>
+		    	
+		    	<div style="clear:both;"></div>
 
-<div class="pagination">
-	    <span class="step-links">
-	        {% if documento.has_previous %}
-	            <a href="?page={{ documento.previous_page_number }}">previous</a>
-	        {% endif %}
+		<!--
+				<aside class="aside_opciones">
+		    	<ul>
+		    		<li>
+		    			<a href='{% url 'han.han_app.views.main' %}'>Enviar Mensajes
+		    		</li>
 
-	        <span class="current">
-	            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
-	        </span>
+			    	<li>
+		    			
+		    			<a href='{% url 'han.han_app.views.buzon_entrada' %}'>Eliminar
+		    		</li>
+		
+		    	</ul>
 
-	        {% if documento.has_next %}
-	            <a href="?page={{ documento.next_page_number }}">next</a>
-	        {% endif %}
-	    </span>
-	</div> <!-- div pagination --> 
-	
+		    </aside>
 
-	<div id="div_agregar_usuario">
-		<form action="agregar_usuario" method="get">
-			<button type="submit" id="boton_agregar_usuario"> Agregar Usuarios </button>
-		</form>
-	</div>
+		    -->
 
+	<div class="pagination">
+		    <span class="step-links">
+		        {% if documento.has_previous %}
+		            <a href="?page={{ documento.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
+		        </span>
+
+		        {% if documento.has_next %}
+		            <a href="?page={{ documento.next_page_number }}">next</a>
+		        {% endif %}
+		    </span>
+		</div> <!-- div pagination --> 
+		
+		
+
+</form>
 
 {% endblock %} 
