@@ -1,9 +1,14 @@
 {% extends 'main.html' %}
+{% load static %}
+
 {% block usuarios %}
 
 	<div id="div_agregar_usuario" >
 
-  			<a href='{% url 'han.han_app.views.agregar_usuario' %}' value="" <img src=""> >  Agregar Usuario 
+  			<a href='{% url 'han.han_app.views.agregar_usuario' %}' > Agregar Usuario 		
+
+  			<img id"img_agregar_usuario" src="{% static 'img/add_friend.png' %}" style="width: 10%;"> 
+  			</a>
 	</div>
 
 

@@ -118,7 +118,7 @@ def enviar_mensaje_procesar(request,destinatarios):
 			d.save()
 		except Exception,e:
 			print e
-			d = Buzon_pendientes(nombre_persona="numero no valido", 
+			d = Buzon_pendientes(nombre_persona="Este Numero No Esta Registrado", 
 			numero_telefono=d, 
 			contenido_mensaje=mensaje, 
 			grupo_asociado=d,
@@ -160,7 +160,7 @@ def agregar_usuario(request):
 			usuario.save()
 		form = Form_usuario()
 
-	return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Usuario Agregado Satisfactoriamente"},RequestContext(request, {}),c)
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Usuario Agregado Satisfactoriamente"},RequestContext(request, {}),c)
 
 	else:
 		form = Form_usuario()
