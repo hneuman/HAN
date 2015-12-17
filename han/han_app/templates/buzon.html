@@ -3,16 +3,16 @@
 
 <div class="pagination">
     <span class="step-links">
-        {% if documento.has_previous %}
-            <a href="?page={{ documento.previous_page_number }}">previous</a>
+        {% if buzon.has_previous %}
+            <a href="?page={{ buzon.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
+            Page {{ buzon.number }} of {{ buzon.paginator.num_pages }}.
         </span>
 
-        {% if documento.has_next %}
-            <a href="?page={{ documento.next_page_number }}">next</a>
+        {% if buzon.has_next %}
+            <a href="?page={{ buzon.next_page_number }}">next</a>
         {% endif %}
     </span>
 </div> <!-- div pagination --> 
@@ -64,16 +64,16 @@
 
 <div class="pagination">
     <span class="step-links">
-        {% if documento.has_previous %}
-            <a href="?page={{ documento.previous_page_number }}">previous</a>
+        {% if buzon.has_previous %}
+            <a href="?page={{ buzon.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
+            Page {{ buzon.number }} of {{ buzon.paginator.num_pages }}.
         </span>
 
-        {% if documento.has_next %}
-            <a href="?page={{ documento.next_page_number }}">next</a>
+        {% if buzon.has_next %}
+            <a href="?page={{ buzon.next_page_number }}">next</a>
         {% endif %}
     </span>
 </div> <!-- div pagination --> 
