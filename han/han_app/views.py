@@ -115,6 +115,7 @@ def enviar_mensaje_procesar(request,destinatarios):
 				contenido_mensaje=mensaje, 
 				grupo_asociado=usuario.grupo_asociado,
 				)
+			print "\n\n\n\n>>>>>>>>>>>se proceso el mensaje<<<<<<<<<<<<\n\n\n"
 			d.save()
 		except Exception,e:
 			print e
@@ -123,6 +124,7 @@ def enviar_mensaje_procesar(request,destinatarios):
 			contenido_mensaje=mensaje, 
 			grupo_asociado=d,
 			)
+			print "\n\n\n\n\nNO  proceso el mensaje\n\n\n\n\n\n"
 			d.save()	
 
 	personas = Buzon_pendientes.objects.all()
