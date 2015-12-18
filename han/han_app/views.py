@@ -91,19 +91,27 @@ def buzon_enviados(request):
 	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Enviados"})
 
 def enviar_mensaje(request):
+	d={}
+
 	if request.method=="POST":
 
 		lista_destinatarios=request.POST.getlist('boton_check')
-		destinatarios=""
-		for d in lista_destinatarios:
-			destinatarios = destinatarios + Usuario.objects.get(pk=int(d)).telefono + ","
+		destinatarios_lista=""
+		d={}
+		for l in lista_destinatarios:
+			d[l] =  {
+				'telefono':Usuario.objects.get(pk=int(l)).telefono,
+				'id':Usuario.objects.get(pk=int(l)).id,
+			}
 
-		destinatarios = destinatarios[0:-1]
-		print destinatarios
+			destinatarios_lista = destinatarios_lista + Usuario.objects.get(pk=int(l)).telefono + ","
 
-		formulario = Form_enviar_mensaje(initial={'destinatarios':destinatarios})
+		destinatarios_lista = destinatarios_lista[0:-1]
+		print destinatarios_lista
 
-		print destinatarios
+		formulario = Form_enviar_mensaje(initial={'destinatarios':destinatarios_lista})
+
+		print destinatarios_lista
 
 	else:	
 		formulario = Form_enviar_mensaje()
@@ -112,23 +120,24 @@ def enviar_mensaje(request):
 
 	print "aca algooo"
 	print request
-
-	return render_to_response("enviar_mensaje.html",{'formulario':formulario,'tipo':"Enviar Mensajes"},RequestContext(request, {}))
+	return render_to_response("enviar_mensaje.html",{'formulario':formulario,'tipo':"Enviar Mensajes",'destinatarios':d},RequestContext(request, {}))
 
 def enviar_mensaje_procesar(request,destinatarios):
 	print "procesar"
 
 	form = Form_enviar_mensaje(request.GET)
 	try:
-		mensaje = request.GET['mensaje']
-	except:
+		mensaje = request.POST['mensaje']
+	except Exception,e:
 		mensaje = ""
-	destinatarios = request.GET['destinatarios']
-
-	for d in destinatarios.split(","):
+	print mensaje	
+	#destinatarios = request.POST['destinatarios']
+	destinatarios = request.POST.getlist('destinatario')
+	print destinatarios
+	for d in destinatarios:
 		print d
 		try:
-			usuario = Usuario.objects.all().filter(telefono=d)[0]
+			usuario = Usuario.objects.all().filter(id=d)[0]
 			print usuario
 			d = Buzon_pendientes(nombre_persona=usuario.nombre, 
 				numero_telefono=usuario.telefono, 
@@ -162,7 +171,7 @@ def enviar_mensaje_procesar(request,destinatarios):
 	# If page is out of range (e.g. 9999), deliver last page of results.
 		personas = paginator.page(paginator.num_pages)
 
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes"})
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes"},RequestContext(request, {}))
 
 
 def agregar_usuario(request):

@@ -5,17 +5,17 @@
 
 
 
-	<div class="enviar_mensaje">
+	<div class="enviar_mensaje" id="enviar_mensaje">
 
 		<h1> {{tipo}} </h1>
 
 		<div id="formulario_enviar_mensaje"> 
 
-			<form id="form_form" method='GET' action='enviar_mensaje_procesar/' >
+			<form id="form_form" method='POST' action='enviar_mensaje_procesar/' >{% csrf_token %}
 				<p></p>	
 			 	
 			 	<div id="destinatarios">
-					<label for="destinatarios" id="id_destinatarios" desactivated>  Destinatarios </label>
+					<label for="destinatarios" id="id_destinatarios_123" desactivated>  Destinatarios </label>
 
 					{{formulario.destinatarios}}
 				 </div> 
@@ -24,16 +24,34 @@
 				{{formulario.mensaje}} 	
 
 				<div id="count"> </div>	
+				<div id="count_des"> </div>	
 
 
 				<p></p>
 				<p><input type='submit' value='Enviar Mensaje'>
 				</p>	
 
+
+				{% for i, d in destinatarios.items %}
+
+
+					<div class="casilla_informacion_usuario_mayor" id="{{d.id}}">
+						<span class="casilla_informacion_usuario" email="{{d.telefono}}">
+							<div class="informacion_usuario"> {{d.telefono}} </div>
+							<div class="equis_del_contacto" onclick="eliminar_destinatario({{d.id}});"></div>
+						</span>
+						<input name="destinatario" value="{{d.id}}" type="hidden">
+					</div>
+
+
+				{% endfor %}
 			</form>
 
 
 		</div>
+
+
+
 
 	</div>
 
@@ -43,17 +61,74 @@
 var maxchar = 0;
 var i = document.getElementById("id_mensaje");
 var c = document.getElementById("count");
+var destino = document.getElementById("id_destinatarios");
 var d = "";
 
 c.innerHTML = maxchar;
-
 i.addEventListener("keydown",count);
+destino.addEventListener("input",agregar_destinatario);
+
+
+console.log(">>>> "+destino)
 
 console.log(">>>> "+i)
 
 function count(e){
     var len =  i.value.length;
        c.innerHTML = len;  
+}
+
+function eliminar_destinatario(id_destinatario){
+
+	  var enviar_mensaje = document.getElementById("form_form");
+
+      var elemento = document.getElementById(id_destinatario);
+
+      var eliminar = enviar_mensaje.removeChild(elemento);    //Test Case 2: the method throws the exception (2)
+
+
+}
+
+function agregar_destinatario(){
+	console.log(destino.value + "<<<<<<");
+
+		if  (destino.value.indexOf(",") >= 0 ){
+			console.log("NUEVO Destinatario");
+
+			var casilla_informacion_usuario_mayor = document.createElement("div");                 
+			casilla_informacion_usuario_mayor.class = "casilla_informacion_usuario_mayor"
+			casilla_informacion_usuario_mayor.id = destino.value
+			casilla_informacion_usuario_mayor.innerHTML = "DAJSI"
+
+			var casilla_informacion_usuario = document.createElement("span");
+			casilla_informacion_usuario.class = "casilla_informacion_usuario"
+			casilla_informacion_usuario.innerHTML = " 	"
+			var informacion_usuario = document.createElement("div");
+			informacion_usuario.class = "informacion_usuario"
+
+			var equis_del_contacto = document.createElement("div");                 
+			equis_del_contacto.class = "equis_del_contacto"
+			equis_del_contacto.onclick = "eliminar_destinatario(\'destino.value\');"
+
+			var input = document.createElement("input");
+			input.type="hidden"
+			input.type=destino.value
+
+			enviar_mensaje = document.getElementById("enviar_mensaje")
+
+			document.getElementById("enviar_mensaje").appendChild(casilla_informacion_usuario_mayor);
+
+
+			document.getElementById("casilla_informacion_usuario_mayor").appendChild(casilla_informacion_usuario);
+
+			document.getElementById(casilla_informacion_usuario).appendChild(informacion_usuario);
+			document.getElementById(casilla_informacion_usuario).appendChild(equis_del_contacto);
+			document.getElementById(casilla_informacion_usuario_mayor).appendChild(input);
+
+
+			destino.value = "";
+
+		}
 }
 
 
