@@ -263,11 +263,20 @@
     width: 14px;
     height: 20px;
     background: url("//ssl.gstatic.com/apps/gadgets/contactarea/contactarea_sprite_2.gif") no-repeat scroll -4px 0px transparent;
-    opacity: 0.6;
+
+    background: url("{% static 'img/icono/equis.png' %}") no-repeat transparent;
+
+    opacity: 0.65;
     vertical-align: top;
     cursor: pointer;
+    margin-right: 5px;
+
 }
 
+.equis_del_contacto:hover{
+	opacity: 1;
+
+}
 .informacion_usuario {
     max-height: 17px;
     cursor: move;
