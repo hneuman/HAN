@@ -102,6 +102,7 @@ def enviar_mensaje(request):
 			d[l] =  {
 				'telefono':Usuario.objects.get(pk=int(l)).telefono,
 				'id':Usuario.objects.get(pk=int(l)).id,
+				'nombre':Usuario.objects.get(pk=int(l)).nombre,
 			}
 
 			destinatarios_lista = destinatarios_lista + Usuario.objects.get(pk=int(l)).telefono + ","

@@ -35,9 +35,9 @@
 				{% for i, d in destinatarios.items %}
 
 
-					<div class="casilla_informacion_usuario_mayor" id="{{d.id}}">
+					<div class="casilla_informacion_usuario_mayor" id="{{d.id}}" name="{{d.id}}">
 						<span class="casilla_informacion_usuario" email="{{d.telefono}}">
-							<div class="informacion_usuario"> {{d.telefono}} </div>
+							<div class="informacion_usuario" title="{{d.nombre}}" ondblclick="editar_usuario(this);" id="{{d.id}}_informacion" >{{d.telefono}}</div>
 							<div class="equis_del_contacto" onclick="eliminar_destinatario({{d.id}});"></div>
 						</span>
 						<input name="destinatario" value="{{d.id}}" type="hidden">
@@ -100,6 +100,7 @@ function agregar_destinatario(){
 			var casilla_informacion_usuario_mayor = document.createElement("div");                 
 				casilla_informacion_usuario_mayor.className = "casilla_informacion_usuario_mayor"
 				casilla_informacion_usuario_mayor.id = destino_limpio
+				casilla_informacion_usuario_mayor.setAttribute("name", destino_limpio)
 
 			var casilla_informacion_usuario = document.createElement("span");
 				casilla_informacion_usuario.className = "casilla_informacion_usuario"
@@ -110,6 +111,18 @@ function agregar_destinatario(){
 				informacion_usuario.className = "informacion_usuario"
 				informacion_usuario.id = destino_limpio +"_informacion"
 				informacion_usuario.innerHTML = destino_limpio 
+				informacion_usuario.title="Usuario Agregado desde la WEB"
+				
+				informacion_usuario.ondblclick = function () 
+					{
+
+						var element = document.getElementById(this.id).parentNode.parentNode;
+						element.outerHTML = "";
+						delete element;
+
+				};
+
+
 
 
 			var equis_del_contacto = document.createElement("div");                 
@@ -149,7 +162,20 @@ function agregar_destinatario(){
 		}
 }
 
+function editar_usuario(elemento){
+	console.log(" >>>  " +elemento+" <<<< ");
+	console.log(" >>>  " +elemento.id+" <<<< ");
+	console.log(" >>>  " +elemento.innerHTML+" <<<< ");
 
+	console.log(" >>>  " +elemento.className+" <<<< ");
+
+	document.getElementById("id_destinatarios").value=elemento.innerHTML
+	var element = document.getElementById(elemento.id).parentNode.parentNode;
+	element.outerHTML = "";
+	delete element;
+
+
+}
 </script>
 
 {% endblock %}
