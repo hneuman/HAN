@@ -92,7 +92,7 @@ def buzon_enviados(request):
 
 def enviar_mensaje(request):
 	d={}
-
+	print " >>>>>>>>>>>> %s  <<<<<<<< "%RequestContext(request)
 	if request.method=="POST":
 
 		lista_destinatarios=request.POST.getlist('boton_check')
@@ -260,3 +260,9 @@ def func_subir_archivo(request):
         {'form': form},
         context_instance=RequestContext(request)
     )
+
+def eliminar_registros(request):
+	
+	lista_destinatarios=request.POST.getlist('boton_check')
+
+	return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario"}, RequestContext(request, {}),c)
