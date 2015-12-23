@@ -406,42 +406,43 @@
 		</div>	
 	</header>
 
+		<form id="form_operaciones_globales" action="operaciones_globales" method="POST">{% csrf_token %}
 
-		<div id="contenido_principal"> 
-				<section>
-
-
-
-
-					{% block usuarios %}{% endblock %}
-					{% block buzon %}{% endblock %}
-					{% block enviar_mensaje %}{% endblock %}
-
-
-<!--
-			        <form action="" method="post" enctype="multipart/form-data">
-			            {% csrf_token %}
-			            <p>{{ form.non_field_errors }}</p>
-
-			            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-
-			            <p>
-			                {{ form.docfile.errors }}
-			                {{ form.docfile }}
-			            </p>
-
-			            <p><input type="submit" value="Upload"/></p>
-			        </form>
--->
+			<div id="contenido_principal"> 
+					<section>
 
 
 
-			    </div>  <!-- div Contenido -->   
+						{% block usuarios %}{% endblock %}
+						{% block buzon %}{% endblock %}
+						{% block enviar_mensaje %}{% endblock %}
+
+
+	<!--
+				        <form action="" method="post" enctype="multipart/form-data">
+				            {% csrf_token %}
+				            <p>{{ form.non_field_errors }}</p>
+
+				            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+
+				            <p>
+				                {{ form.docfile.errors }}
+				                {{ form.docfile }}
+				            </p>
+
+				            <p><input type="submit" value="Upload"/></p>
+				        </form>
+	-->
+
+
+			  	  </div>  <!-- div Contenido -->   
 		    
 
 	  
-			</section>
+				</section>
 	    </div>   <!-- div Principal --> 
+		
+		</form>
 
 	    <aside class="aside_botones">
 	    	<ul>
@@ -464,7 +465,16 @@
 	   		   	<li>
 	    			
 	    			<a href='{% url 'han.han_app.views.buzon_enviados' %}'>Buzon Enviados
-	    		</li>   	
+	    		</li> 
+
+    			<li>
+	
+    				<button type="submit" name="eliminar_registros" 
+    					form="form_operaciones_globales" id="boton_eliminar_registros"> Eliminar Registros 
+    				</button>
+
+	    		</li>
+
 	    	</ul>
 	    	<div style="clear:both;"></div>
 

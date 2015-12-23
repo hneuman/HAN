@@ -50,7 +50,7 @@ def buzon_entrada(request):
 	# If page is out of range (e.g. 9999), deliver last page of results.
 		personas = paginator.page(paginator.num_pages)
 	#return render_to_response('list.html', {"contacts": contacts})
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Entrada"})
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Entrada",'tipo_buzon':"buzon_entrada"}, RequestContext(request, {}))
 
 def buzon_pendientes(request):
 	personas = Buzon_pendientes.objects.all()
@@ -69,7 +69,7 @@ def buzon_pendientes(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes"})
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes",'tipo_buzon':"buzon_pendientes"}, RequestContext(request, {}))
 
 def buzon_enviados(request):
 	personas = Buzon_enviados.objects.all()
@@ -88,7 +88,7 @@ def buzon_enviados(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Enviados"})
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Enviados",'tipo_buzon':"buzon_enviados"}, RequestContext(request, {}))
 
 def enviar_mensaje(request):
 	d={}
@@ -266,3 +266,14 @@ def eliminar_registros(request):
 	lista_destinatarios=request.POST.getlist('boton_check')
 
 	return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario"}, RequestContext(request, {}),c)
+
+
+def operaciones_globales(request):
+	
+	if request.method=='POST' and 'eliminar_registros' in request.POST:
+		print "eliminar REGISTROS .........."
+
+		lista_destinatarios=request.POST.getlist('boton_check')
+		print lista_destinatarios
+
+	return render_to_response("usuarios.html", RequestContext(request, {}))

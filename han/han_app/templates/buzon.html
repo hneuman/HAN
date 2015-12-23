@@ -1,6 +1,14 @@
 {% extends 'main.html' %}
 {% block buzon %}
 
+<script type="text/javascript">
+	
+	var boton = document.getElementById("boton_eliminar_registros") ;
+	boton.name2 = "{{tipo_buzon}}" ;
+	console.log(">>>>"+boton.name2)
+
+</script>
+
 <div class="pagination">
     <span class="step-links">
         {% if buzon.has_previous %}
@@ -26,10 +34,7 @@
 	<div class="tabla">	
 		
 	
-	<form id="form_buzon" action="eliminar_registros" method='POST'> {% csrf_token %}
 			
-			<button type="submit"> eliminar registros </button>
-
 			<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
 				
 
@@ -64,7 +69,6 @@
 
 
 		</div>
-	</form>
 
 <div class="pagination">
     <span class="step-links">

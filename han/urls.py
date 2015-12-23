@@ -29,6 +29,7 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^enviar_mensaje/?$','enviar_mensaje'),
 	(r'^enviar_mensaje_procesar/(\.*,?)*/?$','enviar_mensaje_procesar'),
 	(r'^agregar_usuario/?$','agregar_usuario'),
+	(r'^operaciones_globales/?$','operaciones_globales'),
 
 	(r'','main'),
 
