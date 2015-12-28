@@ -311,6 +311,7 @@ def eliminar_registros(request):
 	#print " >>> %s <<< "%m
 	#func = getattr(m,modelo_vista)
 
+	return globals()[modelo_vista](request)
 
 	#return func(request)
-	return render_to_response("usuarios.html", RequestContext(request, {}))
+	#return render_to_response("usuarios.html", RequestContext(request, {}))
