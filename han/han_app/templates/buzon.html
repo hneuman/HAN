@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	
 	var boton = document.getElementById("boton_eliminar_registros") ;
-	boton.name2 = "{{tipo_buzon}}" ;
+	boton.name2 = "{{modelo}}" ;
 	console.log(">>>>"+boton.name2)
 
 </script>
@@ -85,6 +85,8 @@
         {% endif %}
     </span>
 </div> <!-- div pagination --> 
+
+<input name="modelo" value="{{modelo}}" type="hidden">
 
 
 {% endblock %}	

@@ -14,6 +14,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.context_processors import csrf
 from django.template import RequestContext
 
+from django.apps import apps
 
 def main(request):
 	personas = Usuario.objects.all()
@@ -32,7 +33,8 @@ def main(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
-	return render_to_response("usuarios.html",{'documento':personas},RequestContext(request, {}))
+
+	return render_to_response("usuarios.html",{'documento':personas,'modelo':'usuario',},RequestContext(request, {}))
 
 def buzon_entrada(request):
 	personas = Buzon_entrada.objects.all()
@@ -50,7 +52,7 @@ def buzon_entrada(request):
 	# If page is out of range (e.g. 9999), deliver last page of results.
 		personas = paginator.page(paginator.num_pages)
 	#return render_to_response('list.html', {"contacts": contacts})
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Entrada",'tipo_buzon':"buzon_entrada"}, RequestContext(request, {}))
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Entrada",'modelo':"buzon_entrada"}, RequestContext(request, {}))
 
 def buzon_pendientes(request):
 	personas = Buzon_pendientes.objects.all()
@@ -69,7 +71,7 @@ def buzon_pendientes(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes",'tipo_buzon':"buzon_pendientes"}, RequestContext(request, {}))
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes",'modelo':"buzon_pendientes"}, RequestContext(request, {}))
 
 def buzon_enviados(request):
 	personas = Buzon_enviados.objects.all()
@@ -88,7 +90,7 @@ def buzon_enviados(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Enviados",'tipo_buzon':"buzon_enviados"}, RequestContext(request, {}))
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Enviados",'modelo':"buzon_enviados"}, RequestContext(request, {}))
 
 def enviar_mensaje(request):
 	d={}
@@ -271,9 +273,40 @@ def eliminar_registros(request):
 def operaciones_globales(request):
 	
 	if request.method=='POST' and 'eliminar_registros' in request.POST:
+
 		print "eliminar REGISTROS .........."
+		#print  " >>> %s <<< "%request.META['HTTP_REFERER']
+		return eliminar_registros(request)
 
-		lista_destinatarios=request.POST.getlist('boton_check')
-		print lista_destinatarios
+	if request.method=='POST' and 'enviar_mensaje' in request.POST:
+		print "Enviar Mensajes.........."
 
+		return enviar_mensaje(request)
+
+	#return render_to_response("usuarios.html", RequestContext(request, {}))
+
+def eliminar_registros(request):
+
+	print  " >>> %s <<< "%request.POST
+	request.META['CAMPO_XXXXXXXXXXXXXXXXXX']="-.-.-.- -. - . -  . - . - . - . -"
+	lista_destinatarios=request.POST.getlist('boton_check')
+	print lista_destinatarios
+	modelo=request.POST['modelo']
+	apps.get_models()
+	myapp = apps.get_app_config('han_app')
+	#myapp.models	
+	index_modelo = myapp.models.keys().index(modelo)
+
+	print " >>> %s <<< "%myapp
+	print " >>> %s <<< "%myapp.models
+	print " >>> %s <<< "%myapp.models[modelo]
+	print " >>> %s <<< "%type(myapp.models.items()[index_modelo][1])
+
+	modelo=myapp.models.items()[index_modelo][1]
+	#m = myapp.models.items()[2][1].objects.all()
+	for i in lista_destinatarios:
+		modelo.objects.filter(id=int(i)).delete()
+
+	main(request)
+	
 	return render_to_response("usuarios.html", RequestContext(request, {}))

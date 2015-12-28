@@ -3,8 +3,8 @@
 
 {% block usuarios %}
 
-	<form id="form_seleccionar_personas" method='POST' action='enviar_mensaje'>{% csrf_token %}
-
+<!--	<form id="form_seleccionar_personas" method='POST' action='enviar_mensaje'>{% csrf_token %}
+-->
 		<div id="div_agregar_usuario" >
 				
 	  			<a href='{% url 'han.han_app.views.agregar_usuario' %}' > Agregar Usuario 		
@@ -106,7 +106,10 @@
 		</div> <!-- div pagination --> 
 		
 		
-
+<!--
 </form>
+-->
+
+<input name="modelo" value="{{modelo}}" type="hidden">
 
 {% endblock %} 
