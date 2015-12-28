@@ -3,10 +3,10 @@
 
 <script type="text/javascript">
 	
-	var boton = document.getElementById("boton_eliminar_registros") ;
-	boton.name2 = "{{modelo}}" ;
-	console.log(">>>>"+boton.name2)
 
+
+	document.getElementById("boton_enviar_mensaje").disabled=true;
+	console.log(">>>>");
 </script>
 
 <div class="pagination">
@@ -88,6 +88,11 @@
 
 <input name="modelo" value="{{modelo}}" type="hidden">
 
+
+<script type="text/javascript">
+	document.getElementById("boton_enviar_mensaje").disabled=true;
+	console.log(">>>>");
+</script>
 
 {% endblock %}	
 

@@ -21,7 +21,7 @@ from han.han_app import *
 #    url(r'^admin/', include(admin.site.urls)),
 #]
 urlpatterns = patterns('han.han_app.views',
-	(r'^main/?$','main'),
+	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),
 	(r'^buzon_entrada/?$','buzon_entrada'),
 	(r'^buzon_pendientes/?$','buzon_pendientes'),
@@ -31,7 +31,7 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^agregar_usuario/?$','agregar_usuario'),
 	(r'^operaciones_globales/?$','operaciones_globales'),
 
-	(r'','main'),
+	(r'','usuario'),
 
 
 

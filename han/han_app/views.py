@@ -16,7 +16,7 @@ from django.template import RequestContext
 
 from django.apps import apps
 
-def main(request):
+def usuario(request):
 	personas = Usuario.objects.all()
 
 	paginator = Paginator(personas, 25) # Show 25 contacts per page
@@ -291,22 +291,26 @@ def eliminar_registros(request):
 	request.META['CAMPO_XXXXXXXXXXXXXXXXXX']="-.-.-.- -. - . -  . - . - . - . -"
 	lista_destinatarios=request.POST.getlist('boton_check')
 	print lista_destinatarios
-	modelo=request.POST['modelo']
+	modelo_vista=request.POST['modelo']
 	apps.get_models()
 	myapp = apps.get_app_config('han_app')
 	#myapp.models	
-	index_modelo = myapp.models.keys().index(modelo)
+	index_modelo = myapp.models.keys().index(modelo_vista)
 
 	print " >>> %s <<< "%myapp
 	print " >>> %s <<< "%myapp.models
-	print " >>> %s <<< "%myapp.models[modelo]
+	print " >>> %s <<< "%myapp.models[modelo_vista]
 	print " >>> %s <<< "%type(myapp.models.items()[index_modelo][1])
 
 	modelo=myapp.models.items()[index_modelo][1]
 	#m = myapp.models.items()[2][1].objects.all()
 	for i in lista_destinatarios:
 		modelo.objects.filter(id=int(i)).delete()
-
-	main(request)
 	
+	#m = __import__ ('han.han_app.views')
+	#print " >>> %s <<< "%m
+	#func = getattr(m,modelo_vista)
+
+
+	#return func(request)
 	return render_to_response("usuarios.html", RequestContext(request, {}))
