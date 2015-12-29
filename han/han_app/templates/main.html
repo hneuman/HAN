@@ -97,7 +97,6 @@
 		width: 90%;
 		background-color: green;
 		display: table;
-		border: 1px solid white;
 }
 	
 	.tabla{
@@ -131,12 +130,17 @@
 		display: table-cell;
 	}
 	aside.aside_botones{
-		background-color: rgb(212, 212, 212);
+
+
+		background-color: rgba(212, 212, 212, 0.91);
 		float: left;
 		text-align: left;
-		width: 18%;
-  		margin-top: 22.5%;
-   		border-radius: 10%;
+		width: 15%;
+		margin-top: 18.5%;
+		border-radius: 10%;
+		position: absolute;
+		margin-left: 2%;
+
 
     }
 	aside.aside_opciones{
@@ -155,21 +159,19 @@
 
 
 	#cabecera_logo{
-		background-color: green;
+		background-color: rgb(206, 198, 198);
 		width: 40%;
 		height: 100%;
 		border-top:1px solid black;	
-		border-bottom:  :1px solid black;	
 		display: table-cell;
 
 	}
 	#cabecera_descripcion{
 
-		background-color: pink;
+		background-color: rgb(206, 198, 198);
 		width: 55%;
 		height: 100%;
 		border-top:1px solid black;	
-		border-bottom:  :1px solid black;	
 		display: table-cell;
 
 	}
@@ -187,8 +189,6 @@
 		height: 100%;
 		border-top:1px solid black;	
 		border-bottom:  :1px solid black;	
-		display: table-row;
-		width: 1%;
 }
 
 #div_agregar_usuario{
@@ -197,7 +197,6 @@
 	height: 100%;
 	border-top:1px solid black;	
 	border-bottom:  :1px solid black;	
-	display: table-row;
 	width: 100%;
 	text-align: center;
 }
@@ -394,6 +393,44 @@
 
 
 
+ <aside class="aside_botones">
+    	<ul>
+    		<li>
+    			<a href='{% url 'han.han_app.views.usuario' %}'>Agenda</a>
+    		</li>
+
+    		<li>
+				<button type="submit" name="enviar_mensaje" 
+					form="form_operaciones_globales" id="boton_enviar_mensaje"> Enviar Mensajes  
+				</button>
+    		</li>
+
+	    	<li>
+    			
+    			<a href='{% url 'han.han_app.views.buzon_entrada' %}'>Buzon Entrada</a>
+    		</li>
+	    	
+	    	<li>
+    			
+    			<a href='{% url 'han.han_app.views.buzon_pendientes' %}'>Buzon Pendientes</a>
+    		</li>
+   		   	
+   		   	<li>
+    			
+    			<a href='{% url 'han.han_app.views.buzon_enviados' %}'>Buzon Enviados</a>
+    		</li> 
+
+			<li>
+
+				<button type="submit" name="eliminar_registros" 
+					form="form_operaciones_globales" id="boton_eliminar_registros"> Eliminar Registros 
+				</button>
+
+    		</li>
+    	</ul>
+
+   </aside>
+
 	<div id="div_principal">
 
 	<header>
@@ -404,7 +441,13 @@
 			<div  id="cabecera_descripcion" name='{{contenido.id}}'> <img src="{% static 'img/fondo.jpg' %}" width="100%" style="table-layout:fixed;"> </div>
 
 		</div>	
+
+
+
 	</header>
+
+   
+	
 
 
 			<div id="contenido_principal"> 
@@ -427,43 +470,6 @@
 				</section>
 
 
-		    <aside class="aside_botones">
-		    	<ul>
-		    		<li>
-		    			<a href='{% url 'han.han_app.views.usuario' %}'>Agenda
-		    		</li>
-
-		    		<li>
-						<button type="submit" name="enviar_mensaje" 
-							form="form_operaciones_globales" id="boton_enviar_mensaje"> Enviar Mensajes  
-						</button>
-		    		</li>
-
-			    	<li>
-		    			
-		    			<a href='{% url 'han.han_app.views.buzon_entrada' %}'>Buzon Entrada
-		    		</li>
-			    	<li>
-		    			
-		    			<a href='{% url 'han.han_app.views.buzon_pendientes' %}'>Buzon Pendientes
-		    		</li>
-		   		   	<li>
-		    			
-		    			<a href='{% url 'han.han_app.views.buzon_enviados' %}'>Buzon Enviados
-		    		</li> 
-
-					<li>
-
-						<button type="submit" name="eliminar_registros" 
-							form="form_operaciones_globales" id="boton_eliminar_registros"> Eliminar Registros 
-						</button>
-
-		    		</li>
-
-		    	</ul>
-		    	<div style="clear:both;"></div>
-
-		   </aside>
 		   
 			</div>   <!-- div Principal --> 
 		
