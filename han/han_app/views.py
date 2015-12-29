@@ -181,25 +181,40 @@ def agregar_usuario(request):
 	c = {}
 	c.update(csrf(request))
 	print "agregar "
+	print "agregar >>> %s"%request
+
 	if request.method == "POST":
 		form = Form_usuario(request.POST)
 		print "procesar"
 		if form.is_valid():
-			usuario = Usuario(
-				nombre=form.cleaned_data['nombre'],
-				telefono=form.cleaned_data['telefono'],
-				email=form.cleaned_data['email'],
-				grupo_asociado=form.cleaned_data['grupo_asociado'],
-				)
+			print " >>>>>>>>>>>>>>>> %s "%request.POST.getlist('metodo')[0]
+			if(request.POST.getlist('metodo')[0]=="nuevo"):
+				usuario = Usuario(
+					nombre=form.cleaned_data['nombre'],
+					telefono=form.cleaned_data['telefono'],
+					email=form.cleaned_data['email'],
+					grupo_asociado=form.cleaned_data['grupo_asociado'],
+					)
+				aviso="Usuario Agregado Satisfactoriamente"
+
+			else:
+				usuario = Usuario.objects.get(pk=int(request.POST.getlist('metodo')[0]))
+
+				usuario.nombre=form.cleaned_data['nombre']
+				usuario.telefono=form.cleaned_data['telefono']
+				usuario.email=form.cleaned_data['email']
+				usuario.grupo_asociado=form.cleaned_data['grupo_asociado']
+				aviso="Usuario Modificado Satisfactoriamente"
+
+				
 			usuario.save()
 		form = Form_usuario()
-
-		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Usuario Agregado Satisfactoriamente"},RequestContext(request, {}),c)
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':aviso,'metodo':'nuevo'},RequestContext(request, {}),c)
 
 	else:
 		form = Form_usuario()
 		print "retornar post"
-		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario"}, RequestContext(request, {}),c)
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario",'metodo':'nuevo'}, RequestContext(request, {}),c)
 
 
 def handle_uploaded_file(f):
@@ -263,12 +278,6 @@ def func_subir_archivo(request):
         context_instance=RequestContext(request)
     )
 
-def eliminar_registros(request):
-	
-	lista_destinatarios=request.POST.getlist('boton_check')
-
-	return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario"}, RequestContext(request, {}),c)
-
 
 def operaciones_globales(request):
 	
@@ -315,3 +324,31 @@ def eliminar_registros(request):
 
 	#return func(request)
 	#return render_to_response("usuarios.html", RequestContext(request, {}))
+
+def editar_usuario(request,id_usuario="1"):
+	
+	c = {}
+	c.update(csrf(request))
+	print "editar_usuario "
+	try:
+
+		u = Usuario.objects.get(pk=int(id_usuario))
+
+
+		form = Form_usuario(initial={'nombre':u.nombre,
+			'grupo_asociado':u.grupo_asociado,
+			'telefono':u.telefono,
+			'email':u.email,
+			})
+
+
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Editar Usuario",'aviso':"Editar Usuario",'metodo':int(id_usuario)},RequestContext(request, {}),c)
+
+	except Exception,e:
+		print e
+		form = Form_usuario()
+		print "retornar post"
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"El usuario que intentas modificar, no existe",'metodo':'nuevo'}, RequestContext(request, {}),c)
+
+
+	return agregar_usuario(request)

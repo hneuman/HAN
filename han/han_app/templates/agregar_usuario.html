@@ -18,9 +18,21 @@
 				{{formulario.grupo_asociado}}
 			<p></p>
 
-			<button for="form_agregar_usuario" type="submit"> Agregar usuario </button>
+			
+
+			<input name="metodo" value="{{metodo}}" type="hidden">
+	
+			{% if metodo == "nuevo" %}
+
+				<button form="form_agregar_usuario" type="submit"> Agregar Usuario </button>
+
+			{% else %}
+				<button form="form_agregar_usuario" type="submit"> Guardar Cambios </button>
+
+			{% endif %}
 		</form>
 	</div>	
+
 
 
 
