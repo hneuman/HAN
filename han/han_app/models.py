@@ -63,3 +63,11 @@ class Buzon_enviados(models.Model):
 	contenido_mensaje =  models.TextField()			
 	def __unicode__(self):
 		return self.contenido_mensaje	
+
+
+class Grupo(models.Model):
+	nombre_grupo = models.CharField(max_length=100)
+	integrantes = models.ManyToManyField(Usuario)
+
+	def __unicode__(self):
+		return self.nombre_grupo	

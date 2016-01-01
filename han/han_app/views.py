@@ -8,6 +8,8 @@ from han.han_app.models import *
 from han.han_app.forms import DocumentForm
 from han.han_app.forms import Form_usuario
 from han.han_app.forms import Form_enviar_mensaje
+from han.han_app.forms import Form_grupo
+
 from django.template.context_processors import csrf
 import csv
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -352,3 +354,45 @@ def editar_usuario(request,id_usuario="1"):
 
 
 	return agregar_usuario(request)
+
+
+
+def grupos(request):
+	c = {}
+	c.update(csrf(request))
+	print "agregar "
+	print "agregar >>> %s"%request
+
+	if request.method == "POST":
+		form = Form_grupo(request.POST)
+		print "procesar"
+		if form.is_valid():
+			print " >>>>>>>>>>>>>>>> %s "%request.POST.getlist('metodo')[0]
+			# para saber si es un grupo nuevo o se va a editar otro
+			if(request.POST.getlist('metodo')[0]=="nuevo"):
+				grupo = Grupo(
+					nombre_grupo=form.cleaned_data['nombre_grupo'],
+					)
+				aviso="Grupo Agregado Satisfactoriamente"
+
+			else:
+				#usuario = Usuario.objects.get(pk=int(request.POST.getlist('metodo')[0]))
+
+				#usuario.nombre=form.cleaned_data['nombre']
+				#usuario.telefono=form.cleaned_data['telefono']
+				#usuario.email=form.cleaned_data['email']
+				#usuario.grupo_asociado=form.cleaned_data['grupo_asociado']
+				aviso="Grupo Modificado Satisfactoriamente"
+				print "nada"
+				
+			grupo.save()
+		form = Form_grupo()
+		return render_to_response("grupos.html",{'formulario':form,'tipo':"Agregar Grupo",'aviso':aviso,'metodo':'nuevo','documento':False},RequestContext(request, {}),c)
+
+	else:
+		form = Form_grupo()
+		grupo = Grupo.objects.all()
+
+		print "retornar post"
+		return render_to_response("grupos.html",{'formulario':form,'tipo':"Agregar Grupo",'aviso':"Agregar nuevo Grupo",'metodo':'nuevo','documento':grupo}, RequestContext(request, {}),c)
+

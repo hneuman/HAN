@@ -24,3 +24,8 @@ class Form_usuario(forms.Form):
     telefono = forms.CharField(max_length=100,widget = forms.TextInput(attrs={'placeholder': 'Telefono'}))
     email = forms.CharField(max_length=100,widget = forms.TextInput(attrs={'placeholder': 'Correo'}))
 
+class Form_grupo(forms.Form):
+    nombre_grupo = forms.CharField(max_length=100, widget = forms.TextInput(attrs={'placeholder': 'Nombre del Grupo'})) 
+    
+
+

@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+{% block agregar_usuarios %}
+
+	
+
+	{% if not documentos %}
+		<div class="enviar_mensaje" >
+			<h1>{{tipo}}</h1>
+			<h3> {{aviso}} </h3>
+			<form id="Form_grupo" method='POST' action='grupos'> {% csrf_token %}
+
+					{{formulario.nombre_grupo}}
+				
+
+				<input name="metodo" value="{{metodo}}" type="hidden">
+		
+				{% if metodo == "nuevo" %}
+
+					<button form="Form_grupo" type="submit"> Agregar Usuario </button>
+
+				{% else %}
+					<button form="Form_grupo" type="submit"> Guardar Cambios </button>
+
+				{% endif %}
+			</form>
+		</div>	
+	
+	{% else %}		
+		<div class="enviar_mensaje" >
+
+			{% for contenido in documento %}
+
+				{{contenido.nombre_grupo}}	
+				<p></p>
+
+			{% endfor %}
+
+		</div>
+
+	{% endif %}
+
+
+
+
+{% endblock %} 
