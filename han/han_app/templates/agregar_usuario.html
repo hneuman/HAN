@@ -20,6 +20,29 @@
 
 			
 
+
+		<aside class="tabla_grupos" id="tabla_grupos">
+			<h2>
+				Grupos a los que puede Pertenecer	
+			</h2>		
+			{% for g in grupos %}
+				<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
+
+					<input type="checkbox"  id={{g.id}} name="boton_check" value='{{g.id}}' >
+					 {{g}} 
+
+				</div>
+
+			{% endfor %}
+
+
+		</aside>
+
+
+
+
+
+
 			<input name="metodo" value="{{metodo}}" type="hidden">
 	
 			{% if metodo == "nuevo" %}
@@ -35,6 +58,17 @@
 
 
 
+<script type="text/javascript">
 
+
+console.log(">>>>> " +"{{grupos_pertenece}}");	
+
+
+for(var i = 0; i <  {{grupos_pertenece}}.length; i++){
+	console.log({{grupos_pertenece}}[i]);
+	document.getElementById({{grupos_pertenece}}[i]).checked=true;
+}
+
+</script>
 
 {% endblock %} 
