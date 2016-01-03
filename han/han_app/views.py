@@ -183,7 +183,7 @@ def agregar_usuario(request):
 	c = {}
 	c.update(csrf(request))
 	print "agregar "
-	print "agregar >>> %s"%request
+
 
 	if request.method == "POST":
 		grupo = Grupo.objects.all()
@@ -203,7 +203,11 @@ def agregar_usuario(request):
 				usuario.save()
 
 				lista_grupos=request.POST.getlist('boton_check')
-
+				print " lista_grupos %s " %lista_grupos
+				for l in lista_grupos:
+					grupo = Grupo.objects.get(pk=int(l))
+					grupo.integrantes.add(usuario)
+					grupo.save()
 
 				aviso="Usuario Agregado Satisfactoriamente"
 
@@ -228,15 +232,17 @@ def agregar_usuario(request):
 			usuario.save()
 
 		form = Form_usuario()
-		grupos = Grupo.objects.all()
-		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':aviso,'metodo':'nuevo','grupos':grupos},RequestContext(request, {}),c)
+		grupos = Grupo.objects.all().order_by('id')
+
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':aviso,'metodo':'nuevo','grupos':grupos,'grupos_pertenece':False},RequestContext(request, {}),c)
 
 	else:
 
 		form = Form_usuario()
 		print "retornar post"
 		grupos = Grupo.objects.all().order_by('id')
-		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario",'metodo':'nuevo','grupos':grupos}, RequestContext(request, {}),c)
+
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario",'metodo':'nuevo','grupos':grupos,'grupos_pertenece':False}, RequestContext(request, {}),c)
 
 
 def handle_uploaded_file(f):
@@ -364,15 +370,19 @@ def editar_usuario(request,id_usuario="1"):
 			})
 
 		grupos_pertenece = Grupo.objects.filter(integrantes=id_usuario).values('id').order_by('id')
-		print " %s "%grupos_pertenece
+		print " GRUPOS A LOS Q PERTENECE >>> %s "%grupos_pertenece
 
 		l=[]
 		for g in grupos_pertenece:
 			l.append(g['id'])
-		grupos_pertenece = l
+		if len(l) >= 1:
+			grupos_pertenece = l
+		else:
+			grupos_pertenece = False
+
 		print " %s "%grupos_pertenece
 		grupos = Grupo.objects.all().order_by('id')
-		print " GUREPOSSS >>>>> %s "%grupos
+		print " GRUPOSSS  PERTENECE ARMANDO LISTA >>>>> %s "%grupos
 		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Editar Usuario",'aviso':"Editar Usuario",'metodo':int(id_usuario),'grupos':grupos,'grupos_pertenece':grupos_pertenece},RequestContext(request, {}),c)
 
 	except Exception,e:
@@ -417,7 +427,9 @@ def grupos(request):
 				
 			grupo.save()
 		form = Form_grupo()
-		return render_to_response("grupos.html",{'formulario':form,'tipo':"Agregar Grupo",'aviso':aviso,'metodo':'nuevo','documento':False},RequestContext(request, {}),c)
+		grupo = Grupo.objects.all().order_by('id')
+
+		return render_to_response("grupos.html",{'formulario':form,'tipo':"Agregar Grupo",'aviso':aviso,'metodo':'nuevo','documento':grupo},RequestContext(request, {}),c)
 
 	else:
 		form = Form_grupo()
@@ -426,3 +438,22 @@ def grupos(request):
 		print "retornar post"
 		return render_to_response("grupos.html",{'formulario':form,'tipo':"Agregar Grupo",'aviso':"Agregar nuevo Grupo",'metodo':'nuevo','documento':grupo}, RequestContext(request, {}),c)
 
+def grupo_usuario(request,id_grupo):
+	personas = Usuario.objects.filter(grupo=id_grupo)
+
+	paginator = Paginator(personas, 25) # Show 25 contacts per page
+
+	pagina_actual = request.GET.get('page')
+
+	try:
+		personas = paginator.page(pagina_actual)
+	except PageNotAnInteger:
+	# If page is not an integer, deliver first page.
+		personas = paginator.page(1)
+	except EmptyPage:
+	# If page is out of range (e.g. 9999), deliver last page of results.
+		personas = paginator.page(paginator.num_pages)
+
+	#return render_to_response('list.html', {"contacts": contacts})
+
+	return render_to_response("usuarios.html",{'documento':personas,'modelo':'usuario',},RequestContext(request, {}))

@@ -7,28 +7,20 @@
 	<div class="enviar_mensaje" >
 		<h1>{{tipo}}</h1>
 		<h3> {{aviso}} </h3>
-		<form id="form_agregar_usuario" method='POST' action='agregar_usuario'> {% csrf_token %}
-
-				{{formulario.nombre}}
-			<p></p>
-				{{formulario.telefono}}
-			<p></p>
-				{{formulario.email}}
-			<p></p>
-				{{formulario.grupo_asociado}}
-			<p></p>
-
-			
+		
 
 
-		<aside class="tabla_grupos" id="tabla_grupos">
-			<h2>
+		<div>
+			<form id="form_agregar_usuario" method='POST' action='agregar_usuario'> {% csrf_token %}
+
+						<aside class="tabla_grupos" id="tabla_grupos">
+			<h2 style=" margin-top: 0%;">
 				Grupos a los que puede Pertenecer	
 			</h2>		
 			{% for g in grupos %}
 				<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
 
-					<input type="checkbox"  id={{g.id}} name="boton_check" value='{{g.id}}' >
+					<input type="checkbox"  id='{{g.id}}' name="boton_check" value='{{g.id}}' >
 					 {{g}} 
 
 				</div>
@@ -38,33 +30,50 @@
 
 		</aside>
 
+					{{formulario.nombre}}
+				<p></p>
+					{{formulario.telefono}}
+				<p></p>
+					{{formulario.email}}
+				<p></p>
+					{{formulario.grupo_asociado}}
+				<p></p>
+
+			
 
 
+				<input name="metodo" value="{{metodo}}" type="hidden">
+		
+				{% if metodo == "nuevo" %}
 
+					<button form="form_agregar_usuario" type="submit"> Agregar Usuario </button>
 
+				{% else %}
+					<button form="form_agregar_usuario" type="submit"> Guardar Cambios </button>
 
-			<input name="metodo" value="{{metodo}}" type="hidden">
-	
-			{% if metodo == "nuevo" %}
+				{% endif %}
+			</form>
+		</div>
+		
 
-				<button form="form_agregar_usuario" type="submit"> Agregar Usuario </button>
-
-			{% else %}
-				<button form="form_agregar_usuario" type="submit"> Guardar Cambios </button>
-
-			{% endif %}
-		</form>
 	</div>	
 
 
 
 <script type="text/javascript">
 
+document.getElementById("boton_eliminar_registros").disabled=true;
+console.log(">>>>");
 
 console.log(">>>>> " +"{{grupos_pertenece}}");	
+if ({{grupos_pertenece}}) {
+var longitud = {{grupos_pertenece}}.length;
+}
+else{
+var longitud = 0;
+}
 
-
-for(var i = 0; i <  {{grupos_pertenece}}.length; i++){
+for(var i = 0; i <  longitud ; i++){
 	console.log({{grupos_pertenece}}[i]);
 	document.getElementById({{grupos_pertenece}}[i]).checked=true;
 }

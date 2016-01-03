@@ -37,7 +37,7 @@ class Usuario(models.Model):
 	grupo_asociado =  models.CharField(max_length=100, default="sin grupo")
 
 	def __unicode__(self):
-		return self.cedula
+		return self.nombre
 
 
 class Buzon_entrada(models.Model):
