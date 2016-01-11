@@ -34,6 +34,8 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^grupo_usuario/(?P<id_grupo>\d*)/?$','grupo_usuario'),
 
 	(r'operaciones_globales/?$','operaciones_globales'),
+	(r'contactanos/?$','contactanos'),
+	(r'informacion/?$','informacion'),
 
 	(r'','usuario'),
 

@@ -6,6 +6,8 @@
         <meta charset="utf-8">
         <title>Han Movil</title>
  
+  	 	<link rel="icon" type="image/gif" href='{% static "img/logo_han.png" %}' />
+
 	<style type="text/css">
 	body{
 		text-align: center;
@@ -155,7 +157,7 @@
 	}
 	
 	section{
-		width: 90%;
+		width: 100%;
 	}
 
 
@@ -181,155 +183,229 @@
 		background-color: rgb(245, 241, 241);
 	}
 	#contenido_principal{
-		width: 100%
-	}
+		width: 90%;
+		min-height: 300px;
+		background-color: rgb(212, 212, 212);	}
 
-.titulo{
-		background-color: rgb(206, 198, 198);
-
-		height: 100%;
-		border-top:1px solid black;	
-		border-bottom:  :1px solid black;	
-}
-
-#div_agregar_usuario{
-	background-color: rgb(206, 198, 198);
-
-	height: 100%;
-	border-top:1px solid black;	
-	border-bottom:  :1px solid black;	
-	width: 100%;
-	text-align: center;
-}
-
-.div_tabla_contenido_mensaje{
+	.titulo{
 			background-color: rgb(206, 198, 198);
-		width: 50%;
-		height: 100%;
-		border-top:1px solid black;	
-		border-bottom:  :1px solid black;	
-		display: table-cell;
-}
-.div_tabla_grupo_asociado{		
-	background-color: rgb(212, 212, 212);
-		width: 20%;
-		height: 100%;
-		border-top:1px solid black;	
-		border-bottom:  :1px solid black;	
-		display: table-cell;
-		table-layout:fixed;
-	}
-.div_tabla_tlf{
-		background-color: rgb(212, 212, 212);
-		width: 20%;
-		height: 100%;
-		border-top:1px solid black;	
-		border-bottom:  :1px solid black;	
-		display: table-cell;
-		table-layout:fixed;
-}
 
-.div_buz_nombre{		
+			height: 100%;
+			border-top:1px solid black;	
+			border-bottom:  :1px solid black;	
+	}
+
+	#div_agregar_usuario{
 		background-color: rgb(206, 198, 198);
-		width: 20%;
+
 		height: 100%;
 		border-top:1px solid black;	
 		border-bottom:  :1px solid black;	
-		display: table-cell;
-		table-layout:fixed;}
-
-.enviar_mensaje{
-	width: 100%;
-	min-height: 300px;
-	background-color: rgb(212, 212, 212);
-}		
-#form_agregar_usuario{
-	text-align:left;
-	margin-left: 10%;
-    width: 85%;
-}
-
-#img_agregar_usuario{
-	float: left;
-	position:relative;
-	width: 10%;
+		width: 100%;
+		text-align: center;
 	}
 
-#boton_form_enviar_mensaje{
-	
-}
+	.div_tabla_contenido_mensaje{
+				background-color: rgb(206, 198, 198);
+			width: 50%;
+			height: 100%;
+			border-top:1px solid black;	
+			border-bottom:  :1px solid black;	
+			display: table-cell;
+	}
+	.div_tabla_grupo_asociado{		
+		background-color: rgb(212, 212, 212);
+			width: 20%;
+			height: 100%;
+			border-top:1px solid black;	
+			border-bottom:  :1px solid black;	
+			display: table-cell;
+			table-layout:fixed;
+		}
+	.div_tabla_tlf{
+			background-color: rgb(212, 212, 212);
+			width: 20%;
+			height: 100%;
+			border-top:1px solid black;	
+			border-bottom:  :1px solid black;	
+			display: table-cell;
+			table-layout:fixed;
+	}
 
-.equis_del_contacto {
-    display: inline-block;
-    width: 14px;
-    height: 20px;
-    background: url("//ssl.gstatic.com/apps/gadgets/contactarea/contactarea_sprite_2.gif") no-repeat scroll -4px 0px transparent;
+	.div_buz_nombre{		
+			background-color: rgb(206, 198, 198);
+			width: 20%;
+			height: 100%;
+			border-top:1px solid black;	
+			border-bottom:  :1px solid black;	
+			display: table-cell;
+			table-layout:fixed;}
 
-    background: url("{% static 'img/icono/equis.png' %}") no-repeat transparent;
+	.enviar_mensaje{
+		width: 100%;
+		min-height: 300px;
+		background-color: rgb(212, 212, 212);
+	}		
+	#form_agregar_usuario{
+		text-align:left;
+		margin-left: 10%;
+	    width: 85%;
+	}
 
-    opacity: 0.65;
-    vertical-align: top;
-    cursor: pointer;
-    margin-right: 5px;
+	#img_agregar_usuario{
+		float: left;
+		position:relative;
+		width: 10%;
+		}
 
-}
+	#boton_form_enviar_mensaje{
+		
+	}
 
-.equis_del_contacto:hover{
-	opacity: 1;
+	.equis_del_contacto {
+	    display: inline-block;
+	    width: 14px;
+	    height: 20px;
+	    background: url("//ssl.gstatic.com/apps/gadgets/contactarea/contactarea_sprite_2.gif") no-repeat scroll -4px 0px transparent;
 
-}
-.informacion_usuario {
-    max-height: 17px;
-    cursor: move;
-    display: inline-block;
-    color: #222;
-    margin: 2px 5px;
-    max-width: 325px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    direction: ltr;
-}
+	    background: url("{% static 'img/icono/equis.png' %}") no-repeat transparent;
 
-.casilla_informacion_usuario {
-    background-color: #F5F5F5;
-    border: 1px solid #D9D9D9;
-    cursor: default;
-    display: block;
-    height: 20px;
-    white-space: nowrap;
-    border-radius: 3px;
-}
+	    opacity: 0.65;
+	    vertical-align: top;
+	    cursor: pointer;
+	    margin-right: 5px;
 
-.casilla_informacion_usuario_mayor {
-    font-size: 13px;
-    display: inline-block;
-    padding: 3px;
-    vertical-align: top;
-}
+	}
 
-aside.tabla_grupos{
-	float: right;
-	position: relative;
-	background-color: rgba(212, 212, 212, 0.91);
-	margin-right: 5%;
-    max-width: 35%;
-    margin-top: 0%;
-    border-bottom-left-radius: 5%;
-    border-bottom-right-radius: 5%;
-    padding: 1%;
-    box-shadow: 0px 2px 25px rgba(14, 13, 13, 0.69);
-    text-align: left;
-    width: 35%;
-}
+	.equis_del_contacto:hover{
+		opacity: 1;
 
-#mostrar_grupos{
-	text-align:left;
-	margin-left: 10%;
-    padding: 5%;
-}
-	</style>
+	}
+	.informacion_usuario {
+	    max-height: 17px;
+	    cursor: move;
+	    display: inline-block;
+	    color: #222;
+	    margin: 2px 5px;
+	    max-width: 325px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    direction: ltr;
+	}
 
-	<script type="text/javascript">
+	.casilla_informacion_usuario {
+	    background-color: #F5F5F5;
+	    border: 1px solid #D9D9D9;
+	    cursor: default;
+	    display: block;
+	    height: 20px;
+	    white-space: nowrap;
+	    border-radius: 3px;
+	}
+
+	.casilla_informacion_usuario_mayor {
+	    font-size: 13px;
+	    display: inline-block;
+	    padding: 3px;
+	    vertical-align: top;
+	}
+
+	aside.tabla_grupos{
+		float: right;
+		position: relative;
+		background-color: rgba(212, 212, 212, 0.91);
+		margin-right: 5%;
+	    max-width: 35%;
+	    margin-top: 0%;
+	    border-bottom-left-radius: 5%;
+	    border-bottom-right-radius: 5%;
+	    padding: 1%;
+	    box-shadow: 0px 2px 25px rgba(14, 13, 13, 0.69);
+	    text-align: left;
+	    width: 35%;
+	}
+
+	#mostrar_grupos{
+		text-align:left;
+		margin-left: 10%;
+	    padding: 5%;
+	}
+
+
+
+	nav{
+	    /*Bordes redondeados*/
+	    /*-webkit-border-radius:10px;/*Para chrome y Safari*/
+	    /*-moz-border-radius:10px;/*Para Firefox*/
+	    /*-o-border-radius:10px;/*Para Opera*/
+	    /*border-radius:10px;/*El estandar por defecto*/
+	    background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CEC6C6));/*Para chrome y Safari*/
+	    /*Degradados*/
+
+	    background-image: -moz-linear-gradient(top center, #FFFFFF, #CEC6C6);/*Para Firefox*/
+	    background-image: -o-linear-gradient(top, #FFFFFF, #CEC6C6);/*Para Opera*/
+	    background-image: linear-gradient(top, #FFFFFF, #CEC6C6);/*El estandar por defecto*/
+	    overflow:hidden;
+	    width:90%;
+	}
+
+	nav ul{
+	    list-style:none;
+	    margin:0 10px 0 10px;
+	    padding:0;
+	}
+
+	nav ul li{
+	    /*Bordes redondeados*/
+	    -webkit-border-radius:5px;/*Chrome y Safari*/
+	    -moz-border-radius:5px;/*Firefox*/
+	    -o-border-radius:5px;/*Opera*/
+	    border-radius:5px;/*Estandar por defecto*/
+	    float:right;
+	    font-family:Arial, Helvetica, sans-serif;
+	    font-size:16px;
+	    font-weight:bold;
+	    margin-right:10px;
+	    text-align:center;
+	    /*Sombras para texto, los mismos parametros que box-shadow*/
+	    text-shadow: 0px 1px 0px #FFF;
+	}
+
+
+	nav ul li:hover{
+	    /*Degradado de fondo*/
+	    background-image: -webkit-gradient(linear, left top, left bottom, from(#FFF), to( #E3E3E3));/*Chrome y Safari*/
+	    background-image: -moz-linear-gradient(top center, #FFF, #E3E3E3);/*Firefox*/
+	    background-image: -o-linear-gradient(top, #FFF, #E3E3E3);/*Opera*/
+	    background-image: linear-gradient(top, #FFF, #E3E3E3);/*Estandar por defecto*/
+	    /*Sombras*/
+	    -webkit-box-shadow:  1px -1px 0px #999;/*Chrome y Safari*/
+	    -moz-box-shadow:  1px -1px 0px #999;/*Firefox*/
+	    -o-box-shadow:  1px -1px 0px #999;/*Opera*/
+	    box-shadow:  1px -1px 0px #999;/*Estandar por defecto*/
+	    border:1px solid #E3E3E3;
+	}
+
+
+
+	nav ul li a {
+	  color: #000;
+	  display: block;
+	  padding: 10px;
+	  text-decoration: none;
+	  -webkit-transition: 0.4s ease-in all;
+	  -moz-transition: 0.4s linear all;
+	  -o-transition: 0.4s linear all;
+	  transition: 0.4s linear all;
+	}
+
+	nav ul li a:hover {
+	    color:#000;
+	}
+
+</style>
+
+<script type="text/javascript">
 	var lista = "1"
 		function marcarSeleccionado(id_seleccionado){
 
@@ -469,6 +545,18 @@ aside.tabla_grupos{
 		</div>	
 
 
+		<nav>
+		<ul>
+		    <li><a title="Contactanos" href='{% url 'han.han_app.views.contactanos' %}'>Contactanos</a></li>
+		    <li><a title="Quienes Somos" href='{% url 'han.han_app.views.informacion' %}'>Quienes Somos</a></li>
+		   	<li><a title="Mensajeria" href="/"> Mensajeria</a></li>
+		    <li><a title="Inicio" href="/">Inicio</a></li>
+		    <!-- 
+		    <li><a title="Opcion 4" href="#">Opción 4</a></li>
+		    <li><a title="Opcion 5" href="#">Opción 5</a></li>
+		    -->
+		</ul>
+		</nav>
 
 	</header>
 

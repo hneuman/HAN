@@ -457,3 +457,17 @@ def grupo_usuario(request,id_grupo):
 	#return render_to_response('list.html', {"contacts": contacts})
 
 	return render_to_response("usuarios.html",{'documento':personas,'modelo':'usuario',},RequestContext(request, {}))
+
+
+def contactanos(request):
+	if request.method == "POST":
+		print request.POST
+		aviso="Se ha recibido su peticion"
+		return render_to_response("contactanos.html",{"aviso":aviso},RequestContext(request, {}))
+	else:
+		return render_to_response("contactanos.html",RequestContext(request, {}))
+
+
+def informacion(request):
+	return render_to_response("informacion.html",RequestContext(request, {}))
+

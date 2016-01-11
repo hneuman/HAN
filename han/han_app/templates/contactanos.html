@@ -1,0 +1,173 @@
+{% extends 'main.html' %}
+{% block agregar_usuarios %}
+
+
+	<h1>
+		Formulario para contactarnos
+	</h1>
+
+<div style="text-align: center; padding:10%; "> 
+
+<!--
+	<form id="contact_form" action="#" method="POST" enctype="multipart/form-data">
+		<div >
+			<input id="name" class="input" name="name" type="text" value="" size="35" placeholder="Tu nombre"/><br />
+		</div>
+		<div>
+			<input id="email" class="input" name="email" type="text" value="" size="35" placeholder="Tu email" /><br />
+		</div>
+
+		<div >
+			<input id="email" class="input" name="email" type="text" value="" size="35" placeholder="Nro de Contacto"></textarea><br />
+		</div>
+
+		<div >
+			<textarea id="message" class="input" name="message" rows="7" cols="35" placeholder="Tu mensaje"></textarea><br />
+		</div>
+
+
+		<input id="submit_button" type="submit" value="Enviar email" />
+	</form>		
+-->
+
+
+{{aviso}}
+<table width="945" align="center" border="0" cellpadding="0" cellspacing="0">
+    <tbody><tr>
+        <td width="500" align="center">       
+           	<div id="contact-wrapper">
+                <form id="contactform" name="contactform" method="post" action="contactanos">{% csrf_token %}
+                <table width="500" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td colspan="4" align="left" valign="middle">
+                        	<img src="/img/images/contactanos_correo.png" alt="Información de Contacto - MassivaMovil.com.ve" width="24" height="24">&nbsp;&nbsp;<span class="titulo_info">Envíanos un Mensaje y recibe nuestra Propuesta</span>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="4"><div id="error" class="error" style="color: rgb(0, 153, 255); display: none;"><p id="label_error" style="display: none;"></p><br class="clear"></div></td>
+                    </tr>
+                    
+                    <tr>
+                        <td height="5" colspan="4">&nbsp;</td>
+                    </tr>
+      
+                    <tr>
+                        <td width="143" height="40" align="left"><label><font color="#FF0000">*</font>&nbsp;<span class="texto_info">Nombre:</span></label></td>
+                        <td width="4">&nbsp;</td>
+                        <td align="left" colspan="2">
+                            <input id="nombre" name="nombre" minlength="3" maxlength="50" tabindex="1001" autocomplete="off" title="" type="text">                        </td>
+                    </tr>
+                    
+                    <tr>
+        
+                        <td align="left"><label><font color="#FF0000">*</font>&nbsp;<span class="texto_info">País:</span></label></td>
+                        <td>&nbsp;</td>   
+                        <td width="193" align="left" colspan="2">
+                            <div id="pais_div">
+                            <select id="pais" name="pais" tabindex="1002" class="valid"><option value="ARG">Argentina</option><option value="ABW">Aruba</option><option value="AUS">Australia</option><option value="BOL">Bolivia</option><option value="BRA">Brasil</option><option value="BGR">Bulgaria</option><option value="CAN">Canada</option><option value="CHL">Chile</option><option value="COL">Colombia</option><option value="CRI">Costa Rica</option><option value="CUB">Cuba</option><option value="ANT">Curazao</option><option value="ECU">Ecuador</option><option value="SLV">El Salvador</option><option value="ESP">España</option><option value="USA">Estados Unidos</option><option value="FRA">Francia</option><option value="GTM">Guatemala</option><option value="HND">Honduras</option><option value="ENG">Inglaterra</option><option value="IRL">Irlanda</option><option value="ITA">Italia</option><option value="MEX">Mexico</option><option value="NIC">Nicaragua</option><option value="PAN">Panama</option><option value="PRY">Paraguay</option><option value="PER">Peru</option><option value="PRT">Portugal</option><option value="PRI">Puerto Rico</option><option value="DOM">Republica Dominicana</option><option value="TTO">Trinidad y Tobago</option><option value="URY">Uruguay</option><option selected="true" value="VEN">Venezuela</option></select>                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+        
+                        <td align="left"><label><font color="#FF0000">*</font>&nbsp;<span class="texto_info">Celular:</span></label></td>
+                        <td>&nbsp;</td>    
+                        <td width="50" align="left">
+                            <div id="cod_celular">
+                                <select id="cod_pais" name="cod_pais" tabindex="1003" title="" class="valid">
+
+	                                <option selected="true" value="Default">Selec...</option>
+	                                <option selected="true" value="58412">58412</option>
+	                                <option selected="true" value="58414">58414</option>
+	                                <option selected="true" value="58424">58424</option
+	                                ><option selected="true" value="58416">58416</option>
+	                                <option selected="true" value="58426">58426</option>
+	                                </select>                         
+	                        </div>
+                        </td>
+                        
+                        <td align="left">
+                            <div id="div_telefono">
+                                                                <input id="telefono" name="telefono" title="" minlength="7" maxlength="7" tabindex="1004" type="text">                            </div>
+                        </td>
+                    </tr>   
+        
+                                        
+                    
+                    <tr>
+                        <td align="left" height="40"><label><font color="#FF0000">*</font>&nbsp;<span class="texto_info">E-mail :</span></label></td>
+                        <td>&nbsp;</td>    
+                        <td align="left" colspan="2">
+                            <input id="correo" name="correo" minlength="5" maxlength="60" tabindex="1005" autocomplete="off" title="" type="text">                        </td>
+                    </tr>
+
+        			
+                    <tr>
+                        <td align="left" height="40"><label><font color="#FF0000">*</font>&nbsp;<span class="texto_info">Asunto:</span></label></td>
+                        <td>&nbsp;</td>   
+                        <td align="left" colspan="2">
+                            <select id="asunto" name="asunto" tabindex="1007">
+                                <option value="" selected="selected">Seleccione una Opción</option>
+                                <option value="1">Información de Soluciones SMS</option>
+                                <option value="2">Contacto</option>
+                                <option value="3">Registro de Pagos</option>
+                                <option value="4">Soporte Técnico</option>
+                                <option value="5">Sugerencia</option>
+                                <option value="6">Comentario</option>
+                                <option value="7">Ayuda</option>
+                                <option value="8">Otro</option>
+                            </select>
+                                
+                        </td>
+                    </tr>
+                  
+                    <tr>
+                        <td align="left" height="40"><label><font color="#FF0000">*</font>&nbsp;<span class="texto_info">Mensaje:</span></label></td>
+                        <td>&nbsp;</td>   
+                        <td align="left" colspan="2">
+                            <textarea name="mensaje" id="mensaje" cols="29" rows="6" tabindex="1008"></textarea>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td height="5" colspan="4">&nbsp;</td>
+                    </tr>
+                    
+                    <tr>
+                        <td align="center" colspan="4">
+                            <font color="#FF0000">(*)</font> <span class="texto_info">Campos Obligatorios</span>
+                       </td>
+                    </tr>
+                    
+                    <tr>
+                        <td height="5" colspan="4">&nbsp;</td>
+                    </tr>
+                     
+                    <tr> 
+                        <td align="center" colspan="4"><input id="env_form" name="env_form" class="register" tabindex="1009" value="Enviar" type="submit"></td>
+                    </tr>
+        
+                </tbody></table>
+                </form> 
+            </div>
+			
+			            <div id="loading" style="display: none;"><img src="/img/spin.gif"><span class="texto_info">Enviando el Mensaje, por favor espere un momento...</span></div>
+            <div id="result" style="display: none;"></div>
+ 
+            <span class="texto_info">
+                <p align="justify">&nbsp;</p>
+            </span>
+            
+        </td>
+       
+    </tr>
+</tbody></table>
+
+
+
+</div>
+
+
+{% endblock %} 
