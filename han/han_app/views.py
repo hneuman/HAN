@@ -16,6 +16,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.context_processors import csrf
 from django.template import RequestContext
 
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 from django.apps import apps
 
 def usuario(request):
@@ -471,3 +476,51 @@ def contactanos(request):
 def informacion(request):
 	return render_to_response("informacion.html",RequestContext(request, {}))
 
+def ingreso(request):
+	#if request.method == "POST":
+		#return render_to_response("informacion.html",RequestContext(request, {}))
+
+	if request.method == 'POST':
+		print "intenta hcer login"
+		formulario = AuthenticationForm(request.POST)
+		print formulario
+		if formulario.is_valid:
+			usuario = request.POST['username']
+			clave = request.POST['password']
+			acceso = authenticate(username=usuario, password=clave)
+			print clave
+			print acceso
+			print usuario
+			if acceso is not None:
+				if acceso.is_active:
+					login(request, acceso)
+					print " * * * * * * * * ESTA LOGEADO * * ** * * * "
+					return render_to_response("login.html",{'mensaje':"Se ha autentificado Satisfactoriamente"},RequestContext(request, {}))
+
+				else:
+					print "  -- - - - - - - -  - - - - -no esta activo"
+					return render_to_response("login.html", {'mensaje':"Este usuario no esta activo"},RequestContext(request, {}))
+			else:
+				print " / * /* /* /*/ ** * * */ */ no existe "
+				return render_to_response("login.html",{'mensaje':"Este usuario no exite"}, RequestContext(request, {}))
+	else:
+		print "no hcaer nada, solo mostrar form"	
+		return render_to_response("login.html",RequestContext(request, {}))
+
+
+def crear_usuario(request):
+	if request.method == 'POST':
+		print "intenta hcer login"
+		print request.POST
+		print request.POST['username']
+		print request.POST['password']
+		print request.POST['correo']
+		print request.POST['telefono']
+
+		crear_usuario=User.objects.create_user(username=request.POST['username'],
+			password=request.POST['password'],
+			email=request.POST['correo'],) 
+
+		crear_usuario.save()
+
+	return render_to_response("login.html",{'mensaje':"Usuario Creado Satisfactoriamente"},RequestContext(request, {}))

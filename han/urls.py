@@ -36,6 +36,8 @@ urlpatterns = patterns('han.han_app.views',
 	(r'operaciones_globales/?$','operaciones_globales'),
 	(r'contactanos/?$','contactanos'),
 	(r'informacion/?$','informacion'),
+	(r'ingreso/?$','ingreso'),
+	(r'crear_usuario/?$','crear_usuario'),
 
 	(r'','usuario'),
 

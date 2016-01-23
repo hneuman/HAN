@@ -1,0 +1,80 @@
+{% load static %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Flat Login Form 3.0</title>
+    
+    
+    <link rel="stylesheet" href='{% static "login/css/reset.css" %}'>
+<!--
+    <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
+ <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+-->
+        <!-- <link rel="stylesheet" href="css/style.css"> -->
+        <link rel="stylesheet" href='{% static "login/css/style.css" %}'>
+
+    
+    
+  </head>
+
+  <body>
+
+    
+<!-- Form Mixin-->
+<!-- Input Mixin-->
+<!-- Button Mixin-->
+<!-- Pen Title-->
+<div class="HAN Movil Login">
+  
+
+<!-- Form Module-->
+<div class="module form-module">
+  <div class="toggle"><i class="fa fa-times fa-pencil"></i>
+    <div class="tooltip">Click Me</div>
+  </div>
+
+
+  <div class="form">
+    <h3 style=" padding: 10px; text-align: center;"> {{ mensaje }}</h3> 
+
+    <aside> <img src="{% static "img/logo_han.png" %}" style="width:30%;float:left padding-bottom: 3%; padding-right: 5%;"> </aside>
+    <div> <h2>Iniciar Sesion</h2> </div>
+
+    <form id="form_login" action="login" method="POST"> {% csrf_token %}
+      <input name="username" type="text" placeholder="Nombre de Usuario"/>
+      <input name="password" type="password" placeholder="Contraseña"/>
+
+        <button type="submit" name="login" 
+          form="form_login" id="boton_login"> Ingresar 
+        </button>
+
+    </form>
+
+  </div>
+  <div class="form">
+    <h2>Crear Usuario</h2>
+    <form id="form_crear_usuario" action="crear_usuario" method="POST"> {% csrf_token %}
+      <input type="text" placeholder="Username" name="username"/>
+      <input type="password" placeholder="Password" name="password"/>
+      <input type="email" placeholder="Email Address" name="correo"/>
+      <input type="tel" placeholder="Phone Number" name="telefono" />
+      <button type="submit" name="login" 
+          form="form_crear_usuario" id="boton_crear_usuario"> Crear Usuario 
+        </button>    </form>
+  </div>
+  <div class="cta"><a href="/">Olvido contraseña?</a></div>
+</div>
+    <script src='{% static "js/jquery-1.11.2.min.js" %}'></script>
+<!-- <script src='http://codepen.io/andytran/pen/vLmRVp.js'></script> -->
+
+       <!--  <script src="js/index.js"></script>-->
+        <script src='{% static "login/js/index.js" %}'></script>
+
+    
+    
+    
+  </body>
+</html>
