@@ -16,6 +16,7 @@ import os
 import dj_database_url
 
 DATABASE_URL = "postgres://jmvpnlqmvcutqs:73L581r4N4-aip6FQPK-q3kYna@ec2-54-225-197-30.compute-1.amazonaws.com:5432/d4n5h8nb8a1rip"
+DATABASE_URL = "postgres://dsbffrjqpspmvw:JXIgtFYX-Opg0oV4tAjpydm7ZD@ec2-54-204-26-8.compute-1.amazonaws.com:5432/d618uru40mf7b2"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -86,13 +87,16 @@ WSGI_APPLICATION = 'han.wsgi.application'
 
 
 #amazon
-DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',  'NAME': 'd4n5h8nb8a1rip',        'USER' : 'jmvpnlqmvcutqs',        'PASSWORD' : '73L581r4N4-aip6FQPK-q3kYna',        'HOST' : 'ec2-54-225-197-30.compute-1.amazonaws.com',        'PORT' : '5432',    }}
+#DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',  'NAME': 'd4n5h8nb8a1rip',        'USER' : 'jmvpnlqmvcutqs',        'PASSWORD' : '73L581r4N4-aip6FQPK-q3kYna',        'HOST' : 'ec2-54-225-197-30.compute-1.amazonaws.com',        'PORT' : '5432',    }}
+DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'd618uru40mf7b2',        'USER' : 'dsbffrjqpspmvw',        'PASSWORD' : 'JXIgtFYX-Opg0oV4tAjpydm7ZD',        'HOST' : 'ec2-54-204-26-8.compute-1.amazonaws.com',        'PORT' : '5432',    }}
 
 #Casa
 #DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5432',    }}
 
 
 #DATABASES['default'] =  dj_database_url.config("postgres://jmvpnlqmvcutqs:73L581r4N4-aip6FQPK-q3kYna@ec2-54-225-197-30.compute-1.amazonaws.com:5432/d4n5h8nb8a1rip")
+#DATABASES={}
+#DATABASES['default'] =  dj_database_url.config("postgres://dsbffrjqpspmvw:JXIgtFYX-Opg0oV4tAjpydm7ZD@ec2-54-204-26-8.compute-1.amazonaws.com:5432/d618uru40mf7b2")
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
