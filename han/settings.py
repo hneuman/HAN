@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-import dj_database_url
+#import dj_database_url
 
 DATABASE_URL = "postgres://jmvpnlqmvcutqs:73L581r4N4-aip6FQPK-q3kYna@ec2-54-225-197-30.compute-1.amazonaws.com:5432/d4n5h8nb8a1rip"
 DATABASE_URL = "postgres://dsbffrjqpspmvw:JXIgtFYX-Opg0oV4tAjpydm7ZD@ec2-54-204-26-8.compute-1.amazonaws.com:5432/d618uru40mf7b2"
