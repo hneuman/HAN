@@ -16,11 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import patterns, include, url
 from han.han_app import *
-
+#de la api rest
+from rest_framework import routers
+from han.han_app import views
 #urlpatterns = [
 #    url(r'^admin/', include(admin.site.urls)),
 #]
+
+router = routers.DefaultRouter()
+router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet)
+router.register(r'api_enviar', views.api_enviarSerializer)
+
+
+
 urlpatterns = patterns('han.han_app.views',
+	(r'^api/', include(router.urls)),
+
 	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),
 	(r'^buzon_entrada/?$','buzon_entrada'),
@@ -40,8 +51,15 @@ urlpatterns = patterns('han.han_app.views',
 	(r'crear_usuario/?$','crear_usuario'),
 
 	(r'','usuario'),
-
-
+    (r'api/?$', 'Buzon_pendientesSerializerViewSet'),
 
 
 )
+"""
+urlpatterns = [
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+]
+"""

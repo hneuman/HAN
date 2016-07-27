@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'han.han_app',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,6 +75,14 @@ TEMPLATES = [
     },
 ]
 
+#Usado para REST
+REST_FRAMEWORK = {
+    #'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser','rest_framework.permissions.IsAuthenticated','rest_framework.permissions.AllowAny',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+    'PAGE_SIZE': 10
+}
+
+
 WSGI_APPLICATION = 'han.wsgi.application'
 
 
@@ -83,7 +92,7 @@ WSGI_APPLICATION = 'han.wsgi.application'
 
 #local
 #DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5444',    }}
-
+#
 
 
 #amazon

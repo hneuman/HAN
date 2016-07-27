@@ -21,7 +21,45 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+
+
 from django.apps import apps
+from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
+from han.han_app.serializers import *
+
+#@api_view(['GET', 'POST'])
+class Buzon_pendientesSerializerViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+
+    queryset = Buzon_pendientes.objects.all()
+    serializer_class = Buzon_pendientesSerializer
+    
+#    if request.method == 'POST':
+#    	print "oohhhh POST"
+
+
+
+class api_enviarSerializer(viewsets.ModelViewSet):
+#    if request.method == 'GET':
+#	    queryset = Buzon_pendientes.objects.all()
+#	    serializer_class = Buzon_pendientesSerializer
+    
+#    if request.method == 'POST':
+	#serializer = Buzon_pendientesSerializer(data=request.data)
+	queryset = Buzon_pendientes.objects.all()
+	print queryset
+	serializer_class = api_enviarSerializer
+
 
 def usuario(request):
 	personas = Usuario.objects.all()
