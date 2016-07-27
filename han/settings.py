@@ -140,11 +140,11 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(BASE_DIR, "/han_app/static"),
+    os.path.join(BASE_DIR, "/han/han_app/static"),
 )
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, '/han/han_app/static/')
+STATIC_ROOT = os.path.join('/static/')
 print " >>>>>>>> %s <<<<< " %(BASE_DIR)
 print ">>>>>>>",STATICFILES_DIRS
 print ">>>>>>>>>>   ",BASE_DIR
