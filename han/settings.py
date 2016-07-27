@@ -151,6 +151,20 @@ print " STATICFILES_DIRS >>>>>>>",STATICFILES_DIRS
 print " BASE_DIR >>>>>>>>>>   ",BASE_DIR
 print " STATIC_ROOT >>>>>>>>>>   ",STATIC_ROOT
 
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_DIR = os.path.join(PROJECT_ROOT)
+STATIC_ROOT= os.path.join(PROJECT_DIR,'staticfiles/')
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT,'han_app/static/'),
+)
+
+
+
+print " ****  PROJECT_ROOT %s **** " %(PROJECT_ROOT)
+print " ****PROJECT_DIR **** ",PROJECT_DIR
+
+print " ****STATICFILES_DIRS **** ",STATICFILES_DIRS
+print " ****STATIC_ROOT ****   ",STATIC_ROOT
 
 
 #STATIC_ROOT = '/home/project_name/your_app/static/'    
