@@ -44,9 +44,6 @@ class Buzon_pendientesSerializerViewSet(viewsets.ModelViewSet):
     queryset = Buzon_pendientes.objects.all()
     serializer_class = Buzon_pendientesSerializer
     
-#    if request.method == 'POST':
-#    	print "oohhhh POST"
-
 
 
 class api_enviarSerializer(viewsets.ModelViewSet):
@@ -61,6 +58,72 @@ class api_enviarSerializer(viewsets.ModelViewSet):
 	serializer_class = api_enviarSerializer
 
 
+class Buzon_enviadosSerializerViewSet(viewsets.ModelViewSet):
+
+	queryset = Buzon_enviados.objects.all()
+	print queryset
+	serializer_class = Buzon_enviadosSerializer
+
+	
+
+@api_view(['GET', 'POST'])
+def mensajes_list(request,id=None):
+    """
+    List all snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+    	if id:
+    		#snippets =  buzon_pendientes.objects.get(pk=int(id))
+    		snippets = Buzon_pendientes.objects.filter(pk=int(id))
+    	else:
+    		snippets = Buzon_pendientes.objects.all()
+        serializer = Buzon_pendientesSerializer(snippets, many=True)
+        print serializer.data
+        return Response(serializer.data)
+
+@api_view(['GET', 'POST'])
+def api_enviar_mensaje(request,id=None):
+	"""
+	List all snippets, or create a new snippet.
+	"""
+	snippets = Buzon_pendientes.objects.all()
+	serializer = Buzon_pendientesSerializer(snippets, many=True)
+
+	if request.method == 'GET':
+		#snippets =  buzon_pendientes.objects.get(pk=int(id))
+		try:
+			buzon = Buzon_pendientes.objects.all()[:1].get()
+			print buzon
+
+			d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
+				numero_telefono=buzon.numero_telefono, 
+				contenido_mensaje=buzon.contenido_mensaje, 
+				)
+			d.save()
+			buzon.delete()
+
+
+
+
+			return Response(serializer.data,status=status.HTTP_200_OK)
+
+		except:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+
+	else:
+		pass
+
+	return Response(status=status.HTTP_304_NOT_MODIFIED)
+
+"""
+    elif request.method == 'POST':
+        serializer = SnippetSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+"""
 def usuario(request):
 	personas = Usuario.objects.all()
 
@@ -79,7 +142,9 @@ def usuario(request):
 
 	#return render_to_response('list.html', {"contacts": contacts})
 
+
 	return render_to_response("usuarios.html",{'documento':personas,'modelo':'usuario',},RequestContext(request, {}))
+
 
 def buzon_entrada(request):
 	personas = Buzon_entrada.objects.all()
