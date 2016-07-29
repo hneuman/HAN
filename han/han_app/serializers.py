@@ -15,9 +15,10 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'name')
 
 class Buzon_pendientesSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Buzon_pendientes
-        fields = ('nombre_persona','numero_telefono', 'contenido_mensaje','grupo_asociado')
+	id = serializers.ReadOnlyField()
+	class Meta:
+		model = Buzon_pendientes
+		fields = ('nombre_persona','numero_telefono', 'contenido_mensaje','grupo_asociado','id')
 
 
 class api_enviarSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,7 +27,8 @@ class api_enviarSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('numero_telefono',)
 
 class Buzon_enviadosSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Buzon_enviados
-        fields = ('nombre_persona','numero_telefono', 'contenido_mensaje','grupo_asociado')
+	id = serializers.ReadOnlyField()
+	class Meta:
+		model = Buzon_enviados
+		fields = ('nombre_persona','numero_telefono', 'contenido_mensaje','grupo_asociado','id')
 

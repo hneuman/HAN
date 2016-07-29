@@ -33,7 +33,9 @@ router.register(r'enviados', views.Buzon_enviadosSerializerViewSet,'enviados')
 urlpatterns = patterns('han.han_app.views',
 	(r'^api/', include(router.urls)),
 	(r'^mensajes_list/(?P<id>[0-9]*)?$','mensajes_list'),
-	(r'^api_enviar_mensaje/','api_enviar_mensaje'),
+	(r'^api_enviar_mensaje/?','api_enviar_mensaje'),
+	(r'^actualizar_enviar_mensaje/(?P<id>[0-9]*)?/?$','actualizar_enviar_mensaje'),
+
 	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),
 	(r'^buzon_entrada/?$','buzon_entrada'),

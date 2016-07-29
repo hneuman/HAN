@@ -37,13 +37,10 @@ from han.han_app.serializers import *
 
 #@api_view(['GET', 'POST'])
 class Buzon_pendientesSerializerViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
+	queryset = Buzon_pendientes.objects.all()
+	print queryset
+	serializer_class = Buzon_pendientesSerializer
 
-    queryset = Buzon_pendientes.objects.all()
-    serializer_class = Buzon_pendientesSerializer
-    
 
 
 class api_enviarSerializer(viewsets.ModelViewSet):
@@ -82,18 +79,39 @@ def mensajes_list(request,id=None):
         return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
-def api_enviar_mensaje(request,id=None):
+def api_enviar_mensaje(request):
 	"""
 	List all snippets, or create a new snippet.
 	"""
-	snippets = Buzon_pendientes.objects.all()
+	try:
+		if request.method == 'GET':
+			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			snippets = Buzon_pendientes.objects.all()[:1]
+
+			serializer = Buzon_pendientesSerializer(snippets, many=True)
+			print serializer.data
+			return Response(serializer.data)
+	except Exception,e:
+		print e
+		buzon = Buzon_pendientes.objects.all()
+		serializer = Buzon_pendientesSerializer(buzon, many=True)
+		return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+
+
+@api_view(['GET', 'POST'])
+def actualizar_enviar_mensaje(request,id=None):
+	"""
+	List all snippets, or create a new snippet.
+	"""
+	snippets = Buzon_pendientes.objects.all().filter(pk=int(id))[:1]
 	serializer = Buzon_pendientesSerializer(snippets, many=True)
 
 	if request.method == 'GET':
 		#snippets =  buzon_pendientes.objects.get(pk=int(id))
 		try:
-			buzon = Buzon_pendientes.objects.all()[:1].get()
-			print buzon
+			buzon = Buzon_pendientes.objects.all().filter(pk=int(id))[0]
+			print ">>>> ", buzon
+
 
 			d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
 				numero_telefono=buzon.numero_telefono, 
@@ -107,7 +125,8 @@ def api_enviar_mensaje(request,id=None):
 
 			return Response(serializer.data,status=status.HTTP_200_OK)
 
-		except:
+		except Exception,e:
+			print e
 			return Response(status=status.HTTP_404_NOT_FOUND)
 
 	else:
