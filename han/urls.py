@@ -34,7 +34,7 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^api/', include(router.urls)),
 	(r'^mensajes_list/(?P<id>[0-9]*)?$','mensajes_list'),
 	(r'^api_enviar_mensaje/?','api_enviar_mensaje'),
-	(r'^actualizar_enviar_mensaje/(?P<id>[0-9]*)?/?$','actualizar_enviar_mensaje'),
+	(r'^<actualizar_enviar_mensaje></actualizar_enviar_mensaje>/(?P<id>[0-9]*)?/?$','actualizar_enviar_mensaje'),
 
 	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),
@@ -53,9 +53,11 @@ urlpatterns = patterns('han.han_app.views',
 	(r'informacion/?$','informacion'),
 	(r'ingreso/?$','ingreso'),
 	(r'crear_usuario/?$','crear_usuario'),
-
+	(r'^usuario_envia/?$','usuario_envia'),
+	(r'agregar_usuario_envia/?$','agregar_usuario_envia'),
 	(r'','usuario'),
     (r'api/?$', 'Buzon_pendientesSerializerViewSet'),
+
 
 
 )

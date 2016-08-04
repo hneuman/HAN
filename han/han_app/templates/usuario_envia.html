@@ -1,0 +1,96 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block usuarios %}
+
+<!--	<form id="form_seleccionar_personas" method='POST' action='enviar_mensaje'>{% csrf_token %}
+-->
+		<div id="div_agregar_usuario" >
+				
+	  			<a href='{% url 'han.han_app.views.agregar_usuario_envia' %}' > Agregar Usuario Envia		
+
+	  			<img id"img_agregar_usuario" src="{% static 'img/add_friend.png' %}" style="width: 10%;"> 
+	  			</a>
+		</div>
+
+
+
+
+		<div class="pagination">
+		    <span class="step-links">
+		        {% if documento.has_previous %}
+		            <a href="?page={{ documento.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
+		        </span>
+
+		        {% if documento.has_next %}
+		            <a href="?page={{ documento.next_page_number }}">next</a>
+		        {% endif %}
+		    </span>
+		</div> <!-- div pagination --> 
+
+
+		<div class="tabla">	
+
+			<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
+
+				<div class="div_tabla_z" > 
+				<input type="checkbox"  id="id_seleccionarTodo" name="_terp_list"  onclick="new SeleccionarTodo();" >
+
+				</div>
+
+				<div  class="div_tabla_a" > Nombre's y Apellido's  </div>
+				<div  class="div_tabla_b" > Id </div>
+				<div  class="div_tabla_c" > Contador </div>
+
+			</div>
+			
+			{% for contenido in documento %}
+					<div  class="columna_agenda" style="display: table-row ;" id='{{contenido.id}}' >   
+					
+					<div class="div_tabla_z" > 
+						<input type="checkbox"  name="boton_check" value='{{contenido.id}}' onclick="new marcarSeleccionado('{{contenido.id}}');">
+
+					</div>
+
+					<div  class="div_tabla_a" name='{{contenido.id}}'> <a href='{% url 'han.han_app.views.editar_usuario' id_usuario=contenido.id %}' >{{contenido.nombre_usuario_envia}}</a>  </div>
+
+					<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.id_usuario_envia}}</div>
+					<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.contador}}				</div>
+
+
+				</div>
+			{% endfor %}
+
+		</div>
+		    	
+		    	<div style="clear:both;"></div>
+
+
+	<div class="pagination">
+		    <span class="step-links">
+		        {% if documento.has_previous %}
+		            <a href="?page={{ documento.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ documento.number }} of {{ documento.paginator.num_pages }}.
+		        </span>
+
+		        {% if documento.has_next %}
+		            <a href="?page={{ documento.next_page_number }}">next</a>
+		        {% endif %}
+		    </span>
+		</div> <!-- div pagination --> 
+		
+		
+<!--
+</form>
+-->
+
+<input name="modelo" value="{{modelo}}" type="hidden">
+
+{% endblock %} 

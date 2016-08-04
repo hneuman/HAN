@@ -28,4 +28,6 @@ class Form_grupo(forms.Form):
     nombre_grupo = forms.CharField(max_length=100, widget = forms.TextInput(attrs={'placeholder': 'Nombre del Grupo'})) 
     
 
-
+class Form_usuario_envia(forms.Form):
+    nombre_usuario_envia = forms.CharField(max_length=100, widget = forms.TextInput(attrs={'placeholder': 'Nombre Usuario Envia'})) 
+    id_usuario_envia = forms.CharField(max_length=100,widget = forms.TextInput(attrs={'placeholder': 'Identificador del Usuario Envia'}))

@@ -71,3 +71,11 @@ class Grupo(models.Model):
 
 	def __unicode__(self):
 		return self.nombre_grupo	
+
+class Usuario_envia(models.Model):
+	nombre_usuario_envia =  models.CharField(max_length=100)
+	id_usuario_envia =  models.CharField(max_length=100)
+	contador = models.IntegerField()
+
+	def __unicode__(self):
+		return self.id_usuario_envia	

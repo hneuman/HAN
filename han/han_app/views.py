@@ -9,6 +9,7 @@ from han.han_app.forms import DocumentForm
 from han.han_app.forms import Form_usuario
 from han.han_app.forms import Form_enviar_mensaje
 from han.han_app.forms import Form_grupo
+from han.han_app.forms import Form_usuario_envia
 
 from django.template.context_processors import csrf
 import csv
@@ -370,6 +371,60 @@ def agregar_usuario(request):
 		grupos = Grupo.objects.all().order_by('id')
 
 		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario",'metodo':'nuevo','grupos':grupos,'grupos_pertenece':False}, RequestContext(request, {}),c)
+
+
+
+def usuario_envia(request):
+	personas = Usuario_envia.objects.all()
+
+	paginator = Paginator(personas, 25) # Show 25 contacts per page
+
+	pagina_actual = request.GET.get('page')
+
+	try:
+		personas = paginator.page(pagina_actual)
+	except PageNotAnInteger:
+	# If page is not an integer, deliver first page.
+		personas = paginator.page(1)
+	except EmptyPage:
+	# If page is out of range (e.g. 9999), deliver last page of results.
+		personas = paginator.page(paginator.num_pages)
+
+	#return render_to_response('list.html', {"contacts": contacts})
+	return render_to_response("usuario_envia.html",{'documento':personas,'modelo':"usuario_envia"}, RequestContext(request, {}))
+
+
+def agregar_usuario_envia(request):
+	c = {}
+	c.update(csrf(request))
+	print "agregar "
+
+
+	if request.method == "POST":
+		form = Form_usuario_envia(request.POST)
+		aviso="Verificar los datos"
+
+		print "procesar"
+		if form.is_valid():
+			usuario = Usuario_envia(
+				nombre_usuario_envia=form.cleaned_data['nombre_usuario_envia'],
+				id_usuario_envia=form.cleaned_data['id_usuario_envia'],
+				contador=0,
+
+				)
+			usuario.save()
+
+			aviso="Usuario Agregado Satisfactoriamente"
+
+
+		return render_to_response("agregar_usuario_envia.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':aviso,'metodo':'nuevo','grupos':grupos,'grupos_pertenece':False},RequestContext(request, {}),c)
+
+	else:
+
+		form = Form_usuario_envia()
+		print "retornar post"
+		return render_to_response("agregar_usuario_envia.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario",'metodo':'nuevo','grupos':grupos,'grupos_pertenece':False}, RequestContext(request, {}),c)
+
 
 
 def handle_uploaded_file(f):
