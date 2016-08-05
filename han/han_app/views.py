@@ -104,8 +104,10 @@ def actualizar_enviar_mensaje(request,id=None):
 	"""
 	List all snippets, or create a new snippet.
 	"""
-	snippets = Buzon_pendientes.objects.all().filter(pk=int(id))[:1]
-	serializer = Buzon_pendientesSerializer(snippets, many=True)
+	#id=0
+	if id:
+		snippets = Buzon_pendientes.objects.all().filter(pk=int(id))[:1]
+		serializer = Buzon_pendientesSerializer(snippets, many=True)
 
 	if request.method == 'GET':
 		#snippets =  buzon_pendientes.objects.get(pk=int(id))
@@ -121,17 +123,37 @@ def actualizar_enviar_mensaje(request,id=None):
 			d.save()
 			buzon.delete()
 
-
-
-
 			return Response(serializer.data,status=status.HTTP_200_OK)
 
 		except Exception,e:
 			print e
 			return Response(status=status.HTTP_404_NOT_FOUND)
 
-	else:
-		pass
+	if request.method == 'POST':
+		print request.data 
+		print "POR AQUI ANDO"
+		snippets = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[:1]
+		serializer = Buzon_pendientesSerializer(snippets, many=True)
+		"""
+		buzon = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[0]
+		print ">>>> ", buzon
+		"""
+		"""
+		try:
+			usuario_envia = " ENVIADO POR " + request.data['usuario_envia']
+		except:
+			usuario_envia = ""
+
+		d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
+			numero_telefono=buzon.numero_telefono, 
+			contenido_mensaje=" %s "(%usuario_envia) + buzon.contenido_mensaje, 
+			)
+		d.save()
+		buzon.delete()
+		"""
+		return Response(serializer.data,status=status.HTTP_200_OK)
+
+		#return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
 
 	return Response(status=status.HTTP_304_NOT_MODIFIED)
 
