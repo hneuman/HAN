@@ -134,23 +134,27 @@ def actualizar_enviar_mensaje(request,id=None):
 		print "POR AQUI ANDO"
 		snippets = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[:1]
 		serializer = Buzon_pendientesSerializer(snippets, many=True)
-		"""
+		
 		buzon = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[0]
 		print ">>>> ", buzon
-		"""
-		"""
+		print ">>>> ", snippets
+
 		try:
 			usuario_envia = " ENVIADO POR " + request.data['usuario_envia']
-		except:
+			#usuario = Usuario_envia.objects.get('id_usuario_envia'="hneuman")
+			#usuario.contador = usuario.contador + 1
+			#usuario.save()
+		except Exception,e:
+			print "ERROR >>> %s <<<< " %e
 			usuario_envia = ""
 
 		d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
 			numero_telefono=buzon.numero_telefono, 
-			contenido_mensaje=" %s "(%usuario_envia) + buzon.contenido_mensaje, 
+			contenido_mensaje=" %s "%(usuario_envia + buzon.contenido_mensaje), 
 			)
 		d.save()
 		buzon.delete()
-		"""
+		
 		return Response(serializer.data,status=status.HTTP_200_OK)
 
 		#return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
