@@ -140,17 +140,19 @@ def actualizar_enviar_mensaje(request,id=None):
 		print ">>>> ", snippets
 
 		try:
-			usuario_envia = " ENVIADO POR " + request.data['usuario_envia']
-			#usuario = Usuario_envia.objects.get('id_usuario_envia'="hneuman")
-			#usuario.contador = usuario.contador + 1
-			#usuario.save()
+			usuario_envia = request.data['usuario_envia']
+			usuario = Usuario_envia.objects.get(id_usuario_envia=usuario_envia)
+			usuario.contador = usuario.contador + 1
+			usuario.save()
 		except Exception,e:
 			print "ERROR >>> %s <<<< " %e
 			usuario_envia = ""
 
 		d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
 			numero_telefono=buzon.numero_telefono, 
-			contenido_mensaje=" %s "%(usuario_envia + buzon.contenido_mensaje), 
+			contenido_mensaje=buzon.contenido_mensaje, 
+			usuario_envia= usuario_envia, 
+
 			)
 		d.save()
 		buzon.delete()
@@ -170,6 +172,18 @@ def actualizar_enviar_mensaje(request,id=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 """
+def pagar_usuario(request,id_usuario=None):
+	if request.method == 'GET':
+		try:
+			usuario = Usuario_envia.objects.get(pk=id_usuario)
+			usuario.contador = 0
+			usuario.save()
+		except Exception,e:
+			print "ERROR >>> %s <<<< " %e
+			usuario_envia = ""
+	personas = Usuario_envia.objects.all()
+	return render_to_response("usuario_envia.html",{'documento':personas,'modelo':"usuario_envia"}, RequestContext(request, {}))
+
 def usuario(request):
 	personas = Usuario.objects.all()
 

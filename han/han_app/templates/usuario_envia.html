@@ -45,6 +45,7 @@
 				<div  class="div_tabla_a" > Nombre's y Apellido's  </div>
 				<div  class="div_tabla_b" > Id </div>
 				<div  class="div_tabla_c" > Contador </div>
+				<div  class="div_tabla_d" >  Resetear Contador </div>
 
 			</div>
 			
@@ -56,11 +57,11 @@
 
 					</div>
 
-					<div  class="div_tabla_a" name='{{contenido.id}}'> <a href='{% url 'han.han_app.views.editar_usuario' id_usuario=contenido.id %}' >{{contenido.nombre_usuario_envia}}</a>  </div>
+					<div  class="div_tabla_a" name='{{contenido.id}}'> <a href='{% url 'han.han_app.views.pagar_usuario' id_usuario=contenido.id %}' >{{contenido.nombre_usuario_envia}}</a>  </div>
 
 					<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.id_usuario_envia}}</div>
 					<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.contador}}				</div>
-
+					<div  class="div_tabla_d" name='{{contenido.id}}'> <a href='{% url 'han.han_app.views.pagar_usuario' id_usuario=contenido.id %}' > Pagar  </a>  </div>
 
 				</div>
 			{% endfor %}

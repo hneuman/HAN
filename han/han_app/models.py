@@ -59,7 +59,8 @@ class Buzon_pendientes(models.Model):
 class Buzon_enviados(models.Model):
 	nombre_persona =  models.CharField(max_length=100)
 	numero_telefono = models.CharField(max_length=100)
-	grupo_asociado =  models.CharField(max_length=100)		
+	grupo_asociado =  models.CharField(max_length=100)	
+	usuario_envia =  models.CharField(max_length=100,default='')		
 	contenido_mensaje =  models.TextField()			
 	def __unicode__(self):
 		return self.contenido_mensaje	
