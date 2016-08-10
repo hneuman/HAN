@@ -32,3 +32,12 @@ class Buzon_enviadosSerializer(serializers.HyperlinkedModelSerializer):
 		model = Buzon_enviados
 		fields = ('nombre_persona','numero_telefono', 'contenido_mensaje','grupo_asociado','id')
 
+
+class Usuario_enviaSerializer(serializers.HyperlinkedModelSerializer):
+	id = serializers.ReadOnlyField()
+	class Meta:
+		model = Usuario_envia
+		fields = ('nombre_usuario_envia','id_usuario_envia','contador','id')
+
+		
+

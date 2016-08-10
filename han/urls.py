@@ -27,6 +27,7 @@ router = routers.DefaultRouter()
 router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet,'pendiente')
 router.register(r'api_enviar', views.api_enviarSerializer,'api_enviar')
 router.register(r'enviados', views.Buzon_enviadosSerializerViewSet,'enviados')
+router.register(r'usuario_envia', views.Usuario_enviaSerializerViewSet,'usuario_envia')
 
 
 
@@ -34,6 +35,7 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^api/', include(router.urls)),
 	(r'^mensajes_list/(?P<id>[0-9]*)?$','mensajes_list'),
 	(r'^api_enviar_mensaje/?','api_enviar_mensaje'),
+	(r'^api_usuario_envia/?','api_usuario_envia'),
 	(r'^actualizar_enviar_mensaje/(?P<id>[0-9]*)?/?$','actualizar_enviar_mensaje'),
 	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),

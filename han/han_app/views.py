@@ -62,7 +62,12 @@ class Buzon_enviadosSerializerViewSet(viewsets.ModelViewSet):
 	print queryset
 	serializer_class = Buzon_enviadosSerializer
 
-	
+
+class Usuario_enviaSerializerViewSet(viewsets.ModelViewSet):
+	queryset = Usuario_envia.objects.all()
+	print queryset
+	serializer_class = Usuario_enviaSerializer
+
 
 @api_view(['GET', 'POST'])
 def mensajes_list(request,id=None):
@@ -97,6 +102,34 @@ def api_enviar_mensaje(request):
 		buzon = Buzon_pendientes.objects.all()
 		serializer = Buzon_pendientesSerializer(buzon, many=True)
 		return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+
+@api_view(['GET', 'POST'])
+def api_usuario_envia(request):
+	"""
+	List all snippets, or create a new snippet.
+	"""
+	try:
+		
+		if request.method == 'GET':
+			usuario_envia = Usuario_envia.objects.all()[:1]
+			serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			print serializer.data
+			return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+
+		if request.method == 'POST':
+			print request.data 
+			print request.data['usuario_envia']
+			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			usuario_envia = Usuario_envia.objects.all().filter(id_usuario_envia=request.data['usuario_envia'])[:1]
+			serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			print serializer.data
+			return Response(serializer.data,status=status.HTTP_200_OK)
+
+	except Exception,e:
+		print " >> api_usuario_envia %s << " %e
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	return Response(status=status.HTTP_206_PARTIAL_CONTENT)
 
 
 @api_view(['GET', 'POST'])
