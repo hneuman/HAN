@@ -92,16 +92,33 @@ def api_enviar_mensaje(request):
 	try:
 		if request.method == 'GET':
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
-			snippets = Buzon_pendientes.objects.all()[:1]
+			snippets = Buzon_pendientes.objects.all().filter(asignado=False)[:1]
 
 			serializer = Buzon_pendientesSerializer(snippets, many=True)
 			print serializer.data
 			return Response(serializer.data)
+
+		if request.method == 'POST':
+			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			try:
+				snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
+				print " en EL POST >>> %s " %snippets
+
+				serializer = Buzon_pendientesSerializer(snippets, many=True)
+				#snippets.asignado=True
+				#	snippets.save()
+				print serializer.data
+				return Response(serializer.data)
+			except Exception,e:
+				print e
+				return Response(status=status.HTTP_404_NOT_FOUND)
 	except Exception,e:
-		print e
+
+		print "ERROR  >> api_enviar_mensaje <<< >>> %s " %e
 		buzon = Buzon_pendientes.objects.all()
 		serializer = Buzon_pendientesSerializer(buzon, many=True)
 		return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+
 
 @api_view(['GET', 'POST'])
 def api_usuario_envia(request):
@@ -121,7 +138,7 @@ def api_usuario_envia(request):
 			print request.data['usuario_envia']
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
 			usuario_envia = Usuario_envia.objects.all().filter(id_usuario_envia=request.data['usuario_envia'])[:1]
-			serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			serializer = Buzon_pendientesSerializer(usuario_envia, many=True)
 			print serializer.data
 			return Response(serializer.data,status=status.HTTP_200_OK)
 

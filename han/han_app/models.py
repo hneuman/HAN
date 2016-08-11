@@ -6,7 +6,7 @@ from forms import subirArchivo
 #from somewhere import handle_uploaded_file
 # -*- coding: utf-8 -*-
 from django.db import models
-
+from datetime import datetime
 
 class Document(models.Model):
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
@@ -51,8 +51,12 @@ class Buzon_entrada(models.Model):
 class Buzon_pendientes(models.Model):
 	nombre_persona =  models.CharField(max_length=100)
 	numero_telefono = models.CharField(max_length=100)
-	grupo_asociado =  models.CharField(max_length=100)		
+	grupo_asociado =  models.CharField(max_length=100)	
 	contenido_mensaje =  models.TextField()	
+	asignado =  models.BooleanField(default=False)
+	asignado_a =  models.CharField(max_length=100,default="")	
+	asignado_hora = models.DateTimeField(default=datetime.now())
+
 	def __unicode__(self):
 		return self.contenido_mensaje	
 
