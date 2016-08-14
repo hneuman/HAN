@@ -138,7 +138,8 @@ def api_usuario_envia(request):
 			print request.data['usuario_envia']
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
 			usuario_envia = Usuario_envia.objects.all().filter(id_usuario_envia=request.data['usuario_envia'])[:1]
-			serializer = Buzon_pendientesSerializer(usuario_envia, many=True)
+			print usuario_envia
+			serializer = Usuario_enviaSerializer(usuario_envia, many=True)
 			print serializer.data
 			return Response(serializer.data,status=status.HTTP_200_OK)
 
