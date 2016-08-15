@@ -51,6 +51,11 @@
 				{% if modelo == "buzon_enviados" %}
 					<div  class="div_tabla_d" name='{{contenido.id}}'> Usuario Envia </div>
 				{% endif %}
+
+				{% if modelo == "buzon_pendientes" %}
+					<div  class="div_tabla_d" name='{{contenido.id}}'> Mensaje Asignado </div>
+				{% endif %}
+
 				</div>
 
 			</div>
@@ -66,9 +71,15 @@
 				<div  class="div_tabla_a" name='{{contenido.id}}'> {{contenido.nombre_persona}}  </div>
 				<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.numero_telefono}}</div>
 				<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.contenido_mensaje}}</div>
+
 				{% if modelo == "buzon_enviados" %}
 					<div  class="div_tabla_d" name='{{contenido.id}}'> {{contenido.usuario_envia}}</div>
 				{% endif %}
+				
+				{% if modelo == "buzon_pendientes" %}
+					<div  class="div_tabla_d" name='{{contenido.id}}'> {{contenido.asignado}}</div>
+				{% endif %}
+
 				</div>
 			{% endfor %}
 

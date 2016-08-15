@@ -35,6 +35,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from han.han_app.serializers import *
+from datetime import datetime
 
 #@api_view(['GET', 'POST'])
 class Buzon_pendientesSerializerViewSet(viewsets.ModelViewSet):
@@ -101,10 +102,26 @@ def api_enviar_mensaje(request):
 		if request.method == 'POST':
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
 			try:
+				#snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
 				snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
-				print " en EL POST >>> %s " %snippets
 
+
+				print ">>>>>> >  >   %s  < < < < <" %snippets[0].asignado
+				buzon = Buzon_pendientes.objects.get(id=str(snippets[0].id))
+				 	
+				buzon.asignado_hora = datetime.now()
+				print ">>>>>> >  >  Type %s  < < < < <" %type(snippets)
+				buzon.asignado=True
+				buzon.asignado_hora = datetime.now()
+				try:
+					buzon.asignado_a=request.data['usuario_envia']
+				except:
+					pass
+				buzon.save()
+
+				print " en EL POST >>> %s " %snippets
 				serializer = Buzon_pendientesSerializer(snippets, many=True)
+				
 				#snippets.asignado=True
 				#	snippets.save()
 				print serializer.data
@@ -395,7 +412,7 @@ def enviar_mensaje_procesar(request,destinatarios):
 	# If page is out of range (e.g. 9999), deliver last page of results.
 		personas = paginator.page(paginator.num_pages)
 
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes"},RequestContext(request, {}))
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes",'modelo':'buzon_pendientes'},RequestContext(request, {}))
 
 
 def agregar_usuario(request):
