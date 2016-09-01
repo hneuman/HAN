@@ -36,7 +36,7 @@ from rest_framework import status
 
 from han.han_app.serializers import *
 from datetime import datetime
-
+from django.db import transaction
 #@api_view(['GET', 'POST'])
 class Buzon_pendientesSerializerViewSet(viewsets.ModelViewSet):
 	queryset = Buzon_pendientes.objects.all()
@@ -85,6 +85,7 @@ def mensajes_list(request,id=None):
         print serializer.data
         return Response(serializer.data)
 
+
 @api_view(['GET', 'POST'])
 def api_enviar_mensaje(request):
 	"""
@@ -101,31 +102,39 @@ def api_enviar_mensaje(request):
 
 		if request.method == 'POST':
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			print "api_envia_POST"
 			try:
 				#snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
-				snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
+				with transaction.atomic():
+					snippets = Buzon_pendientes.objects.select_for_update().filter(asignado=False)[:1]
+
+					#snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
 
 
-				print ">>>>>> >  >   %s  < < < < <" %snippets[0].asignado
-				buzon = Buzon_pendientes.objects.get(id=str(snippets[0].id))
-				 	
-				buzon.asignado_hora = datetime.now()
-				print ">>>>>> >  >  Type %s  < < < < <" %type(snippets)
-				buzon.asignado=True
-				buzon.asignado_hora = datetime.now()
-				try:
-					buzon.asignado_a=request.data['usuario_envia']
-				except:
-					pass
-				buzon.save()
+					print ">>>>>> >  Asignado >   %s  < < < < <" %snippets[0].asignado
 
-				print " en EL POST >>> %s " %snippets
-				serializer = Buzon_pendientesSerializer(snippets, many=True)
-				
-				#snippets.asignado=True
-				#	snippets.save()
-				print serializer.data
-				return Response(serializer.data)
+					buzon = Buzon_pendientes.objects.get(id=str(snippets[0].id))
+					 	
+					buzon.asignado_hora = datetime.now()
+					print ">>>>>> >  >  Type %s  < < < < <" %type(snippets)
+					buzon.asignado=True
+					buzon.asignado_hora = datetime.now()
+					try:
+						buzon.asignado_a=request.data['usuario_envia']
+					except:
+						pass
+					buzon.save()
+
+					print " >>><<>>>   %s   <<<<<<< !!!! "%(buzon)
+
+					print " en EL POST >>> %s " %snippets
+					serializer = Buzon_pendientesSerializer(snippets, many=True)
+					
+					#snippets.asignado=True
+					#	snippets.save()
+					print serializer.data
+					#transaction.commit()
+					return Response(serializer.data)
 			except Exception,e:
 				print e
 				return Response(status=status.HTTP_404_NOT_FOUND)
@@ -198,32 +207,33 @@ def actualizar_enviar_mensaje(request,id=None):
 			return Response(status=status.HTTP_404_NOT_FOUND)
 
 	if request.method == 'POST':
-		print request.data 
-		print "POR AQUI ANDO"
-		snippets = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[:1]
-		serializer = Buzon_pendientesSerializer(snippets, many=True)
-		
-		buzon = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[0]
-		print ">>>> ", buzon
-		print ">>>> ", snippets
+		with transaction.atomic():	
+			print request.data 
+			print "POR AQUI ANDO"
+			snippets = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[:1]
+			serializer = Buzon_pendientesSerializer(snippets, many=True)
+			
+			buzon = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[0]
+			print ">>>> ", buzon
+			print ">>>> ", snippets
 
-		try:
-			usuario_envia = request.data['usuario_envia']
-			usuario = Usuario_envia.objects.get(id_usuario_envia=usuario_envia)
-			usuario.contador = usuario.contador + 1
-			usuario.save()
-		except Exception,e:
-			print "ERROR >>> %s <<<< " %e
-			usuario_envia = ""
+			try:
+				usuario_envia = request.data['usuario_envia']
+				usuario = Usuario_envia.objects.select_for_update().get(id_usuario_envia=usuario_envia)
+				usuario.contador = usuario.contador + 1
+				usuario.save()
+			except Exception,e:
+				print "ERROR >>> %s <<<< " %e
+				usuario_envia = ""
 
-		d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
-			numero_telefono=buzon.numero_telefono, 
-			contenido_mensaje=buzon.contenido_mensaje, 
-			usuario_envia= usuario_envia, 
+			d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
+				numero_telefono=buzon.numero_telefono, 
+				contenido_mensaje=buzon.contenido_mensaje, 
+				usuario_envia= usuario_envia, 
 
-			)
-		d.save()
-		buzon.delete()
+				)
+			d.save()
+			buzon.delete()
 		
 		return Response(serializer.data,status=status.HTTP_200_OK)
 
