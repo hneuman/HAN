@@ -26,7 +26,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-
+import json
 
 from django.apps import apps
 from rest_framework import viewsets
@@ -423,6 +423,82 @@ def enviar_mensaje_procesar(request,destinatarios):
 		personas = paginator.page(paginator.num_pages)
 
 	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes",'modelo':'buzon_pendientes'},RequestContext(request, {}))
+
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def api_bulto_mensaje(request):
+	"""
+	Agregar mensajes de la API con POST
+	
+	import requests
+	#~ {'data': 
+	    #~ [{'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 0'}, 
+	    #~ {'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 1'}, 
+	    #~ {'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 2'}, 
+	    #~ {'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 3'}, 
+	    #~ {'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 4'}]
+	#~ }
+
+	lista={'data':mensajes}
+	headers = {'content-type': 'application/json'}
+	print lista
+	x = requests.post(url+'api_bulto_mensaje/',data=json.dumps(lista),headers=headers)
+
+
+	x = requests.post(url+'api_bulto_mensaje/',msj_pendiente)
+
+	"""
+	try:
+		
+		if request.method == 'GET':
+			print "------------ GET ---------"
+			usuario_envia = Usuario_envia.objects.all()[:1]
+			serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			print serializer.data
+			return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+
+		if request.method == 'POST':
+			try:
+				print "  \n %s \n\n\n" %request.data 
+				print "  \n %s \n\n\n" %request.data['data']
+
+				aList = [
+					Buzon_pendientes(
+					nombre_persona=i['nombre_persona'],
+					numero_telefono=i['numero_telefono'],
+					contenido_mensaje=i['contenido_mensaje'],
+					) for i in request.data['data']
+					]
+
+				Buzon_pendientes.objects.bulk_create(aList)
+
+				"""
+				for i in request.data['data']:
+					print " >>>>>>>>>>>>>>>>>>  ", i 
+					d = Buzon_pendientes(
+						nombre_persona=i['nombre_persona'], 
+						numero_telefono=i['numero_telefono'], 
+						contenido_mensaje=i['contenido_mensaje'],
+						)
+				"""
+				#d.save()			
+				print "\n\n\n\n>>>>>>>>>>>Agregado Mensaje por enviar<<<<<<<<<<<<\n\n\n"
+			except Exception, e:
+				print "ERRRRRRRORRRR %s ***************** " %e
+			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			#usuario_envia = Buzon_pendientes.objects.all().filter(id_usuario_envia=request.data['usuario_envia'])[:1]
+			#print usuario_envia
+			#serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			#print serializer.data
+			return Response(status=status.HTTP_200_OK)
+
+	except Exception,e:
+		print " >> api_usuario_envia %s << " %e
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	return Response(status=status.HTTP_206_PARTIAL_CONTENT)
 
 
 def agregar_usuario(request):
