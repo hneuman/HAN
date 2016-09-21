@@ -94,11 +94,25 @@ def api_enviar_mensaje(request):
 	try:
 		if request.method == 'GET':
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
-			snippets = Buzon_pendientes.objects.all().filter(asignado=False)[:1]
+			with transaction.atomic():
+				snippets = Buzon_pendientes.objects.select_for_update().filter(asignado=False)[:1]
 
-			serializer = Buzon_pendientesSerializer(snippets, many=True)
-			print serializer.data
-			return Response(serializer.data)
+				serializer = Buzon_pendientesSerializer(snippets, many=True)
+				print serializer.data
+
+
+				buzon = Buzon_pendientes.objects.get(id=str(snippets[0].id))
+				 	
+				buzon.asignado_hora = datetime.now()
+				print ">>>>>> >  >  Type %s  < < < < <" %type(snippets)
+				buzon.asignado=True
+				buzon.asignado_hora = datetime.now()
+
+				buzon.save()
+
+				serializer = Buzon_pendientesSerializer(snippets, many=True)
+				return Response(serializer.data)
+
 
 		if request.method == 'POST':
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
@@ -141,9 +155,9 @@ def api_enviar_mensaje(request):
 	except Exception,e:
 
 		print "ERROR  >> api_enviar_mensaje <<< >>> %s " %e
-		buzon = Buzon_pendientes.objects.all()
-		serializer = Buzon_pendientesSerializer(buzon, many=True)
-		return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+		#buzon = Buzon_pendientes.objects.all()
+		#serializer = Buzon_pendientesSerializer(buzon, many=True)
+		return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET', 'POST'])
