@@ -640,6 +640,13 @@ def handle_uploaded_file(f):
         for chunk in f.chunks():
             destination.write(chunk)
 
+def borrar_bandeja(request):
+	buzon = Buzon_pendientes.objects.all().delete()
+	#for b in buzon:
+	personas = Usuario.objects.all()
+	return render_to_response("main.html",{'documento':personas})
+
+
 def func_subir_archivo(request):
     # Handle file upload
     if request.method == 'POST':

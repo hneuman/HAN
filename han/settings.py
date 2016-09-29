@@ -98,18 +98,15 @@ WSGI_APPLICATION = 'han.wsgi.application'
 #amazon
 
 #DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',  'NAME': 'd4n5h8nb8a1rip',        'USER' : 'jmvpnlqmvcutqs',        'PASSWORD' : '73L581r4N4-aip6FQPK-q3kYna',        'HOST' : 'ec2-54-225-197-30.compute-1.amazonaws.com',        'PORT' : '5432',    }}
-#---amazon nueva, 01-08-2016
+#---amazon nueva, 01-08-2016############################################################
 #DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'd618uru40mf7b2',        'USER' : 'dsbffrjqpspmvw',        'PASSWORD' : 'JXIgtFYX-Opg0oV4tAjpydm7ZD',        'HOST' : 'ec2-54-204-26-8.compute-1.amazonaws.com',        'PORT' : '5432',    }}
+###########################################################################
 
-############### ElephanTSQL
-DATABASES = {    'default': {        
-'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-'NAME': 'lqjshrvo',        
-'USER' : 'lqjshrvo',        
-'PASSWORD' : 'EU_aNMq8eHnqXDvtkUb1Q9xxUvKCubcZ',        
-'HOST' : 'elmer-01.db.elephantsql.com', 
-'PORT' : '5432',    }}
 
+
+############### ElephanTSQL##############################
+DATABASES = {    'default': {   'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'lqjshrvo',        'USER' : 'lqjshrvo',        'PASSWORD' : 'EU_aNMq8eHnqXDvtkUb1Q9xxUvKCubcZ',        'HOST' : 'elmer-01.db.elephantsql.com', 'PORT' : '5432',    }}
+############################################################
 
 #Casa
 #DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5432',    }}
