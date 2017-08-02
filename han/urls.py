@@ -33,8 +33,8 @@ router.register(r'usuario_envia', views.Usuario_enviaSerializerViewSet,'usuario_
 
 urlpatterns = patterns('han.han_app.views',
 	(r'^api/', include(router.urls)),
-	(r'^mensajes_list/(?P<id>[0-9]*)?$','mensajes_list'),
-	(r'^api_enviar_mensaje/?','api_enviar_mensaje'),
+	(r'^api_mensajes_listar/(?P<id>[0-9]*)?$','api_mensajes_listar'),
+	(r'^api_enviar_mensaje/(?P<id>[0-9]*)?/?(?P<cantidad_sms>[0-9]*)?/?$','api_enviar_mensaje'),
 	(r'^api_usuario_envia/?','api_usuario_envia'),
 	(r'^api_bulto_mensaje/?','api_bulto_mensaje'),
 	(r'^actualizar_enviar_mensaje/(?P<id>[0-9]*)?/?$','actualizar_enviar_mensaje'),

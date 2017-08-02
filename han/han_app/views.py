@@ -71,14 +71,16 @@ class Usuario_enviaSerializerViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['GET', 'POST'])
-def mensajes_list(request,id=None):
+def api_mensajes_listar(request,id=None):
     """
-    List all snippets, or create a new snippet.
+    Listar los mensajes, TODOS, o por cantidad establecida.!
     """
     if request.method == 'GET':
     	if id:
     		#snippets =  buzon_pendientes.objects.get(pk=int(id))
     		snippets = Buzon_pendientes.objects.filter(pk=int(id))
+    		snippets = Buzon_pendientes.objects.all()[:id]
+
     	else:
     		snippets = Buzon_pendientes.objects.all()
         serializer = Buzon_pendientesSerializer(snippets, many=True)
@@ -87,28 +89,34 @@ def mensajes_list(request,id=None):
 
 
 @api_view(['GET', 'POST'])
-def api_enviar_mensaje(request):
+def api_enviar_mensaje(request,id=None,cantidad_sms=int(1)):
 	"""
 	List all snippets, or create a new snippet.
 	"""
+	print id , " <<<<< ******* <<<<< "
+	print cantidad_sms , " <<<<< ******* <<<<< "
+	print request.data
 	try:
 		if request.method == 'GET':
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
 			with transaction.atomic():
-				snippets = Buzon_pendientes.objects.select_for_update().filter(asignado=False)[:1]
+				snippets = Buzon_pendientes.objects.select_for_update().filter(asignado=False)[:cantidad_sms]
 
 				serializer = Buzon_pendientesSerializer(snippets, many=True)
-				print serializer.data
 
+				print ">>>>>>>> ", serializer.data, " <<<<<<<"
 
-				buzon = Buzon_pendientes.objects.get(id=str(snippets[0].id))
-				 	
-				buzon.asignado_hora = datetime.now()
-				print ">>>>>> >  >  Type %s  < < < < <" %type(snippets)
-				buzon.asignado=True
-				buzon.asignado_hora = datetime.now()
+				print ">>>>>>>> snippets ", snippets, "snippets <<<<<<<"
 
-				buzon.save()
+				for snip in snippets:
+
+					buzon = snip
+					###buzon = Buzon_pendientes.objects.filter(snippets)	 	
+					buzon.asignado_hora = datetime.now()
+					buzon.asignado=True
+					buzon.asignado_hora = datetime.now()
+
+					buzon.save()
 
 				serializer = Buzon_pendientesSerializer(snippets, many=True)
 				return Response(serializer.data)
@@ -119,25 +127,29 @@ def api_enviar_mensaje(request):
 			print "api_envia_POST"
 			try:
 				#snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
+				
+				if 'cantidad_sms' in request.data:
+					cantidad_sms = int(request.data['cantidad_sms'])
+				else:
+					cantidad_sms = 1
+
 				with transaction.atomic():
-					snippets = Buzon_pendientes.objects.select_for_update().filter(asignado=False)[:1]
+					snippets = Buzon_pendientes.objects.select_for_update().filter(asignado=False)[:cantidad_sms]
 
-					#snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
+					for snip in snippets:
 
+						buzon = snip
+						###buzon = Buzon_pendientes.objects.filter(snippets)	 	
+						buzon.asignado_hora = datetime.now()
+						print ">>>>>> >  >  Type %s  < < < < <" %type(snippets)
+						buzon.asignado=True
+						buzon.asignado_hora = datetime.now()
 
-					print ">>>>>> >  Asignado >   %s  < < < < <" %snippets[0].asignado
-
-					buzon = Buzon_pendientes.objects.get(id=str(snippets[0].id))
-					 	
-					buzon.asignado_hora = datetime.now()
-					print ">>>>>> >  >  Type %s  < < < < <" %type(snippets)
-					buzon.asignado=True
-					buzon.asignado_hora = datetime.now()
-					try:
-						buzon.asignado_a=request.data['usuario_envia']
-					except:
-						pass
-					buzon.save()
+						try:
+							buzon.asignado_a=request.data['usuario_envia']
+						except:
+							pass
+						buzon.save()
 
 					print " >>><<>>>   %s   <<<<<<< !!!! "%(buzon)
 
