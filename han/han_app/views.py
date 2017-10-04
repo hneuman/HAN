@@ -37,6 +37,8 @@ from rest_framework import status
 from han.han_app.serializers import *
 from datetime import datetime
 from django.db import transaction
+
+import re
 #@api_view(['GET', 'POST'])
 class Buzon_pendientesSerializerViewSet(viewsets.ModelViewSet):
 	queryset = Buzon_pendientes.objects.all()
@@ -547,6 +549,7 @@ def agregar_usuario(request):
 					telefono=form.cleaned_data['telefono'],
 					email=form.cleaned_data['email'],
 					grupo_asociado=form.cleaned_data['grupo_asociado'],
+					codigo_u=form.cleaned_data['codigo_u'],
 					)
 				usuario.save()
 
@@ -776,6 +779,8 @@ def editar_usuario(request,id_usuario="1"):
 			'grupo_asociado':u.grupo_asociado,
 			'telefono':u.telefono,
 			'email':u.email,
+			'codigo_u':u.codigo_u,
+
 			})
 
 		grupos_pertenece = Grupo.objects.filter(integrantes=id_usuario).values('id').order_by('id')
@@ -928,3 +933,48 @@ def crear_usuario(request):
 		crear_usuario.save()
 
 	return render_to_response("login.html",{'mensaje':"Usuario Creado Satisfactoriamente"},RequestContext(request, {}))
+
+
+
+def buscar_destinatario(mensaje_a_procesar):
+	try:
+		print "buscar_destinatario"
+		print mensaje_a_procesar
+		nro_destino = ""
+		patron_hm_id = "HM_ID:#\w*"
+		codigo_u = re.findall(patron_hm_id,mensaje_a_procesar)[0]
+		print codigo_u
+		codigo_u = codigo_u.replace("HM_ID:#","")
+		print codigo_u
+		nro_destino = Usuario.objects.filter(codigo_u=codigo_u)[0]
+		print "telefonooooo %s" %nro_destino.telefono
+		return nro_destino.telefono
+	except Exception,e:
+		print e
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def procesar_mensaje_entrante(request):
+	print "procesar_mensaje_entrante "
+	try:
+		if request.method == 'POST':
+			print "\t es POST"
+			print request.POST
+
+			aList = [
+				Buzon_pendientes(
+				nombre_persona=i['nombre_persona'],
+				numero_telefono=buscar_destinatario(i['contenido_mensaje']),
+				contenido_mensaje=i['contenido_mensaje'],
+				) for i in request.data['data']
+				]
+
+			Buzon_pendientes.objects.bulk_create(aList)
+			print "\n\n\n\n>>>>>>>>>>>Agregado Mensaje por enviar<<<<<<<<<<<<\n\n\n"
+			return Response(status=status.HTTP_200_OK)
+	except Exception,e:
+		print e
+		return Response(status=status.HTTP_200_OK)
+	return Response(status=status.HTTP_404_NOT_FOUND)
+
+

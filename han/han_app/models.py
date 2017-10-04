@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from forms import subirArchivo
-
+import django
 # Imaginary function to handle an uploaded file.
 #from somewhere import handle_uploaded_file
 # -*- coding: utf-8 -*-
@@ -55,7 +55,7 @@ class Buzon_pendientes(models.Model):
 	contenido_mensaje =  models.TextField()	
 	asignado =  models.BooleanField(default=False)
 	asignado_a =  models.CharField(max_length=100,default="")	
-	asignado_hora = models.DateTimeField(default=datetime.now())
+	asignado_hora = models.DateTimeField(default=django.utils.timezone.now)
 
 	def __unicode__(self):
 		return self.contenido_mensaje	
