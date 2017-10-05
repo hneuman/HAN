@@ -520,6 +520,19 @@ def api_bulto_mensaje(request):
 
 				Buzon_pendientes.objects.bulk_create(aList)
 
+				print "LLENANDO el historial de Msj JSON"
+				aList_usuario = [
+					Usuario_historial_mensaje(
+					usuario=Usuario.objects.filter(codigo_u=buscar_codigo_u(i['contenido_mensaje']))[0],
+					numero_telefono=i['numero_telefono'],
+					contenido_mensaje=i['contenido_mensaje'],
+					tipo_mensaje =  "salida"
+					) for i in request.data['data'] if Usuario.objects.get(codigo_u=i['nombre_persona'])
+					]
+
+				Usuario_historial_mensaje.objects.bulk_create(aList_usuario)
+
+
 				"""
 				for i in request.data['data']:
 					print " >>>>>>>>>>>>>>>>>>  ", i 
