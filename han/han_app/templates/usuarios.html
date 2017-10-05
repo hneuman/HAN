@@ -56,7 +56,9 @@
 
 					</div>
 
-					<div  class="div_tabla_a" name='{{contenido.id}}'> <a href='{% url 'han.han_app.views.editar_usuario' id_usuario=contenido.id %}' >{{contenido.nombre}}</a>  </div>
+					<div  class="div_tabla_a" name='{{contenido.id}}'> 
+						<a href='{% url 'han.han_app.views.editar_usuario' id_usuario=contenido.pk %}' >{{contenido.nombre}}</a>  
+					</div>
 					<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.telefono}}</div>
 					<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.grupo_asociado}}				</div>
 

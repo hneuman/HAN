@@ -28,7 +28,7 @@ class Usuario(models.Model):
 	nombre = models.CharField(max_length=100,default='Sin Nombre')
 	cedula = models.CharField(max_length=100, default='0000000')
 	direccion = models.TextField(default="-----------------")
-	codigo_u = models.CharField(max_length=100,default='no Codigo')
+	codigo_u = models.CharField(max_length=100,default='no Codigo',primary_key=True)
 	telefono =  models.CharField(max_length=100,default='No Telefono')
 	email = models.CharField(max_length=100,default='No Email')
 	genero = models.CharField(max_length=100,default='No Genero')
@@ -37,8 +37,19 @@ class Usuario(models.Model):
 	grupo_asociado =  models.CharField(max_length=100, default="sin grupo")
 
 	def __unicode__(self):
-		return self.nombre
+		return self.codigo_u
 
+class Usuario_historial_mensaje(models.Model):
+	usuario = models.ForeignKey(Usuario,related_name='historial_usuario')
+	tipo_mensaje =  models.CharField(max_length=100)
+	numero_telefono = models.CharField(max_length=100)
+	contenido_mensaje =  models.TextField()	
+
+	class Meta:
+		ordering = ('id',)
+
+	def __unicode__(self):
+		return self.numero_telefono + " -> " + self.contenido_mensaje
 
 class Buzon_entrada(models.Model):
 	nombre_persona =  models.CharField(max_length=100)
@@ -72,7 +83,7 @@ class Buzon_enviados(models.Model):
 
 class Grupo(models.Model):
 	nombre_grupo = models.CharField(max_length=100)
-	integrantes = models.ManyToManyField(Usuario)
+	integrantes = models.ManyToManyField(Usuario,related_name='usuario_grupo')
 
 	def __unicode__(self):
 		return self.nombre_grupo	
