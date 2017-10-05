@@ -37,10 +37,12 @@ from rest_framework import status
 from han.han_app.serializers import *
 from datetime import datetime
 from django.db import transaction
+
+import re
 #@api_view(['GET', 'POST'])
 class Buzon_pendientesSerializerViewSet(viewsets.ModelViewSet):
 	queryset = Buzon_pendientes.objects.all()
-	print queryset
+	print "Buzon_pendientesSerializerViewSet"
 	serializer_class = Buzon_pendientesSerializer
 
 
@@ -53,21 +55,36 @@ class api_enviarSerializer(viewsets.ModelViewSet):
 #    if request.method == 'POST':
 	#serializer = Buzon_pendientesSerializer(data=request.data)
 	queryset = Buzon_pendientes.objects.all()
-	print queryset
+	print "api_enviarSerializer"
 	serializer_class = api_enviarSerializer
 
 
 class Buzon_enviadosSerializerViewSet(viewsets.ModelViewSet):
 
 	queryset = Buzon_enviados.objects.all()
-	print queryset
+	print "Buzon_enviadosSerializerViewSet"
 	serializer_class = Buzon_enviadosSerializer
 
 
 class Usuario_enviaSerializerViewSet(viewsets.ModelViewSet):
 	queryset = Usuario_envia.objects.all()
-	print queryset
+	print "Usuario_enviaSerializerViewSet"
 	serializer_class = Usuario_enviaSerializer
+
+
+class UsuarioSerializerViewSet(viewsets.ModelViewSet):
+	queryset = Usuario.objects.all()
+	print "UsuarioSerializerViewSet"
+	serializer_class = UsuarioSerializer
+
+
+class Usuario_historial_mensaje_SerializerViewSet(viewsets.ModelViewSet):
+	#serializer_class = UsuarioSerializerViewSet
+	#lookup_field = 'codigo_u'
+	queryset = Usuario_historial_mensaje.objects.all()
+	print "Usuario_historial_mensaje_SerializerViewSet"
+	serializer_class = Usuario_historial_mensajeSerializer
+
 
 
 @api_view(['GET', 'POST'])
@@ -305,7 +322,10 @@ def usuario(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
-
+	for i in personas:
+		print type(i)
+		print i
+		print i.pk
 
 	return render_to_response("usuarios.html",{'documento':personas,'modelo':'usuario',},RequestContext(request, {}))
 
@@ -500,6 +520,19 @@ def api_bulto_mensaje(request):
 
 				Buzon_pendientes.objects.bulk_create(aList)
 
+				print "LLENANDO el historial de Msj JSON"
+				aList_usuario = [
+					Usuario_historial_mensaje(
+					usuario=Usuario.objects.filter(codigo_u=buscar_codigo_u(i['contenido_mensaje']))[0],
+					numero_telefono=i['numero_telefono'],
+					contenido_mensaje=i['contenido_mensaje'],
+					tipo_mensaje =  "salida"
+					) for i in request.data['data'] if Usuario.objects.get(codigo_u=i['nombre_persona'])
+					]
+
+				Usuario_historial_mensaje.objects.bulk_create(aList_usuario)
+
+
 				"""
 				for i in request.data['data']:
 					print " >>>>>>>>>>>>>>>>>>  ", i 
@@ -547,6 +580,7 @@ def agregar_usuario(request):
 					telefono=form.cleaned_data['telefono'],
 					email=form.cleaned_data['email'],
 					grupo_asociado=form.cleaned_data['grupo_asociado'],
+					codigo_u=form.cleaned_data['codigo_u'],
 					)
 				usuario.save()
 
@@ -762,23 +796,32 @@ def eliminar_registros(request):
 	#return func(request)
 	#return render_to_response("usuarios.html", RequestContext(request, {}))
 
-def editar_usuario(request,id_usuario="1"):
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def editar_usuario(request,id_usuario=""):
 	
 	c = {}
 	c.update(csrf(request))
 	print "editar_usuario "
+	print id_usuario
+	print type(id_usuario)
 	try:
 
-		u = Usuario.objects.get(pk=int(id_usuario))
+		u = Usuario.objects.get(pk=str(id_usuario))
 
 
 		form = Form_usuario(initial={'nombre':u.nombre,
 			'grupo_asociado':u.grupo_asociado,
 			'telefono':u.telefono,
 			'email':u.email,
-			})
+			'codigo_u':u.codigo_u,
 
-		grupos_pertenece = Grupo.objects.filter(integrantes=id_usuario).values('id').order_by('id')
+			})
+		print u
+		print type(u)
+		grupos_pertenece = Grupo.objects.filter(integrantes__in=[1]).values('pk').order_by('pk')
+		#grupos_pertenece = Grupo.objects.all()
 		print " GRUPOS A LOS Q PERTENECE >>> %s "%grupos_pertenece
 
 		l=[]
@@ -792,7 +835,7 @@ def editar_usuario(request,id_usuario="1"):
 		print " %s "%grupos_pertenece
 		grupos = Grupo.objects.all().order_by('id')
 		print " GRUPOSSS  PERTENECE ARMANDO LISTA >>>>> %s "%grupos
-		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Editar Usuario",'aviso':"Editar Usuario",'metodo':int(id_usuario),'grupos':grupos,'grupos_pertenece':grupos_pertenece},RequestContext(request, {}),c)
+		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Editar Usuario",'aviso':"Editar Usuario",'metodo':id_usuario,'grupos':grupos,'grupos_pertenece':grupos_pertenece},RequestContext(request, {}),c)
 
 	except Exception,e:
 		print e
@@ -928,3 +971,71 @@ def crear_usuario(request):
 		crear_usuario.save()
 
 	return render_to_response("login.html",{'mensaje':"Usuario Creado Satisfactoriamente"},RequestContext(request, {}))
+
+
+
+def buscar_codigo_u(mensaje_a_procesar):
+	try:
+		nro_destino = ""
+		patron_hm_id = "HM_ID:#\w*"
+		codigo_u = re.findall(patron_hm_id,mensaje_a_procesar)[0]
+		print codigo_u
+		codigo_u = codigo_u.replace("HM_ID:#","")
+		return codigo_u
+	except Exception,e:
+		print e
+
+def buscar_destinatario(mensaje_a_procesar):
+	try:
+		codigo_u = buscar_codigo_u(mensaje_a_procesar)
+		print codigo_u
+		nro_destino = Usuario.objects.filter(codigo_u=codigo_u)[0] or False
+		print "-------------------------\nNuevo msj para: %s" %(nro_destino)
+		print "telefonooooo %s" %nro_destino.telefono
+		return nro_destino.telefono
+	except Exception,e:
+		print e
+
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def procesar_mensaje_entrante(request):
+	print "procesar_mensaje_entrante "
+	try:
+		if request.method == 'POST':
+			print "\t es POST"
+			print request.POST
+
+			aList = [
+				Buzon_pendientes(
+				numero_telefono=buscar_destinatario(i['contenido_mensaje']),
+				nombre_persona=i['nombre_persona'],
+				contenido_mensaje=i['contenido_mensaje'],
+				) for i in request.data['data'] if "HM_ID" in i['contenido_mensaje']
+				]
+
+			Buzon_pendientes.objects.bulk_create(aList)
+			print "=========================================================="
+			print "=========================================================="
+			print "=========================================================="
+			aList_usuario = [
+				Usuario_historial_mensaje(
+				usuario=Usuario.objects.filter(codigo_u=buscar_codigo_u(i['contenido_mensaje']))[0],
+				numero_telefono=buscar_destinatario(i['contenido_mensaje']),
+				contenido_mensaje=i['contenido_mensaje'],
+				tipo_mensaje =  "entrada"
+				) for i in request.data['data'] if "HM_ID" in i['contenido_mensaje']
+				]
+
+			Usuario_historial_mensaje.objects.bulk_create(aList_usuario)
+
+
+			print "\n\n\n\n>>>>>>>>>>>Agregado Mensaje por enviar<<<<<<<<<<<<\n\n\n"
+			return Response(status=status.HTTP_200_OK)
+	except Exception,e:
+		print e
+		return Response(status=status.HTTP_200_OK)
+	return Response(status=status.HTTP_404_NOT_FOUND)
+
+

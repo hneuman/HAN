@@ -28,8 +28,8 @@ router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet,'pendiente
 router.register(r'api_enviar', views.api_enviarSerializer,'api_enviar')
 router.register(r'enviados', views.Buzon_enviadosSerializerViewSet,'enviados')
 router.register(r'usuario_envia', views.Usuario_enviaSerializerViewSet,'usuario_envia')
-
-
+router.register(r'usuarios', views.UsuarioSerializerViewSet,'usuarios')
+router.register(r'usuario_historial_mensaje', views.Usuario_historial_mensaje_SerializerViewSet,'usuario_historial_mensaje')
 
 urlpatterns = patterns('han.han_app.views',
 	(r'^api/', include(router.urls)),
@@ -37,6 +37,7 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^api_enviar_mensaje/(?P<id>[0-9]*)?/?(?P<cantidad_sms>[0-9]*)?/?$','api_enviar_mensaje'),
 	(r'^api_usuario_envia/?','api_usuario_envia'),
 	(r'^api_bulto_mensaje/?','api_bulto_mensaje'),
+	(r'procesar_mensaje_entrante/?$','procesar_mensaje_entrante'),
 	(r'^actualizar_enviar_mensaje/(?P<id>[0-9]*)?/?$','actualizar_enviar_mensaje'),
 	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),
@@ -46,7 +47,7 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^enviar_mensaje/?$','enviar_mensaje'),
 	(r'^enviar_mensaje_procesar/(\.*,?)*/?$','enviar_mensaje_procesar'),
 	(r'agregar_usuario/?$','agregar_usuario'),
-	(r'^editar_usuario/(?P<id_usuario>\d*)/?$','editar_usuario'),
+	(r'^editar_usuario/(?P<id_usuario>\w*)/?$','editar_usuario'),
 	(r'grupos/?$','grupos'),
 	(r'^grupo_usuario/(?P<id_grupo>\d*)/?$','grupo_usuario'),
 	(r'operaciones_globales/?$','operaciones_globales'),

@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'han.wsgi.application'
 
 
 #local
-#DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5444',    }}
+DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5444',    }}
 #
 
 
@@ -105,7 +105,7 @@ WSGI_APPLICATION = 'han.wsgi.application'
 
 
 ############### ElephanTSQL##############################
-DATABASES = {    'default': {   'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'lqjshrvo',        'USER' : 'lqjshrvo',        'PASSWORD' : 'EU_aNMq8eHnqXDvtkUb1Q9xxUvKCubcZ',        'HOST' : 'elmer-01.db.elephantsql.com', 'PORT' : '5432',    }}
+#DATABASES = {    'default': {   'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'lqjshrvo',        'USER' : 'lqjshrvo',        'PASSWORD' : 'EU_aNMq8eHnqXDvtkUb1Q9xxUvKCubcZ',        'HOST' : 'elmer-01.db.elephantsql.com', 'PORT' : '5432',    }}
 ############################################################
 
 #Casa
