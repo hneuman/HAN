@@ -24,11 +24,10 @@ class Usuario(models.Model):
 	"""
 	Description: Modelo Usuario
 	"""
-
 	nombre = models.CharField(max_length=100,default='Sin Nombre')
 	cedula = models.CharField(max_length=100, default='0000000')
 	direccion = models.TextField(default="-----------------")
-	codigo_u = models.CharField(max_length=100,default='no Codigo',primary_key=True)
+	codigo_u = models.CharField(max_length=100,default='no Codigo')
 	telefono =  models.CharField(max_length=100,default='No Telefono')
 	email = models.CharField(max_length=100,default='No Email')
 	genero = models.CharField(max_length=100,default='No Genero')
@@ -37,7 +36,7 @@ class Usuario(models.Model):
 	grupo_asociado =  models.CharField(max_length=100, default="sin grupo")
 
 	def __unicode__(self):
-		return self.codigo_u
+		return self.nombre
 
 class Usuario_historial_mensaje(models.Model):
 	usuario = models.ForeignKey(Usuario,related_name='historial_usuario')

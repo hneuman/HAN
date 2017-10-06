@@ -37,13 +37,26 @@ class Usuario_enviaSerializer(serializers.HyperlinkedModelSerializer):
 
 class Usuario_historial_mensajeSerializer(serializers.ModelSerializer):
 	id = serializers.ReadOnlyField()
-	usuario = serializers.PrimaryKeyRelatedField(
-		read_only=True
-	)
+	usuario = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all(),source='usuario.nombre')
 
 	class Meta:
 		model = Usuario_historial_mensaje
 		fields = ('usuario','tipo_mensaje','numero_telefono','contenido_mensaje','id')
+
+
+	def create(self, validated_data):
+		print "********************",validated_data
+		print validated_data['usuario']['nombre'].codigo_u
+		#instance = self.objects.create(**validated_data)
+		instance = Usuario_historial_mensaje(**validated_data)
+		instance = Usuario_historial_mensaje()
+		#instance.usuario.add(validated_data['usuario']['nombre'].pk)
+		#instance.save()
+		#instance = validated_data['usuario']['nombre']
+
+		return instance
+
+
 
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
 	id = serializers.ReadOnlyField()

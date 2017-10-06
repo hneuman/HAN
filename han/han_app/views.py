@@ -82,6 +82,7 @@ class Usuario_historial_mensaje_SerializerViewSet(viewsets.ModelViewSet):
 	#serializer_class = UsuarioSerializerViewSet
 	#lookup_field = 'codigo_u'
 	queryset = Usuario_historial_mensaje.objects.all()
+
 	print "Usuario_historial_mensaje_SerializerViewSet"
 	serializer_class = Usuario_historial_mensajeSerializer
 
@@ -322,10 +323,11 @@ def usuario(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
-	for i in personas:
-		print type(i)
-		print i
-		print i.pk
+	print "................."
+	#for i in personas:
+	##	print type(i)
+	##	print i
+	#	print i.pk
 
 	return render_to_response("usuarios.html",{'documento':personas,'modelo':'usuario',},RequestContext(request, {}))
 
@@ -587,7 +589,7 @@ def agregar_usuario(request):
 				lista_grupos=request.POST.getlist('boton_check')
 				print " lista_grupos %s " %lista_grupos
 				for l in lista_grupos:
-					grupo = Grupo.objects.get(pk=int(l))
+					grupo = Grupo
 					grupo.integrantes.add(usuario)
 					grupo.save()
 
