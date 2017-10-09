@@ -15,18 +15,19 @@ class Document(models.Model):
 class Persona(models.Model):
 	nombre_persona =  models.CharField(max_length=100)
 	cedula_persona =  models.CharField(max_length=100)
-
 	numero_telefono = models.CharField(max_length=100)
 	grupo_asociado =  models.CharField(max_length=100)
+	grupo_id =  models.CharField(max_length=100)
 
 
 class Usuario(models.Model):
 	"""
 	Description: Modelo Usuario
 	"""
+
 	nombre = models.CharField(max_length=100,default='Sin Nombre')
 	cedula = models.CharField(max_length=100, default='0000000')
-	direccion = models.TextField(default="-----------------")
+	direccion = models.TextField(default="-------------")
 	codigo_u = models.CharField(max_length=100,default='no Codigo')
 	telefono =  models.CharField(max_length=100,default='No Telefono')
 	email = models.CharField(max_length=100,default='No Email')

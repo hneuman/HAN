@@ -91,8 +91,10 @@ WSGI_APPLICATION = 'han.wsgi.application'
 
 
 #local
-#DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5444',    }}
+##DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5444',    }}
 #
+#Casa
+DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5432',    }}
 
 
 #amazon
@@ -108,8 +110,6 @@ WSGI_APPLICATION = 'han.wsgi.application'
 #DATABASES = {    'default': {   'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'lqjshrvo',        'USER' : 'lqjshrvo',        'PASSWORD' : 'EU_aNMq8eHnqXDvtkUb1Q9xxUvKCubcZ',        'HOST' : 'elmer-01.db.elephantsql.com', 'PORT' : '5432',    }}
 ############################################################
 
-#Casa
-DATABASES = {    'default': {        'ENGINE': 'django.db.backends.postgresql_psycopg2',        'NAME': 'han',        'USER' : 'django',        'PASSWORD' : 'django',        'HOST' : 'localhost',        'PORT' : '5432',    }}
 
 
 #DATABASES['default'] =  dj_database_url.config("postgres://jmvpnlqmvcutqs:73L581r4N4-aip6FQPK-q3kYna@ec2-54-225-197-30.compute-1.amazonaws.com:5432/d4n5h8nb8a1rip")

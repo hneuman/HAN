@@ -523,17 +523,20 @@ def api_bulto_mensaje(request):
 				Buzon_pendientes.objects.bulk_create(aList)
 
 				print "LLENANDO el historial de Msj JSON"
+				for i in request.data['data']:
+					print i
+					print "----- > " ,buscar_codigo_u(i['contenido_mensaje'])
 				aList_usuario = [
 					Usuario_historial_mensaje(
-					usuario=Usuario.objects.filter(codigo_u=buscar_codigo_u(i['contenido_mensaje']))[0],
+					usuario=Usuario.objects.filter(codigo_u=i['codigo_u'])[0],
 					numero_telefono=i['numero_telefono'],
 					contenido_mensaje=i['contenido_mensaje'],
 					tipo_mensaje =  "salida"
-					) for i in request.data['data'] if Usuario.objects.get(codigo_u=i['nombre_persona'])
+					) for i in request.data['data'] if i['codigo_u']
 					]
 
 				Usuario_historial_mensaje.objects.bulk_create(aList_usuario)
-
+				print "-------------"
 
 				"""
 				for i in request.data['data']:
@@ -577,6 +580,11 @@ def agregar_usuario(request):
 		if form.is_valid():
 			print " >>>>>>>>>>>>>>>> %s "%request.POST.getlist('metodo')[0]
 			if(request.POST.getlist('metodo')[0]=="nuevo"):
+
+				print form.cleaned_data
+				print form.cleaned_data
+				print "-------- ----- ----- ----- ------ ------ ------ "
+
 				usuario = Usuario(
 					nombre=form.cleaned_data['nombre'],
 					telefono=form.cleaned_data['telefono'],
@@ -981,7 +989,7 @@ def buscar_codigo_u(mensaje_a_procesar):
 		nro_destino = ""
 		patron_hm_id = "HM_ID:#\w*"
 		codigo_u = re.findall(patron_hm_id,mensaje_a_procesar)[0]
-		print codigo_u
+		print codigo_u, "<<< codigo_u"
 		codigo_u = codigo_u.replace("HM_ID:#","")
 		return codigo_u
 	except Exception,e:
@@ -1041,3 +1049,14 @@ def procesar_mensaje_entrante(request):
 	return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def ver_historial(request,pk=None):
+	print "hola"
+
+	usuario = Usuario_historial_mensaje.objects.filter(usuario_id=pk)
+
+	serializer = Usuario_historial_mensajeSerializer(usuario, many=True)
+	return Response(serializer.data)
+
+	#return render_to_response('list.html', {"contacts": contacts})
