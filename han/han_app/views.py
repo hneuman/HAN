@@ -845,7 +845,7 @@ def editar_usuario(request,id_usuario=""):
 		print " %s "%grupos_pertenece
 		grupos = Grupo.objects.all().order_by('id')
 		print " GRUPOSSS  PERTENECE ARMANDO LISTA >>>>> %s "%grupos
-		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Editar Usuario",'aviso':"Editar Usuario",'metodo':id_usuario,'grupos':grupos,'grupos_pertenece':grupos_pertenece},RequestContext(request, {}),c)
+		return render_to_response("agregar_usuario.html",{'usuario_id':u.pk,'formulario':form,'tipo':"Editar Usuario",'aviso':"Editar Usuario",'metodo':'editar','grupos':grupos,'grupos_pertenece':grupos_pertenece},RequestContext(request, {}),c)
 
 	except Exception,e:
 		print e
@@ -1051,7 +1051,7 @@ def procesar_mensaje_entrante(request):
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
-def ver_historial(request,pk=None):
+def api_ver_historial(request,pk=None):
 	print "hola"
 
 	usuario = Usuario_historial_mensaje.objects.filter(usuario_id=pk)
@@ -1060,3 +1060,18 @@ def ver_historial(request,pk=None):
 	return Response(serializer.data)
 
 	#return render_to_response('list.html', {"contacts": contacts})
+
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def ver_historial(request,pk=None):
+	print "...................."
+	#historial = api_ver_historial(request,pk)
+	#print historial," <<<<< << < < < < < < "
+	usuario = Usuario_historial_mensaje.objects.filter(usuario_id=pk)
+
+	serializer = Usuario_historial_mensajeSerializer(usuario, many=True)
+	historial = serializer.data
+	print "__________________________"
+	return render_to_response("ver_historial.html",{'historial':historial}, RequestContext(request, {}))

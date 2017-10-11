@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block buzon %}
+
+	{% for h in historial %}
+		
+		<div class='box_mensaje_salida'>
+			<p>
+				tipo_mensaje :: {{h.tipo_mensaje}}  
+			</p>
+			<p>
+				{{h.numero_telefono}} :: {{h.contenido_mensaje}} 
+			</p>
+		</div>
+	{% endfor %}
+
+{% endblock %} 
