@@ -20,11 +20,11 @@ application = DjangoWhiteNoise(application)
 """
 
 from django.core.wsgi import get_wsgi_application
-#from whitenoise.django import DjangoWhiteNoise
+from whitenoise.django import DjangoWhiteNoise
 import django.core.handlers.wsgi
 
 application = get_wsgi_application()
-#application = DjangoWhiteNoise(application)
+application = DjangoWhiteNoise(application)
 
 
 # This application object is used by the development server
