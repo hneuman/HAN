@@ -14,6 +14,10 @@
 			<form id="form_agregar_usuario" method='POST' action='agregar_usuario'> {% csrf_token %}
 
 						<aside class="tabla_grupos" id="tabla_grupos">
+			{% if metodo != "nuevo" %}
+				
+				<a href='{% url 'han.han_app.views.ver_historial' pk=usuario_id %}' >Historial Mensajes de: {{contenido.nombre}}</a>  
+			{% endif %}
 			<h2 style=" margin-top: 0%;">
 				Grupos a los que puede Pertenecer	
 			</h2>		
@@ -38,6 +42,9 @@
 				<p></p>
 					{{formulario.grupo_asociado}}
 				<p></p>
+					{{formulario.codigo_u}}
+				<p></p>
+				
 
 			
 

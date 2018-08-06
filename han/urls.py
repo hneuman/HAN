@@ -24,6 +24,7 @@ from han.han_app import views
 #]
 
 router = routers.DefaultRouter()
+<<<<<<< HEAD
 router.register(r'api_enviar', views.api_enviarSerializer,'api_enviar')
 router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet,'pendiente')
 
@@ -32,6 +33,23 @@ router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet,'pendiente
 urlpatterns = patterns('han.han_app.views',
 	url(r'^api/', include(router.urls)),
 
+=======
+router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet,'pendiente')
+router.register(r'api_enviar', views.api_enviarSerializer,'api_enviar')
+router.register(r'enviados', views.Buzon_enviadosSerializerViewSet,'enviados')
+router.register(r'usuario_envia', views.Usuario_enviaSerializerViewSet,'usuario_envia')
+router.register(r'usuarios', views.UsuarioSerializerViewSet,'usuarios')
+router.register(r'usuario_historial_mensaje', views.Usuario_historial_mensaje_SerializerViewSet,'usuario_historial_mensaje')
+
+urlpatterns = patterns('han.han_app.views',
+	(r'^api/', include(router.urls)),
+	(r'^api_mensajes_listar/(?P<id>[0-9]*)?$','api_mensajes_listar'),
+	(r'^api_enviar_mensaje/(?P<id>[0-9]*)?/?(?P<cantidad_sms>[0-9]*)?/?$','api_enviar_mensaje'),
+	(r'^api_usuario_envia/?','api_usuario_envia'),
+	(r'^api_bulto_mensaje/?','api_bulto_mensaje'),
+	(r'procesar_mensaje_entrante/?$','procesar_mensaje_entrante'),
+	(r'^actualizar_enviar_mensaje/(?P<id>[0-9]*)?/?$','actualizar_enviar_mensaje'),
+>>>>>>> 6df633af507f553442b9dc9641fd22cd7d4a5f1c
 	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),
 	(r'^buzon_entrada/?$','buzon_entrada'),
@@ -40,17 +58,23 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^enviar_mensaje/?$','enviar_mensaje'),
 	(r'^enviar_mensaje_procesar/(\.*,?)*/?$','enviar_mensaje_procesar'),
 	(r'agregar_usuario/?$','agregar_usuario'),
-	(r'^editar_usuario/(?P<id_usuario>\d*)/?$','editar_usuario'),
+	(r'^editar_usuario/(?P<id_usuario>\w*)/?$','editar_usuario'),
 	(r'grupos/?$','grupos'),
 	(r'^grupo_usuario/(?P<id_grupo>\d*)/?$','grupo_usuario'),
-
 	(r'operaciones_globales/?$','operaciones_globales'),
 	(r'contactanos/?$','contactanos'),
 	(r'informacion/?$','informacion'),
 	(r'ingreso/?$','ingreso'),
 	(r'crear_usuario/?$','crear_usuario'),
-
+	(r'^usuario_envia/?$','usuario_envia'),
+	(r'^pagar_usuario/(?P<id_usuario>[0-9]*)?/?$','pagar_usuario'),
+	(r'agregar_usuario_envia/?$','agregar_usuario_envia'),
+	(r'borrar_bandeja/?$','borrar_bandeja'),
+	(r'^ver_historial/(?P<pk>\d*)/?$','ver_historial'),
+	(r'^api_ver_historial/(?P<pk>\d*)/?$','api_ver_historial'),
 	(r'','usuario'),
+
+
 
 
 )

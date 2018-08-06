@@ -9,6 +9,7 @@ from han.han_app.forms import DocumentForm
 from han.han_app.forms import Form_usuario
 from han.han_app.forms import Form_enviar_mensaje
 from han.han_app.forms import Form_grupo
+from han.han_app.forms import Form_usuario_envia
 
 from django.template.context_processors import csrf
 import csv
@@ -25,7 +26,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-
+import json
 
 from django.apps import apps
 from rest_framework import viewsets
@@ -34,18 +35,15 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from han.han_app.serializers import *
+from datetime import datetime
+from django.db import transaction
 
+import re
 #@api_view(['GET', 'POST'])
 class Buzon_pendientesSerializerViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-
-    queryset = Buzon_pendientes.objects.all()
-    serializer_class = Buzon_pendientesSerializer
-    
-#    if request.method == 'POST':
-#    	print "oohhhh POST"
+	queryset = Buzon_pendientes.objects.all()
+	print "Buzon_pendientesSerializerViewSet"
+	serializer_class = Buzon_pendientesSerializer
 
 
 
@@ -57,9 +55,256 @@ class api_enviarSerializer(viewsets.ModelViewSet):
 #    if request.method == 'POST':
 	#serializer = Buzon_pendientesSerializer(data=request.data)
 	queryset = Buzon_pendientes.objects.all()
-	print queryset
+	print "api_enviarSerializer"
 	serializer_class = api_enviarSerializer
 
+
+class Buzon_enviadosSerializerViewSet(viewsets.ModelViewSet):
+
+	queryset = Buzon_enviados.objects.all()
+	print "Buzon_enviadosSerializerViewSet"
+	serializer_class = Buzon_enviadosSerializer
+
+
+class Usuario_enviaSerializerViewSet(viewsets.ModelViewSet):
+	queryset = Usuario_envia.objects.all()
+	print "Usuario_enviaSerializerViewSet"
+	serializer_class = Usuario_enviaSerializer
+
+
+class UsuarioSerializerViewSet(viewsets.ModelViewSet):
+	queryset = Usuario.objects.all()
+	print "UsuarioSerializerViewSet"
+	serializer_class = UsuarioSerializer
+
+
+class Usuario_historial_mensaje_SerializerViewSet(viewsets.ModelViewSet):
+	#serializer_class = UsuarioSerializerViewSet
+	#lookup_field = 'codigo_u'
+	queryset = Usuario_historial_mensaje.objects.all()
+
+	print "Usuario_historial_mensaje_SerializerViewSet"
+	serializer_class = Usuario_historial_mensajeSerializer
+
+
+
+@api_view(['GET', 'POST'])
+def api_mensajes_listar(request,id=None):
+    """
+    Listar los mensajes, TODOS, o por cantidad establecida.!
+    """
+    if request.method == 'GET':
+    	if id:
+    		#snippets =  buzon_pendientes.objects.get(pk=int(id))
+    		snippets = Buzon_pendientes.objects.filter(pk=int(id))
+    		snippets = Buzon_pendientes.objects.all()[:id]
+
+    	else:
+    		snippets = Buzon_pendientes.objects.all()
+        serializer = Buzon_pendientesSerializer(snippets, many=True)
+        print serializer.data
+        return Response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+def api_enviar_mensaje(request,id=None,cantidad_sms=int(1)):
+	"""
+	List all snippets, or create a new snippet.
+	"""
+	print id , " <<<<< ******* <<<<< "
+	print cantidad_sms , " <<<<< ******* <<<<< "
+	print request.data
+	try:
+		if request.method == 'GET':
+			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			with transaction.atomic():
+				snippets = Buzon_pendientes.objects.select_for_update().filter(asignado=False)[:cantidad_sms]
+
+				serializer = Buzon_pendientesSerializer(snippets, many=True)
+
+				print ">>>>>>>> ", serializer.data, " <<<<<<<"
+
+				print ">>>>>>>> snippets ", snippets, "snippets <<<<<<<"
+
+				for snip in snippets:
+
+					buzon = snip
+					###buzon = Buzon_pendientes.objects.filter(snippets)	 	
+					buzon.asignado_hora = datetime.now()
+					buzon.asignado=True
+					buzon.asignado_hora = datetime.now()
+
+					buzon.save()
+
+				serializer = Buzon_pendientesSerializer(snippets, many=True)
+				return Response(serializer.data)
+
+
+		if request.method == 'POST':
+			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			print "api_envia_POST"
+			try:
+				#snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
+				
+				if 'cantidad_sms' in request.data:
+					cantidad_sms = int(request.data['cantidad_sms'])
+				else:
+					cantidad_sms = 1
+
+				with transaction.atomic():
+					snippets = Buzon_pendientes.objects.select_for_update().filter(asignado=False)[:cantidad_sms]
+
+					for snip in snippets:
+
+						buzon = snip
+						###buzon = Buzon_pendientes.objects.filter(snippets)	 	
+						buzon.asignado_hora = datetime.now()
+						print ">>>>>> >  >  Type %s  < < < < <" %type(snippets)
+						buzon.asignado=True
+						buzon.asignado_hora = datetime.now()
+
+						try:
+							buzon.asignado_a=request.data['usuario_envia']
+						except:
+							pass
+						buzon.save()
+
+					print " >>><<>>>   %s   <<<<<<< !!!! "%(buzon)
+
+					print " en EL POST >>> %s " %snippets
+					serializer = Buzon_pendientesSerializer(snippets, many=True)
+					
+					#snippets.asignado=True
+					#	snippets.save()
+					print serializer.data
+					#transaction.commit()
+					return Response(serializer.data)
+			except Exception,e:
+				print e
+				return Response(status=status.HTTP_404_NOT_FOUND)
+	except Exception,e:
+
+		print "ERROR  >> api_enviar_mensaje <<< >>> %s " %e
+		#buzon = Buzon_pendientes.objects.all()
+		#serializer = Buzon_pendientesSerializer(buzon, many=True)
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET', 'POST'])
+def api_usuario_envia(request):
+	"""
+	List all snippets, or create a new snippet.
+	"""
+	try:
+		
+		if request.method == 'GET':
+			usuario_envia = Usuario_envia.objects.all()[:1]
+			serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			print serializer.data
+			return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+
+		if request.method == 'POST':
+			print request.data 
+			print request.data['usuario_envia']
+			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			usuario_envia = Usuario_envia.objects.all().filter(id_usuario_envia=request.data['usuario_envia'])[:1]
+			print usuario_envia
+			serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			print serializer.data
+			return Response(serializer.data,status=status.HTTP_200_OK)
+
+	except Exception,e:
+		print " >> api_usuario_envia %s << " %e
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	return Response(status=status.HTTP_206_PARTIAL_CONTENT)
+
+
+@api_view(['GET', 'POST'])
+def actualizar_enviar_mensaje(request,id=None):
+	"""
+	List all snippets, or create a new snippet.
+	"""
+	#id=0
+	if id:
+		snippets = Buzon_pendientes.objects.all().filter(pk=int(id))[:1]
+		serializer = Buzon_pendientesSerializer(snippets, many=True)
+
+	if request.method == 'GET':
+		#snippets =  buzon_pendientes.objects.get(pk=int(id))
+		try:
+			buzon = Buzon_pendientes.objects.all().filter(pk=int(id))[0]
+			print ">>>> ", buzon
+
+
+			d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
+				numero_telefono=buzon.numero_telefono, 
+				contenido_mensaje=buzon.contenido_mensaje, 
+				)
+			d.save()
+			buzon.delete()
+
+			return Response(serializer.data,status=status.HTTP_200_OK)
+
+		except Exception,e:
+			print e
+			return Response(status=status.HTTP_404_NOT_FOUND)
+
+	if request.method == 'POST':
+		with transaction.atomic():	
+			print request.data 
+			print "POR AQUI ANDO"
+			snippets = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[:1]
+			serializer = Buzon_pendientesSerializer(snippets, many=True)
+			
+			buzon = Buzon_pendientes.objects.all().filter(pk=request.data['id'])[0]
+			print ">>>> ", buzon
+			print ">>>> ", snippets
+
+			try:
+				usuario_envia = request.data['usuario_envia']
+				usuario = Usuario_envia.objects.select_for_update().get(id_usuario_envia=usuario_envia)
+				usuario.contador = usuario.contador + 1
+				usuario.save()
+			except Exception,e:
+				print "ERROR >>> %s <<<< " %e
+				usuario_envia = ""
+
+			d = Buzon_enviados(nombre_persona=buzon.nombre_persona, 
+				numero_telefono=buzon.numero_telefono, 
+				contenido_mensaje=buzon.contenido_mensaje, 
+				usuario_envia= usuario_envia, 
+
+				)
+			d.save()
+			buzon.delete()
+		
+		return Response(serializer.data,status=status.HTTP_200_OK)
+
+		#return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+
+	return Response(status=status.HTTP_304_NOT_MODIFIED)
+
+"""
+    elif request.method == 'POST':
+        serializer = SnippetSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+"""
+def pagar_usuario(request,id_usuario=None):
+	if request.method == 'GET':
+		try:
+			usuario = Usuario_envia.objects.get(pk=id_usuario)
+			usuario.contador = 0
+			usuario.save()
+		except Exception,e:
+			print "ERROR >>> %s <<<< " %e
+			usuario_envia = ""
+	personas = Usuario_envia.objects.all()
+	return render_to_response("usuario_envia.html",{'documento':personas,'modelo':"usuario_envia"}, RequestContext(request, {}))
 
 def usuario(request):
 	personas = Usuario.objects.all()
@@ -78,8 +323,14 @@ def usuario(request):
 		personas = paginator.page(paginator.num_pages)
 
 	#return render_to_response('list.html', {"contacts": contacts})
+	print "................."
+	#for i in personas:
+	##	print type(i)
+	##	print i
+	#	print i.pk
 
 	return render_to_response("usuarios.html",{'documento':personas,'modelo':'usuario',},RequestContext(request, {}))
+
 
 def buzon_entrada(request):
 	personas = Buzon_entrada.objects.all()
@@ -219,7 +470,99 @@ def enviar_mensaje_procesar(request,destinatarios):
 	# If page is out of range (e.g. 9999), deliver last page of results.
 		personas = paginator.page(paginator.num_pages)
 
-	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes"},RequestContext(request, {}))
+	return render_to_response("buzon.html",{'buzon':personas,'tipo':"Buzon de Mensajes Pendientes",'modelo':'buzon_pendientes'},RequestContext(request, {}))
+
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def api_bulto_mensaje(request):
+	"""
+	Agregar mensajes de la API con POST
+	
+	import requests
+	#~ {'data': 
+	    #~ [{'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 0'}, 
+	    #~ {'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 1'}, 
+	    #~ {'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 2'}, 
+	    #~ {'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 3'}, 
+	    #~ {'numero_telefono': '04145795060', 'nombre_persona': 'Hernan', 'contenido_mensaje': '1 solo mensajito 4'}]
+	#~ }
+
+	lista={'data':mensajes}
+	headers = {'content-type': 'application/json'}
+	print lista
+	x = requests.post(url+'api_bulto_mensaje/',data=json.dumps(lista),headers=headers)
+
+
+	x = requests.post(url+'api_bulto_mensaje/',msj_pendiente)
+
+	"""
+	try:
+		
+		if request.method == 'GET':
+			print "------------ GET ---------"
+			usuario_envia = Usuario_envia.objects.all()[:1]
+			serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			print serializer.data
+			return Response(serializer.data,status=status.HTTP_206_PARTIAL_CONTENT)
+
+		if request.method == 'POST':
+			try:
+				print "  \n %s \n\n\n" %request.data 
+				print "  \n %s \n\n\n" %request.data['data']
+
+				aList = [
+					Buzon_pendientes(
+					nombre_persona=i['nombre_persona'],
+					numero_telefono=i['numero_telefono'],
+					contenido_mensaje=i['contenido_mensaje'],
+					) for i in request.data['data']
+					]
+
+				Buzon_pendientes.objects.bulk_create(aList)
+
+				print "LLENANDO el historial de Msj JSON"
+				for i in request.data['data']:
+					print i
+					print "----- > " ,buscar_codigo_u(i['contenido_mensaje'])
+				aList_usuario = [
+					Usuario_historial_mensaje(
+					usuario=Usuario.objects.filter(codigo_u=i['codigo_u'])[0],
+					numero_telefono=i['numero_telefono'],
+					contenido_mensaje=i['contenido_mensaje'],
+					tipo_mensaje =  "salida"
+					) for i in request.data['data'] if i['codigo_u']
+					]
+
+				Usuario_historial_mensaje.objects.bulk_create(aList_usuario)
+				print "-------------"
+
+				"""
+				for i in request.data['data']:
+					print " >>>>>>>>>>>>>>>>>>  ", i 
+					d = Buzon_pendientes(
+						nombre_persona=i['nombre_persona'], 
+						numero_telefono=i['numero_telefono'], 
+						contenido_mensaje=i['contenido_mensaje'],
+						)
+				"""
+				#d.save()			
+				print "\n\n\n\n>>>>>>>>>>>Agregado Mensaje por enviar<<<<<<<<<<<<\n\n\n"
+			except Exception, e:
+				print "ERRRRRRRORRRR %s ***************** " %e
+			#snippets =  buzon_pendientes.objects.get(pk=int(id))
+			#usuario_envia = Buzon_pendientes.objects.all().filter(id_usuario_envia=request.data['usuario_envia'])[:1]
+			#print usuario_envia
+			#serializer = Usuario_enviaSerializer(usuario_envia, many=True)
+			#print serializer.data
+			return Response(status=status.HTTP_200_OK)
+
+	except Exception,e:
+		print " >> api_usuario_envia %s << " %e
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	return Response(status=status.HTTP_206_PARTIAL_CONTENT)
 
 
 def agregar_usuario(request):
@@ -237,18 +580,24 @@ def agregar_usuario(request):
 		if form.is_valid():
 			print " >>>>>>>>>>>>>>>> %s "%request.POST.getlist('metodo')[0]
 			if(request.POST.getlist('metodo')[0]=="nuevo"):
+
+				print form.cleaned_data
+				print form.cleaned_data
+				print "-------- ----- ----- ----- ------ ------ ------ "
+
 				usuario = Usuario(
 					nombre=form.cleaned_data['nombre'],
 					telefono=form.cleaned_data['telefono'],
 					email=form.cleaned_data['email'],
 					grupo_asociado=form.cleaned_data['grupo_asociado'],
+					codigo_u=form.cleaned_data['codigo_u'],
 					)
 				usuario.save()
 
 				lista_grupos=request.POST.getlist('boton_check')
 				print " lista_grupos %s " %lista_grupos
 				for l in lista_grupos:
-					grupo = Grupo.objects.get(pk=int(l))
+					grupo = Grupo
 					grupo.integrantes.add(usuario)
 					grupo.save()
 
@@ -288,10 +637,71 @@ def agregar_usuario(request):
 		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario",'metodo':'nuevo','grupos':grupos,'grupos_pertenece':False}, RequestContext(request, {}),c)
 
 
+
+def usuario_envia(request):
+	personas = Usuario_envia.objects.all()
+
+	paginator = Paginator(personas, 25) # Show 25 contacts per page
+
+	pagina_actual = request.GET.get('page')
+
+	try:
+		personas = paginator.page(pagina_actual)
+	except PageNotAnInteger:
+	# If page is not an integer, deliver first page.
+		personas = paginator.page(1)
+	except EmptyPage:
+	# If page is out of range (e.g. 9999), deliver last page of results.
+		personas = paginator.page(paginator.num_pages)
+
+	#return render_to_response('list.html', {"contacts": contacts})
+	return render_to_response("usuario_envia.html",{'documento':personas,'modelo':"usuario_envia"}, RequestContext(request, {}))
+
+
+def agregar_usuario_envia(request):
+	c = {}
+	c.update(csrf(request))
+	print "agregar "
+
+
+	if request.method == "POST":
+		form = Form_usuario_envia(request.POST)
+		aviso="Verificar los datos"
+
+		print "procesar"
+		if form.is_valid():
+			usuario = Usuario_envia(
+				nombre_usuario_envia=form.cleaned_data['nombre_usuario_envia'],
+				id_usuario_envia=form.cleaned_data['id_usuario_envia'],
+				contador=0,
+
+				)
+			usuario.save()
+
+			aviso="Usuario Agregado Satisfactoriamente"
+
+
+		return render_to_response("agregar_usuario_envia.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':aviso,'metodo':'nuevo','grupos':grupos,'grupos_pertenece':False},RequestContext(request, {}),c)
+
+	else:
+
+		form = Form_usuario_envia()
+		print "retornar post"
+		return render_to_response("agregar_usuario_envia.html",{'formulario':form,'tipo':"Agregar Usuario",'aviso':"Agregar nuevo usuario",'metodo':'nuevo','grupos':grupos,'grupos_pertenece':False}, RequestContext(request, {}),c)
+
+
+
 def handle_uploaded_file(f):
     with open('some/file/name.txt', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+def borrar_bandeja(request):
+	buzon = Buzon_pendientes.objects.all().delete()
+	#for b in buzon:
+	personas = Usuario.objects.all()
+	return render_to_response("main.html",{'documento':personas})
+
 
 def func_subir_archivo(request):
     # Handle file upload
@@ -396,23 +806,32 @@ def eliminar_registros(request):
 	#return func(request)
 	#return render_to_response("usuarios.html", RequestContext(request, {}))
 
-def editar_usuario(request,id_usuario="1"):
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def editar_usuario(request,id_usuario=""):
 	
 	c = {}
 	c.update(csrf(request))
 	print "editar_usuario "
+	print id_usuario
+	print type(id_usuario)
 	try:
 
-		u = Usuario.objects.get(pk=int(id_usuario))
+		u = Usuario.objects.get(pk=str(id_usuario))
 
 
 		form = Form_usuario(initial={'nombre':u.nombre,
 			'grupo_asociado':u.grupo_asociado,
 			'telefono':u.telefono,
 			'email':u.email,
-			})
+			'codigo_u':u.codigo_u,
 
-		grupos_pertenece = Grupo.objects.filter(integrantes=id_usuario).values('id').order_by('id')
+			})
+		print u
+		print type(u)
+		grupos_pertenece = Grupo.objects.filter(integrantes__in=[1]).values('pk').order_by('pk')
+		#grupos_pertenece = Grupo.objects.all()
 		print " GRUPOS A LOS Q PERTENECE >>> %s "%grupos_pertenece
 
 		l=[]
@@ -426,7 +845,7 @@ def editar_usuario(request,id_usuario="1"):
 		print " %s "%grupos_pertenece
 		grupos = Grupo.objects.all().order_by('id')
 		print " GRUPOSSS  PERTENECE ARMANDO LISTA >>>>> %s "%grupos
-		return render_to_response("agregar_usuario.html",{'formulario':form,'tipo':"Editar Usuario",'aviso':"Editar Usuario",'metodo':int(id_usuario),'grupos':grupos,'grupos_pertenece':grupos_pertenece},RequestContext(request, {}),c)
+		return render_to_response("agregar_usuario.html",{'usuario_id':u.pk,'formulario':form,'tipo':"Editar Usuario",'aviso':"Editar Usuario",'metodo':'editar','grupos':grupos,'grupos_pertenece':grupos_pertenece},RequestContext(request, {}),c)
 
 	except Exception,e:
 		print e
@@ -562,3 +981,97 @@ def crear_usuario(request):
 		crear_usuario.save()
 
 	return render_to_response("login.html",{'mensaje':"Usuario Creado Satisfactoriamente"},RequestContext(request, {}))
+
+
+
+def buscar_codigo_u(mensaje_a_procesar):
+	try:
+		nro_destino = ""
+		patron_hm_id = "HM_ID:#\w*"
+		codigo_u = re.findall(patron_hm_id,mensaje_a_procesar)[0]
+		print codigo_u, "<<< codigo_u"
+		codigo_u = codigo_u.replace("HM_ID:#","")
+		return codigo_u
+	except Exception,e:
+		print e
+
+def buscar_destinatario(mensaje_a_procesar):
+	try:
+		codigo_u = buscar_codigo_u(mensaje_a_procesar)
+		print codigo_u
+		nro_destino = Usuario.objects.filter(codigo_u=codigo_u)[0] or False
+		print "-------------------------\nNuevo msj para: %s" %(nro_destino)
+		print "telefonooooo %s" %nro_destino.telefono
+		return nro_destino.telefono
+	except Exception,e:
+		print e
+
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def procesar_mensaje_entrante(request):
+	print "procesar_mensaje_entrante "
+	try:
+		if request.method == 'POST':
+			print "\t es POST"
+			print request.POST
+
+			aList = [
+				Buzon_pendientes(
+				numero_telefono=buscar_destinatario(i['contenido_mensaje']),
+				nombre_persona=i['nombre_persona'],
+				contenido_mensaje=i['contenido_mensaje'],
+				) for i in request.data['data'] if "HM_ID" in i['contenido_mensaje']
+				]
+
+			Buzon_pendientes.objects.bulk_create(aList)
+			print "=========================================================="
+			print "=========================================================="
+			print "=========================================================="
+			aList_usuario = [
+				Usuario_historial_mensaje(
+				usuario=Usuario.objects.filter(codigo_u=buscar_codigo_u(i['contenido_mensaje']))[0],
+				numero_telefono=buscar_destinatario(i['contenido_mensaje']),
+				contenido_mensaje=i['contenido_mensaje'],
+				tipo_mensaje =  "entrada"
+				) for i in request.data['data'] if "HM_ID" in i['contenido_mensaje']
+				]
+
+			Usuario_historial_mensaje.objects.bulk_create(aList_usuario)
+
+
+			print "\n\n\n\n>>>>>>>>>>>Agregado Mensaje por enviar<<<<<<<<<<<<\n\n\n"
+			return Response(status=status.HTTP_200_OK)
+	except Exception,e:
+		print e
+		return Response(status=status.HTTP_200_OK)
+	return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def api_ver_historial(request,pk=None):
+	print "hola"
+
+	usuario = Usuario_historial_mensaje.objects.filter(usuario_id=pk)
+
+	serializer = Usuario_historial_mensajeSerializer(usuario, many=True)
+	return Response(serializer.data)
+
+	#return render_to_response('list.html', {"contacts": contacts})
+
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def ver_historial(request,pk=None):
+	print "...................."
+	#historial = api_ver_historial(request,pk)
+	#print historial," <<<<< << < < < < < < "
+	usuario = Usuario_historial_mensaje.objects.filter(usuario_id=pk)
+
+	serializer = Usuario_historial_mensajeSerializer(usuario, many=True)
+	historial = serializer.data
+	print "__________________________"
+	return render_to_response("ver_historial.html",{'historial':historial}, RequestContext(request, {}))

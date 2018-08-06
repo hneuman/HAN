@@ -23,9 +23,12 @@ class Form_usuario(forms.Form):
     grupo_asociado = forms.CharField(max_length=100,widget = forms.TextInput(attrs={'placeholder': 'Grupo Asociado'}))
     telefono = forms.CharField(max_length=100,widget = forms.TextInput(attrs={'placeholder': 'Telefono'}))
     email = forms.CharField(max_length=100,widget = forms.TextInput(attrs={'placeholder': 'Correo'}))
+    codigo_u = forms.CharField(max_length=100,widget = forms.TextInput(attrs={'placeholder': 'Codigo Unico'}))
 
 class Form_grupo(forms.Form):
     nombre_grupo = forms.CharField(max_length=100, widget = forms.TextInput(attrs={'placeholder': 'Nombre del Grupo'})) 
     
 
-
+class Form_usuario_envia(forms.Form):
+    nombre_usuario_envia = forms.CharField(max_length=100, widget = forms.TextInput(attrs={'placeholder': 'Nombre Usuario Envia'})) 
+    id_usuario_envia = forms.CharField(max_length=100,widget = forms.TextInput(attrs={'placeholder': 'Identificador del Usuario Envia'}))

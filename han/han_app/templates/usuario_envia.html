@@ -7,7 +7,7 @@
 -->
 		<div id="div_agregar_usuario" >
 				
-	  			<a href='{% url 'han.han_app.views.agregar_usuario' %}' > Agregar Usuario 		
+	  			<a href='{% url 'han.han_app.views.agregar_usuario_envia' %}' > Agregar Usuario Envia		
 
 	  			<img id"img_agregar_usuario" src="{% static 'img/add_friend.png' %}" style="width: 10%;"> 
 	  			</a>
@@ -43,8 +43,9 @@
 				</div>
 
 				<div  class="div_tabla_a" > Nombre's y Apellido's  </div>
-				<div  class="div_tabla_b" > Numero de Telefono</div>
-				<div  class="div_tabla_c" > Grupo Asociado </div>
+				<div  class="div_tabla_b" > Id </div>
+				<div  class="div_tabla_c" > Contador </div>
+				<div  class="div_tabla_d" >  Resetear Contador </div>
 
 			</div>
 			
@@ -56,11 +57,11 @@
 
 					</div>
 
-					<div  class="div_tabla_a" name='{{contenido.id}}'> 
-						<a href='{% url 'han.han_app.views.editar_usuario' id_usuario=contenido.pk %}' >{{contenido.nombre}}</a>  
-					</div>
-					<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.telefono}}</div>
-					<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.grupo_asociado}}				</div>
+					<div  class="div_tabla_a" name='{{contenido.id}}'> <a href='{% url 'han.han_app.views.pagar_usuario' id_usuario=contenido.id %}' >{{contenido.nombre_usuario_envia}}</a>  </div>
+
+					<div  class="div_tabla_b" name='{{contenido.id}}'> {{contenido.id_usuario_envia}}</div>
+					<div  class="div_tabla_c" name='{{contenido.id}}'> {{contenido.contador}}				</div>
+					<div  class="div_tabla_d" name='{{contenido.id}}'> <a href='{% url 'han.han_app.views.pagar_usuario' id_usuario=contenido.id %}' > Pagar  </a>  </div>
 
 				</div>
 			{% endfor %}
@@ -69,23 +70,6 @@
 		    	
 		    	<div style="clear:both;"></div>
 
-		<!--
-				<aside class="aside_opciones">
-		    	<ul>
-		    		<li>
-		    			<a href='{% url 'han.han_app.views.usuario' %}'>Enviar Mensajes
-		    		</li>
-
-			    	<li>
-		    			
-		    			<a href='{% url 'han.han_app.views.buzon_entrada' %}'>Eliminar
-		    		</li>
-		
-		    	</ul>
-
-		    </aside>
-
-		    -->
 
 	<div class="pagination">
 		    <span class="step-links">
