@@ -24,13 +24,13 @@ from han.han_app import views
 #]
 
 router = routers.DefaultRouter()
-router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet)
-router.register(r'api_enviar', views.api_enviarSerializer)
+router.register(r'api_enviar', views.api_enviarSerializer,'api_enviar')
+router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet,'pendiente')
 
 
 
 urlpatterns = patterns('han.han_app.views',
-	(r'^api/', include(router.urls)),
+	url(r'^api/', include(router.urls)),
 
 	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),
@@ -51,7 +51,6 @@ urlpatterns = patterns('han.han_app.views',
 	(r'crear_usuario/?$','crear_usuario'),
 
 	(r'','usuario'),
-    (r'api/?$', 'Buzon_pendientesSerializerViewSet'),
 
 
 )
