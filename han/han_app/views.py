@@ -115,7 +115,7 @@ def api_enviar_mensaje(request,id=None,cantidad_sms=int(1)):
 	print cantidad_sms , " <<<<< ******* <<<<< "
 	print request.data
 	if not isinstance(cantidad_sms, int):
-		cantidad_sms=int(cantidad_sms)
+		cantidad_sms=1
 	try:
 		if request.method == 'GET':
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
@@ -139,6 +139,7 @@ def api_enviar_mensaje(request,id=None,cantidad_sms=int(1)):
 					buzon.save()
 
 				serializer = Buzon_pendientesSerializer(snippets, many=True)
+				print serializer.data
 				return Response(serializer.data)
 
 
