@@ -24,16 +24,7 @@ from han.han_app import views
 #]
 
 router = routers.DefaultRouter()
-<<<<<<< HEAD
-router.register(r'api_enviar', views.api_enviarSerializer,'api_enviar')
-router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet,'pendiente')
 
-
-
-urlpatterns = patterns('han.han_app.views',
-	url(r'^api/', include(router.urls)),
-
-=======
 router.register(r'pendiente', views.Buzon_pendientesSerializerViewSet,'pendiente')
 router.register(r'api_enviar', views.api_enviarSerializer,'api_enviar')
 router.register(r'enviados', views.Buzon_enviadosSerializerViewSet,'enviados')
@@ -49,7 +40,6 @@ urlpatterns = patterns('han.han_app.views',
 	(r'^api_bulto_mensaje/?','api_bulto_mensaje'),
 	(r'procesar_mensaje_entrante/?$','procesar_mensaje_entrante'),
 	(r'^actualizar_enviar_mensaje/(?P<id>[0-9]*)?/?$','actualizar_enviar_mensaje'),
->>>>>>> 6df633af507f553442b9dc9641fd22cd7d4a5f1c
 	(r'^main/?$','usuario'),
 	(r'^archivo/?$','func_subir_archivo'),
 	(r'^buzon_entrada/?$','buzon_entrada'),

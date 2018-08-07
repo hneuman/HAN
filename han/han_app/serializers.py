@@ -19,9 +19,7 @@ class Buzon_pendientesSerializer(serializers.HyperlinkedModelSerializer):
 class api_enviarSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Buzon_pendientes
-<<<<<<< HEAD
-        fields = ('numero_telefono','contenido_mensaje')
-=======
+        ##fields = ('numero_telefono','contenido_mensaje')
         fields = ('numero_telefono',)
 
 class Buzon_enviadosSerializer(serializers.HyperlinkedModelSerializer):
@@ -69,4 +67,3 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
 		model = Usuario
 		fields = ('nombre','codigo_u','telefono','id','historial_usuario')
  
->>>>>>> 6df633af507f553442b9dc9641fd22cd7d4a5f1c
