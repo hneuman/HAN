@@ -114,6 +114,8 @@ def api_enviar_mensaje(request,id=None,cantidad_sms=int(1)):
 	print id , " <<<<< ******* <<<<< "
 	print cantidad_sms , " <<<<< ******* <<<<< "
 	print request.data
+	if not isinstance(cantidad_sms, int):
+		cantidad_sms=int(cantidad_sms)
 	try:
 		if request.method == 'GET':
 			#snippets =  buzon_pendientes.objects.get(pk=int(id))
@@ -147,7 +149,11 @@ def api_enviar_mensaje(request,id=None,cantidad_sms=int(1)):
 				#snippets = Buzon_pendientes.objects.filter(asignado=False)[:1]
 				
 				if 'cantidad_sms' in request.data:
-					cantidad_sms = int(request.data['cantidad_sms'])
+					if not isinstance(request.data['cantidad_sms'], int):
+						cantidad_sms = 1
+					else:
+						cantidad_sms = request.data['cantidad_sms']
+
 				else:
 					cantidad_sms = 1
 
